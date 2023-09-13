@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-class ApiResponse
+trait ApiResponse
 {
     /**
      * Успешный ответ API
