@@ -15,7 +15,7 @@ trait ApiResponse
      * @return JsonResponse
      */
     public static function sendSuccess(
-        string|null $message = null,
+        ?string $message = null,
         array $data = [],
         int $statusCode = 200,
     ): JsonResponse {
@@ -38,7 +38,7 @@ trait ApiResponse
      * @return JsonResponse
      */
     public static function sendError(
-        string|null $message = null,
+        ?string $message = null,
         array $data = [],
         int $statusCode = 400,
     ): JsonResponse {
