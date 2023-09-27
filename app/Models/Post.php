@@ -12,8 +12,18 @@ class Post extends Model
     use HasFactory;
     use SoftDeletes;
 
+    /**
+     * The attributes that are guarded.
+     *
+     * @var array<int, string>
+     */
     protected $guarded = ['id'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<string, string>
+     */
     protected $fillable = [
         'title',
         'desc',
@@ -29,26 +39,51 @@ class Post extends Model
         'expired_at',
     ];
 
+    /**
+     * The author that belong to the Post
+     *
+     * @return BelongsTo
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    /**
+     * The type paper that belong to the Post
+     *
+     * @return BelongsTo
+     */
     public function typePaper(): BelongsTo
     {
         return $this->belongsTo(TypePaper::class, 'type_paper_id');
     }
 
+    /**
+     * The status that belong to the Post
+     *
+     * @return BelongsTo
+     */
     public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class, 'status_id');
     }
 
+    /**
+     * The category that belong to the Post
+     *
+     * @return BelongsTo
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    /**
+     * The country that belong to the Post
+     *
+     * @return BelongsTo
+     */
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');

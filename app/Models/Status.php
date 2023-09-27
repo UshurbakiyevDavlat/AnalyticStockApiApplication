@@ -11,7 +11,17 @@ class Status extends Model
     use HasFactory;
     use SoftDeletes;
 
+    /**
+     * The attributes that are guarded.
+     *
+     * @var array<int, string>
+     */
     protected $guarded = ['id'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<string, string>
+     */
     protected $fillable = ['title'];
 }
