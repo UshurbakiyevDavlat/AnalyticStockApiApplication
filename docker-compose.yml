@@ -13,7 +13,7 @@ services:
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
     networks:
-      - ianalyticsadmin_app_network
+      - ianalytics-admin_app_network
     environment:
       PHP_IDE_CONFIG: "serverName=Docker"
     ports:
@@ -36,12 +36,12 @@ services:
     depends_on:
       - app
     networks:
-      - ianalyticsadmin_app_network
+      - ianalytics-admin_app_network
 
 volumes:
   dbdata:
 
 networks:
-  ianalyticsadmin_app_network:
+  ianalytics-admin_app_network:
     external: true
 
