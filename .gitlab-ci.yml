@@ -1,0 +1,58 @@
+stages:
+  #- test
+  - build
+  - push
+  - deploy
+
+variables:
+  DOCKER_IMAGE: $REGISTRY_USER/$REPOSITORY_NAME:api-latest
+  ENVIRONMENT: $CI_COMMIT_REF_NAME
+
+services:
+  - docker:dind
+
+#test:
+#  stage: test
+#  script:
+#  # Add your tests here
+#  only:
+#    - dev
+#    - stage
+#    - master
+
+build:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+    - docker build -t $DOCKER_IMAGE -f Dockerfile .
+
+push:
+  stage: push
+  script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+    - docker push $DOCKER_IMAGE
+
+deploy-dev:
+  stage: deploy
+  script:
+    - bash deploy.sh # runner the same as dev server
+  only:
+    - dev
+
+deploy-stage:
+  stage: deploy
+  script:
+    - ssh $USER@$HOST_STAGE "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
+  only:
+    - stage
+  when: manual
+
+deploy-master:
+  stage: deploy
+  script:
+    - ssh $USER@$HOST_PROD "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
+  only:
+    - main
+  when: manual
