@@ -20,6 +20,10 @@ export ENVIRONMENT
     docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD"
 fi
 
+if [ -z "$ENVIRONMENT" ]; then
+  ENVIRONMENT="dev"  # Set a default value if ENVIRONMENT is empty or undefined
+fi
+
 DOCKER_IMAGE="$REGISTRY_USER/$REPOSITORY_NAME:api-latest"
 
 # Pull the latest code from the repository
