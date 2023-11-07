@@ -1,7 +1,10 @@
 #!/bin/bash
 
 ENVIRONMENT="$5"
+APP_DIR="$3"
+
 export ENVIRONMENT
+export APP_DIR
 
 # shellcheck disable=SC1009
 if [ -z "$ENVIRONMENT" ]; then
@@ -24,13 +27,11 @@ fi
     # Assign values passed as arguments to local variables
     REGISTRY_USER="$1"
     REPOSITORY_NAME="$2"
-    APP_DIR="$3"
     REGISTRY_PASSWORD="$4"
 
     # Set environment variables
     export REGISTRY_USER
     export REPOSITORY_NAME
-    export APP_DIR
     export REGISTRY_PASSWORD
 
     docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD"
