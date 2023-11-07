@@ -3,6 +3,10 @@
 ENVIRONMENT="$5"
 export ENVIRONMENT
 
+if [ -z "$ENVIRONMENT" ]; then
+  ENVIRONMENT="dev"  # Set a default value if ENVIRONMENT is empty or undefined
+fi
+
 # Check the environment and conditionally log in to the Docker registry
   if [ -n "$ENVIRONMENT" ] && [ "$ENVIRONMENT" != "dev" ]; then
     # Assign values passed as arguments to local variables
@@ -29,11 +33,13 @@ docker pull "$DOCKER_IMAGE"
 docker stop vpa-api-container || true
 docker rm vpa-api-container || true
 
+# Fetch the .env file from a secure location
+cp /var/www/vpa/ianalytics-api/.env "$APP_DIR"/.env
+
+composer install --no-interaction --prefer-dist --optimize-autoloader
+
 # Run the Docker container
 docker run -d --name vpa-api-container -p 8001:80 -v "$APP_DIR":/var/www/html "$DOCKER_IMAGE"
-
-# Set permissions for storage and bootstrap/cache directories
-docker exec vpa-api-container chmod -R 775 storage bootstrap/cache
 
 # Run artisan optimize:clear (if Laravel project)
 docker exec vpa-api-container php artisan optimize:clear

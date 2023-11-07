@@ -28,11 +28,18 @@ build:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
     - docker build -t $DOCKER_IMAGE -f Dockerfile .
 
+    # Change permissions for storage and bootstrap directories
+    - chmod -R 777 storage bootstrap
+
 push:
   stage: push
   script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
     - docker push $DOCKER_IMAGE
+  only:
+    - dev
+    - stage
+    - master
 
 deploy-dev:
   stage: deploy
