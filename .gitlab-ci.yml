@@ -54,7 +54,7 @@ deploy-dev:
 deploy-stage:
   stage: deploy
   script:
-    - ssh $USER@$HOST_STAGE "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT" "$USER" "$HOST"
+    - ssh $USER@$HOST_STAGE "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT" "$USER" "$HOST_DEV"
   only:
     - stage
   when: manual
@@ -62,7 +62,7 @@ deploy-stage:
 deploy-master:
   stage: deploy
   script:
-    - ssh $USER@$HOST_PROD "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT" "$USER" "$HOST"
+    - ssh $USER@$HOST_PROD "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT" "$USER" "$HOST_DEV"
   only:
     - main
   when: manual
