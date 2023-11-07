@@ -42,7 +42,7 @@ push:
   only:
     - dev
     - stage
-    - master
+    - main
 
 deploy-dev:
   stage: deploy
