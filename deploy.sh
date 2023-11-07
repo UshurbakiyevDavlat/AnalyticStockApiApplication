@@ -26,6 +26,9 @@ fi
 
 DOCKER_IMAGE="$REGISTRY_USER/$REPOSITORY_NAME:api-latest"
 
+git checkout "$ENVIRONMENT"
+git pull
+
 # Pull the latest Docker image
 docker pull "$DOCKER_IMAGE"
 
