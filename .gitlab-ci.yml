@@ -20,28 +20,6 @@ services:
 #    - stage
 #    - master
 
-before_script:
-  # Set the HOST variable based on the ENVIRONMENT
-  - |
-    case $ENVIRONMENT in
-    "dev")
-      HOST="null"
-      ;;
-    "stage")
-      HOST=$HOST_STAGE
-      ;;
-    "prod")
-      HOST=$HOST_PROD
-      ;;
-    esac
-
-  - |
-    if [ "$HOST" != "null" ]; then
-      ssh $USER@$HOST "cd /var/www/vpa/ianalytics-api  && git checkout $ENVIRONMENT && git pull"
-    else
-      cd /var/www/vpa/ianalytics-api && git checkout $ENVIRONMENT && git pull
-    fi
-
 build:
   stage: build
   script:
