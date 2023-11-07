@@ -10,15 +10,6 @@ export APP_DIR
 if [ -z "$ENVIRONMENT" ]; then
   ENVIRONMENT="dev"  # Set a default value if ENVIRONMENT is empty or undefined
   cp /var/www/vpa/ianalytics-api/.env "$APP_DIR"/.env
-
-else
-  USER="$6"
-  HOST_DEV="$7"
-
-  export USER
-  export HOST_DEV
-
-  sudo scp -r "$APP_DIR" "gitlab-runner@$HOST_DEV:$APP_DIR"
 fi
 
 # Check the environment and conditionally log in to the Docker registry
