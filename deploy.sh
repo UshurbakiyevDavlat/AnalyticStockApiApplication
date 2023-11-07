@@ -11,6 +11,10 @@ if [ -z "$ENVIRONMENT" ]; then
   ENVIRONMENT="dev"  # Set a default value if ENVIRONMENT is empty or undefined
 fi
 
+if [ -z "$APP_DIR" ]; then
+    APP_DIR="/var/www/vpa/ianalytics-api"  # Set a default value if APP_DIR is empty or undefined
+fi
+
 # Check the environment and conditionally log in to the Docker registry
   if [ -n "$ENVIRONMENT" ] && [ "$ENVIRONMENT" != "dev" ]; then
     # Assign values passed as arguments to local variables
