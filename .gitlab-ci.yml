@@ -47,6 +47,9 @@ push:
 deploy-dev:
   stage: deploy
   script:
+    - echo "$DOT_ENV" > .env
+    - scp -r .env $USER@$HOST_DEV:$APP_DIR
+    - cd $APP_DIR && git pull
     - bash deploy.sh # runner the same as dev server
   only:
     - dev
@@ -57,8 +60,8 @@ deploy-stage:
   stage: deploy
   script:
     - echo "$DOT_ENV" > .env
-    - scp -r .env $USER@$HOST_STAGE:/var/www/vpa/ianalytics-api
-    - ssh $USER@$HOST_STAGE "cd /var/www/vpa/ianalytics-api && git pull"
+    - scp -r .env $USER@$HOST_STAGE:$APP_DIR
+    - ssh $USER@$HOST_STAGE "cd $APP_DIR && git pull"
     - ssh $USER@$HOST_STAGE "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
   only:
     - stage
@@ -69,6 +72,9 @@ deploy-stage:
 deploy-master:
   stage: deploy
   script:
+    - echo "$DOT_ENV" > .env
+    - scp -r .env $USER@$HOST_PROD:$APP_DIR
+    - ssh $USER@$HOST_STAGE "cd $APP_DIR && git pull"
     - ssh $USER@$HOST_PROD "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
   only:
     - main
