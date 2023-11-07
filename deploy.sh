@@ -3,6 +3,10 @@
 ENVIRONMENT="$5"
 export ENVIRONMENT
 
+if [ -z "$ENVIRONMENT" ]; then
+  ENVIRONMENT="dev"  # Set a default value if ENVIRONMENT is empty or undefined
+fi
+
 # Check the environment and conditionally log in to the Docker registry
   if [ -n "$ENVIRONMENT" ] && [ "$ENVIRONMENT" != "dev" ]; then
     # Assign values passed as arguments to local variables
@@ -20,15 +24,7 @@ export ENVIRONMENT
     docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD"
 fi
 
-if [ -z "$ENVIRONMENT" ]; then
-  ENVIRONMENT="dev"  # Set a default value if ENVIRONMENT is empty or undefined
-fi
-
 DOCKER_IMAGE="$REGISTRY_USER/$REPOSITORY_NAME:api-latest"
-
-# Pull the latest code from the repository
-git checkout "$ENVIRONMENT"
-git pull
 
 # Pull the latest Docker image
 docker pull "$DOCKER_IMAGE"
