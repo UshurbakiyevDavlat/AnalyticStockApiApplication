@@ -50,6 +50,8 @@ deploy-dev:
     - bash deploy.sh # runner the same as dev server
   only:
     - dev
+  environment:
+    name: $CI_COMMIT_REF_SLUG
 
 deploy-stage:
   stage: deploy
@@ -60,6 +62,8 @@ deploy-stage:
     - ssh $USER@$HOST_STAGE "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
   only:
     - stage
+  environment:
+    name: $CI_COMMIT_REF_SLUG
   when: manual
 
 deploy-master:
@@ -69,3 +73,5 @@ deploy-master:
   only:
     - main
   when: manual
+  environment:
+    name: $CI_COMMIT_REF_SLUG

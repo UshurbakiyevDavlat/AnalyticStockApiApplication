@@ -10,6 +10,9 @@ export APP_DIR
 if [ -z "$ENVIRONMENT" ]; then
   ENVIRONMENT="dev"  # Set a default value if ENVIRONMENT is empty or undefined
   cp /var/www/vpa/ianalytics-api/.env "$APP_DIR"/.env
+
+  # Install composer dependencies
+  composer install --no-interaction --prefer-dist --optimize-autoloader
 fi
 
 # Check the environment and conditionally log in to the Docker registry
@@ -35,9 +38,6 @@ docker pull "$DOCKER_IMAGE"
 # Stop and remove the existing container (if it exists)
 docker stop vpa-api-container || true
 docker rm vpa-api-container || true
-
-# Install composer dependencies
-composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Run the Docker container
 docker run -d --name vpa-api-container -p 8001:80 -v "$APP_DIR":/var/www/html "$DOCKER_IMAGE"
