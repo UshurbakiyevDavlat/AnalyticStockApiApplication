@@ -18,7 +18,7 @@ else
   export USER
   export HOST_DEV
 
-  sudo scp -r "$APP_DIR" "$USER@$HOST_DEV:$APP_DIR"
+  sudo scp -r "$APP_DIR" "gitlab-runner@$HOST_DEV:$APP_DIR"
 fi
 
 # Check the environment and conditionally log in to the Docker registry
