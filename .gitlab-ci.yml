@@ -23,11 +23,13 @@ services:
 build:
   stage: build
   script:
-    - composer install
     - npm install
     - npm run build
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
     - docker build -t $DOCKER_IMAGE -f Dockerfile .
+
+    # Change permissions for storage and bootstrap directories
+    - chmod -R 777 storage bootstrap
 
 push:
   stage: push
