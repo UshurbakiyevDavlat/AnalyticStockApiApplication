@@ -36,10 +36,10 @@ docker rm vpa-api-container || true
 # Fetch the .env file from a secure location
 cp /var/www/vpa/ianalytics-api/.env "$APP_DIR"/.env
 
-# Run the Docker container
-docker run -d --name vpa-api-container -p 8001:80 -v "$APP_DIR":/var/www/html --user gitlab-runner "$DOCKER_IMAGE"
+composer install --no-interaction --prefer-dist --optimize-autoloader
 
-docker exec vpa-api-container composer install --no-interaction --prefer-dist --optimize-autoloader
+# Run the Docker container
+docker run -d --name vpa-api-container -p 8001:80 -v "$APP_DIR":/var/www/html "$DOCKER_IMAGE"
 
 # Set permissions for storage and bootstrap/cache directories
 docker exec vpa-api-container chmod -R 775 storage bootstrap/cache
