@@ -10,12 +10,13 @@ if [ -z "$ENVIRONMENT" ]; then
 
 else
   USER="$6"
-  HOST="$7"
+  HOST_DEV="$7"
 
   export USER
-  export HOST
+  export HOST_DEV
 
-  scp -r "$APP_DIR" "$USER@$HOST:$APP_DIR"
+  scp -r "$APP_DIR" "$USER@$HOST_DEV:$APP_DIR"
+  echo "Copied folder to $HOST_DEV"
 fi
 
 # Check the environment and conditionally log in to the Docker registry
