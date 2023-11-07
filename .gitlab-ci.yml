@@ -74,7 +74,7 @@ deploy-master:
   script:
     - echo "$DOT_ENV" > .env
     - scp -r .env $USER@$HOST_PROD:$APP_DIR
-    - ssh $USER@$HOST_STAGE "cd $APP_DIR && git pull"
+    - ssh $USER@$HOST_PROD "cd $APP_DIR && git pull"
     - ssh $USER@$HOST_PROD "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
   only:
     - main
