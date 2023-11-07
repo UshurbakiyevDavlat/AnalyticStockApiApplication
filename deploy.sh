@@ -3,8 +3,19 @@
 ENVIRONMENT="$5"
 export ENVIRONMENT
 
+# shellcheck disable=SC1009
 if [ -z "$ENVIRONMENT" ]; then
   ENVIRONMENT="dev"  # Set a default value if ENVIRONMENT is empty or undefined
+  cp /var/www/vpa/ianalytics-api/.env "$APP_DIR"/.env
+
+else
+  USER="$6"
+  HOST="$7"
+
+  export USER
+  export HOST
+
+  scp -r "$APP_DIR" "$USER@$HOST:$APP_DIR"
 fi
 
 # Check the environment and conditionally log in to the Docker registry
@@ -33,9 +44,7 @@ docker pull "$DOCKER_IMAGE"
 docker stop vpa-api-container || true
 docker rm vpa-api-container || true
 
-# Fetch the .env file from a secure location
-cp /var/www/vpa/ianalytics-admin/.env "$APP_DIR"/.env
-
+# Install composer dependencies
 composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Run the Docker container
