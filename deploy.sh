@@ -18,8 +18,7 @@ else
   export USER
   export HOST_DEV
 
-  scp -r "$APP_DIR" "$USER@$HOST_DEV:$APP_DIR"
-  echo "Copied folder to $APP_DIR"
+  sudo scp -r "$APP_DIR" "$USER@$HOST_DEV:$APP_DIR"
 fi
 
 # Check the environment and conditionally log in to the Docker registry
