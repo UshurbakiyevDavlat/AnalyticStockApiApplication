@@ -33,6 +33,9 @@ docker pull "$DOCKER_IMAGE"
 docker stop vpa-api-container || true
 docker rm vpa-api-container || true
 
+# Fetch the .env file from a secure location
+cp /var/www/vpa/ianalytics-admin/.env "$APP_DIR"/.env
+
 composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Run the Docker container
