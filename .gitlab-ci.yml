@@ -47,7 +47,7 @@ push:
 deploy-dev:
   stage: deploy
   script:
-    - echo "$DOT_ENV" > $APP_DIR/.env
+    - echo "$DOT_ENV" | sudo tee $APP_DIR/.env
     - cd $APP_DIR && git pull
     - bash deploy.sh # runner the same as dev server
   only:
