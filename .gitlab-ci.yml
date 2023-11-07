@@ -54,6 +54,7 @@ deploy-dev:
 deploy-stage:
   stage: deploy
   script:
+    - scp -r $APP_DIR $USER@$HOST_STAGE:$APP_DIR
     - ssh $USER@$HOST_STAGE "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
   only:
     - stage
