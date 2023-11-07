@@ -23,36 +23,61 @@ services:
 build:
   stage: build
   script:
+    # Pull the latest code from the repository
+    - git checkout "$ENVIRONMENT"
+    - git pull
     - npm install
     - npm run build
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
     - docker build -t $DOCKER_IMAGE -f Dockerfile .
+
+    # Change permissions for storage and bootstrap directories
+    - chmod -R 777 storage bootstrap
 
 push:
   stage: push
   script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
     - docker push $DOCKER_IMAGE
+  only:
+    - dev
+    - stage
+    - master
 
 deploy-dev:
   stage: deploy
   script:
+    - echo "$DOT_ENV" > .env
+    - scp -r .env $USER@$HOST_DEV:$APP_DIR
+    - cd $APP_DIR && git pull
     - bash deploy.sh # runner the same as dev server
   only:
     - dev
+  environment:
+    name: $CI_COMMIT_REF_SLUG
 
 deploy-stage:
   stage: deploy
   script:
+    - echo "$DOT_ENV" > .env
+    - scp -r .env $USER@$HOST_STAGE:$APP_DIR
+    - ssh $USER@$HOST_STAGE "cd $APP_DIR && git pull"
     - ssh $USER@$HOST_STAGE "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
   only:
     - stage
+  environment:
+    name: $CI_COMMIT_REF_SLUG
   when: manual
 
 deploy-master:
   stage: deploy
   script:
+    - echo "$DOT_ENV" > .env
+    - scp -r .env $USER@$HOST_PROD:$APP_DIR
+    - ssh $USER@$HOST_STAGE "cd $APP_DIR && git pull"
     - ssh $USER@$HOST_PROD "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
   only:
     - main
   when: manual
+  environment:
+    name: $CI_COMMIT_REF_SLUG
