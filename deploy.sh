@@ -43,6 +43,8 @@ docker exec vpa-api-container composer install --no-interaction --prefer-dist --
 
 # Set permissions for storage and bootstrap/cache directories
 docker exec vpa-api-container chmod -R 775 storage bootstrap/cache
+docker exec vpa-api-container chown -R gitlab-runner:gitlab-runner vendor
+docker exec vpa-api-container chown -R gitlab-runner:gitlab-runner .env
 
 # Run artisan optimize:clear (if Laravel project)
 docker exec vpa-api-container php artisan optimize:clear
