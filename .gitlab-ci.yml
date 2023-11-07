@@ -33,6 +33,10 @@ push:
   script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
     - docker push $DOCKER_IMAGE
+  only:
+    - dev
+    - stage
+    - master
 
 deploy-dev:
   stage: deploy
