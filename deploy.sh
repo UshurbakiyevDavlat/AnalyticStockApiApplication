@@ -39,14 +39,8 @@ cp /var/www/vpa/ianalytics-api/.env "$APP_DIR"/.env
 # Run the Docker container
 docker run -d --name vpa-api-container -p 8001:80 -v "$APP_DIR":/var/www/html "$DOCKER_IMAGE"
 
-docker exec vpa-api-container composer install --no-interaction --prefer-dist --optimize-autoloader
-
-chown -R gitlab-runner:gitlab-runner "$APP_DIR"/vendor
-
 # Set permissions for storage and bootstrap/cache directories
 docker exec vpa-api-container chmod -R 775 storage bootstrap/cache
-docker exec vpa-api-container chown -R gitlab-runner:gitlab-runner vendor
-docker exec vpa-api-container chown -R gitlab-runner:gitlab-runner .env
 
 # Run artisan optimize:clear (if Laravel project)
 docker exec vpa-api-container php artisan optimize:clear
