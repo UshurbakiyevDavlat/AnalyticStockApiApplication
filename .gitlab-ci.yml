@@ -23,6 +23,7 @@ services:
 build:
   stage: build
   script:
+    - git pull
     - npm install
     - npm run build
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
