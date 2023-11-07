@@ -23,6 +23,7 @@ services:
 build:
   stage: build
   script:
+    - git checkout $CI_COMMIT_REF_NAME
     - git pull
     - npm install
     - npm run build
