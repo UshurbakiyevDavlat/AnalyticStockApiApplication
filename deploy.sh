@@ -42,5 +42,8 @@ docker rm vpa-api-container || true
 # Run the Docker container
 docker run -d --name vpa-api-container -p 8001:80 -v "$APP_DIR":/var/www/html "$DOCKER_IMAGE"
 
+#install composer dependencies
+docker exec vpa-api-container composer install --no-interaction --prefer-dist --optimize-autoloader
+
 # Run artisan optimize:clear (if Laravel project)
 docker exec vpa-api-container php artisan optimize:clear
