@@ -26,7 +26,8 @@ class AuthController extends Controller
         $link = config('app.url');
 
         // $jwt = Cookie::get('research-jwt');
-        dd(request()->cookies->all());
+         $cookies = request()->cookies->all();
+         $jwt = $cookies['research-jwt'];
 
         Log::info('jwt', ['data' => $jwt]);
 
