@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -59,7 +58,7 @@ class AuthController extends Controller
         $token = JWTAuth::fromUser($existingUser);
 
         // Set the JWT token as a cookie on the response
-        Cookie::queue('research-jwt', $token, 60 * 24, '/', '.ffin.global');
+        Cookie::queue('jwt', $token, 60 * 24, '/', '.ffin.global');
 
         // Redirect to your frontend
         return redirect('https://dev-research.ffin.global');
