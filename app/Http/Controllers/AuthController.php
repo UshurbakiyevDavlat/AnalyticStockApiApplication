@@ -17,36 +17,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AuthController extends Controller
 {
     /**
-     * Check if the user is authorized and return a link as needed.
-     *
-     * @return JsonResponse
-     */
-    public function checkAuthorization(): JsonResponse
-    {
-        $link = config('app.url');
-
-        $jwt = Cookie::get('research-jwt');
-
-        Log::info('jwt', ['data' => $jwt]);
-
-        // Check if the user is authenticated and has a valid token
-        if ($jwt) {
-            // User is authorized, return a link and status as needed
-            $response = [
-                'status' => true,
-                'token' => $jwt,
-            ];
-        } else {
-            $response = [
-                'status' => false,
-                'link' => $link . 'auth',
-            ];
-        }
-
-        return response()->json($response);
-    }
-
-    /**
      * Redirect the user to the Azure authentication page.
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
