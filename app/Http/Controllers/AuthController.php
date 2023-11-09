@@ -25,7 +25,7 @@ class AuthController extends Controller
     {
         $link = config('app.url');
 
-        $jwt = Cookie::get('jwt');
+        $jwt = Cookie::get('research-jwt');
 
         // Check if the user is authenticated and has a valid token
         if ($jwt) {
@@ -87,7 +87,7 @@ class AuthController extends Controller
         $token = JWTAuth::fromUser($existingUser);
 
         // Set the JWT token as a cookie on the response
-        Cookie::queue('jwt', $token, 60 * 24, '/', '.ffin.global');
+        Cookie::queue('research-jwt', $token, 60 * 24, '/', '.ffin.global');
 
         // Redirect to your frontend
         return redirect('http://localhost:5173');
