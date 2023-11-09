@@ -27,6 +27,7 @@ class AuthController extends Controller
 
         $jwt = Cookie::get('research-jwt');
 
+        dd($jwt);
         // Check if the user is authenticated and has a valid token
         if ($jwt) {
             // User is authorized, return a link and status as needed
