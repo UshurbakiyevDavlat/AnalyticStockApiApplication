@@ -87,7 +87,7 @@ class AuthController extends Controller
         $token = JWTAuth::fromUser($existingUser);
 
         // Set the JWT token as a cookie on the response
-        Cookie::queue('jwt', $token, 60 * 24, '/', 'dev-api-research.ffin.global');
+        Cookie::queue('jwt', $token, 60 * 24, '/', 'ffin.global');
 
         // Redirect to your frontend
         return redirect('http://localhost:5173');
