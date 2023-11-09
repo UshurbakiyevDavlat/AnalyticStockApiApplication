@@ -93,7 +93,7 @@ class AuthController extends Controller
         Cookie::queue('research-jwt', $token, 60 * 24, '/', '.ffin.global');
 
         // Redirect to your frontend
-        return redirect('http://localhost:5173');
+        return redirect('https://dev-research.ffin.global');
     }
 
     /**
