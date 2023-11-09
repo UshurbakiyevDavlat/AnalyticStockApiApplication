@@ -27,7 +27,8 @@ class AuthController extends Controller
 
         $jwt = Cookie::get('research-jwt');
 
-        dd($jwt);
+        Log::info('jwt', ['data' => $jwt]);
+
         // Check if the user is authenticated and has a valid token
         if ($jwt) {
             // User is authorized, return a link and status as needed
@@ -60,7 +61,8 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|Application|JsonResponse|RedirectResponse|Redirector
      */
-    public function handleProviderCallback(): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function handleProviderCallback(
+    ): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $user = Socialite::driver('azure')->user();
         Log::info('userInfoFromAzure', ['data' => $user]);
