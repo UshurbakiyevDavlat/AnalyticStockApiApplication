@@ -33,7 +33,7 @@ class AuthController extends Controller
         } else {
             $response = [
                 'status' => false,
-                'link' => $link . '/auth',
+                'link' => $link . 'auth',
             ];
         }
 
