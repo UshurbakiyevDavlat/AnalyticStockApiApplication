@@ -25,12 +25,14 @@ class AuthController extends Controller
     {
         $link = config('app.url');
 
+        $jwt = Cookie::get('jwt');
+
         // Check if the user is authenticated and has a valid token
-        if (auth()->check() && auth()->user()) {
+        if ($jwt) {
             // User is authorized, return a link and status as needed
             $response = [
                 'status' => true,
-                'token' => JWTAuth::fromUser(auth()->user()),
+                'token' => $jwt,
             ];
         } else {
             $response = [
@@ -80,6 +82,12 @@ class AuthController extends Controller
 
         // Authenticate the user in Laravel
         Auth::login($existingUser);
+
+        // Create a JWT token from the user authenticated
+        $token = JWTAuth::fromUser($existingUser);
+
+        // Set the JWT token as a cookie on the response
+        Cookie::queue('jwt', $token, 60 * 24); // 1 day
 
         // Redirect to your frontend
         return redirect('http://localhost:5173');
