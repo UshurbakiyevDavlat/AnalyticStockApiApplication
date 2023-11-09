@@ -65,7 +65,6 @@ class AuthController extends Controller
     ): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $user = Socialite::driver('azure')->user();
-        Log::info('userInfoFromAzure', ['data' => $user]);
 
         // Find the user by their email in your application's users table
         $existingUser = User::where('email', $user->getEmail())->first();
