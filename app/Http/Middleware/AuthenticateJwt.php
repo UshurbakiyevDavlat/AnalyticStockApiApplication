@@ -33,10 +33,21 @@ class AuthenticateJwt
             $this->authenticateUser($token);
         } catch (TokenExpiredException $e) {
             Log::error($e->getMessage());
-
-            return $this->handleTokenExpired($token);
+            try {
+                $this->handleTokenExpired($token);
+            } catch (JWTException $e) {
+                return $this->handleJWTException(
+                    $e,
+                    'Token expired, but not refreshed',
+                    $link,
+                );
+            }
         } catch (JWTException $e) {
-            return $this->handleJWTException($e, 'Token not found.', $link);
+            return $this->handleJWTException(
+                $e,
+                'Token not found',
+                $link,
+            );
         }
 
         return $next($request);
@@ -45,11 +56,11 @@ class AuthenticateJwt
     /**
      * Handle JWTException
      *
-     * @param $message
-     * @param $link
+     * @param string $message
+     * @param string $link
      * @return JsonResponse
      */
-    protected function handleUnauthorized($message, $link): JsonResponse
+    protected function handleUnauthorized(string $message, string $link): JsonResponse
     {
         return self::sendSuccess(
             'Unauthorized. ' . $message,
@@ -64,7 +75,7 @@ class AuthenticateJwt
      *
      * @throws JWTException
      */
-    protected function authenticateUser($token): JWTSubject
+    protected function authenticateUser(string $token): JWTSubject
     {
         $user = JWTAuth::setToken($token)->authenticate();
 
@@ -78,14 +89,19 @@ class AuthenticateJwt
     /**
      * Handle TokenExpiredException
      *
-     * @param $token
-     * @return JWTSubject|bool|JsonResponse
+     * @param string $token
+     * @throws JWTException
+     * @return void
      */
-    protected function handleTokenExpired($token): JWTSubject|bool|JsonResponse
+    protected function handleTokenExpired(string $token): void
     {
-        $refreshedToken = JWTAuth::refresh($token);
-
-        return JWTAuth::setToken($refreshedToken)->toUser();
+        try {
+            $refreshedToken = JWTAuth::refresh($token);
+            JWTAuth::setToken($refreshedToken)->toUser();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new JWTException('Something went wrong while refreshing token');
+        }
     }
 
     /**

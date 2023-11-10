@@ -19,17 +19,19 @@ trait ApiResponse
         ?array $data = [],
         int $statusCode = 200,
     ): JsonResponse {
-        return response()->json([
-            'success' => true,
-            'message' => $message ?? __('response.success'),
-            'data' => $data ?? [],
-        ],
+        return response()->json(
+            [
+                'success' => true,
+                'message' => $message ?? __('response.success'),
+                'data' => $data ?? [],
+            ],
             $statusCode,
             [
                 'Content-Type' => 'application/json;charset=UTF-8',
                 'Charset' => 'utf-8',
             ],
-            JSON_UNESCAPED_UNICODE);
+            JSON_UNESCAPED_UNICODE,
+        );
     }
 
     /**
@@ -44,17 +46,20 @@ trait ApiResponse
         ?string $message = null,
         ?array $data = [],
         int $statusCode = 400,
-    ): JsonResponse {
-        return response()->json([
-            'success' => false,
-            'message' => $message ?? __('response.error'),
-            'data' => $data ?? [],
-        ],
+    ): JsonResponse
+    {
+        return response()->json(
+            [
+                'success' => false,
+                'message' => $message ?? __('response.error'),
+                'data' => $data ?? [],
+            ],
             $statusCode,
             [
                 'Content-Type' => 'application/json;charset=UTF-8',
                 'Charset' => 'utf-8',
             ],
-            JSON_UNESCAPED_UNICODE);
+            JSON_UNESCAPED_UNICODE,
+        );
     }
 }
