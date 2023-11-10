@@ -24,7 +24,9 @@ class AuthService
     public function __construct()
     {
         $this->driver = AuthStrEnum::DRIVER->value;
-        $this->domain = AuthStrEnum::JWT_DOMAIN->value;
+        $this->domain = config('app.env') !== 'local'
+            ? AuthStrEnum::JWT_DOMAIN->value
+            : '';
         $this->name = AuthStrEnum::JWT_NAME->value;
         $this->path = AuthStrEnum::JWT_PATH->value;
         $this->expired = AuthIntEnum::EXPIRED->value;
@@ -45,7 +47,7 @@ class AuthService
 
         // Set the JWT token as a cookie on the response
         Cookie::queue(
-            $this->driver,
+            $this->name,
             $token,
             $this->expired,
             $this->path,
