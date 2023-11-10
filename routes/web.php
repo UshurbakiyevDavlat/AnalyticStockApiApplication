@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', static function () {
     return view('welcome');
 });
 
-Route::get('/auth', [AuthController::class, 'redirectToProvider']);
-Route::get('/auth/callback', [AuthController::class, 'handleProviderCallback']);
+Route::group(['prefix' => 'auth'], static function () {
+    Route::get('/', [AuthController::class, 'redirectToProvider']);
+    Route::get('/callback', [AuthController::class, 'handleProviderCallback']);
+});

@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\AuthStrEnum;
+use App\Enums\StatusCodeEnum;
+use App\Traits\ApiResponse;
 use Closure;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -11,6 +14,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticateJwt
 {
+    use ApiResponse;
+
     /**
      * Handle an incoming request.
      *
@@ -20,33 +25,30 @@ class AuthenticateJwt
      */
     public function handle($request, Closure $next)
     {
+        $token = Cookie::get(AuthStrEnum::JWT_NAME->value);
         $link = config('app.url') . '/auth';
-        $token = Cookie::get('jwt');
 
         if (!$token) {
-            // Token is not present in the cookie
-            return response()->json([
-                'status' => false,
-                'link' => $link,
-                'message' => 'Unauthorized. Token not found.',
-            ]);
+            return self::sendSuccess(
+                'Unauthorized. Token not found.',
+                [
+                    'link' => $link,
+                ],
+            );
         }
 
         try {
-            // Validate the token using the JWTAuth library
             $user = JWTAuth::setToken($token)->authenticate();
 
             if (!$user) {
-                // Token is invalid
-                return response()->json([
-                    'status' => false,
-                    'link' => $link,
-                    'message' => 'Unauthorized. Invalid token.',
-                ])
-                    ->setStatusCode(401);
+                return self::sendSuccess(
+                    'Unauthorized. Invalid token.',
+                    [
+                        'link' => $link,
+                    ],
+                );
             }
 
-            // Token is valid, you can proceed
             return $next($request);
         } catch (Exception $e) {
             Log::error(
@@ -57,12 +59,11 @@ class AuthenticateJwt
                 ],
             );
 
-            // Token is invalid
-            return response()->json([
-                'status' => false,
-                'message' => 'Unauthorized. Invalid token.',
-            ])
-                ->setStatusCode(401);
+            return self::sendError(
+                'Unauthorized. Invalid token.',
+                [],
+                StatusCodeEnum::UNAUTHORIZED->value,
+            );
         }
     }
 }

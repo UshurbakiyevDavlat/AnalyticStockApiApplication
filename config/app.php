@@ -185,4 +185,12 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Additional Configuration
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+    'frontend_url' => env('FRONTEND_URL', 'http://localhost:5173'),
 ];
