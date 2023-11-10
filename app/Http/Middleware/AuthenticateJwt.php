@@ -4,12 +4,20 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticateJwt
 {
+    /**
+     * Handle an incoming request.
+     *
+     * @param $request
+     * @param Closure $next
+     * @return JsonResponse|mixed
+     */
     public function handle($request, Closure $next)
     {
         $link = config('app.url') . '/auth';
@@ -18,11 +26,10 @@ class AuthenticateJwt
         if (!$token) {
             // Token is not present in the cookie
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'link' => $link,
                 'message' => 'Unauthorized. Token not found.',
-            ])
-                ->setStatusCode(401);
+            ])->setStatusCode(401);
         }
 
         try {
@@ -32,7 +39,7 @@ class AuthenticateJwt
             if (!$user) {
                 // Token is invalid
                 return response()->json([
-                    'success' => false,
+                    'status' => false,
                     'link' => $link,
                     'message' => 'Unauthorized. Invalid token.',
                 ])
@@ -52,7 +59,7 @@ class AuthenticateJwt
 
             // Token is invalid
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Unauthorized. Invalid token.',
             ])
                 ->setStatusCode(401);
