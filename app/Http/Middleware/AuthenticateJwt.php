@@ -29,7 +29,7 @@ class AuthenticateJwt
                 'status' => false,
                 'link' => $link,
                 'message' => 'Unauthorized. Token not found.',
-            ])->setStatusCode(401);
+            ]);
         }
 
         try {
