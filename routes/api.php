@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::get('/checkAuth', [AuthController::class, 'checkAuthorization']);
+Route::get('/user', [AuthController::class, 'user'])
+    ->middleware('authJwt')
+    ->name('get-auth-user');
