@@ -29,6 +29,13 @@ class AuthenticateJwt
         $token = Cookie::get(AuthStrEnum::JWT_NAME->value);
         $link = config('app.url') . '/auth';
 
+        if (!$token) {
+            return $this->handleUnauthorized(
+                'Token not found',
+                $link,
+            );
+        }
+
         try {
             $this->authenticateUser($token);
         } catch (TokenExpiredException $e) {
@@ -44,8 +51,7 @@ class AuthenticateJwt
         } catch (JWTException $e) {
             return $this->handleJWTException(
                 $e,
-                'Token not found',
-                $link,
+                'Something wrong with the token',
             );
         }
 
@@ -125,13 +131,11 @@ class AuthenticateJwt
      *
      * @param JWTException $e
      * @param string $message
-     * @param string $link
      * @return JsonResponse
      */
     protected function handleJWTException(
         JWTException $e,
         string $message,
-        string $link,
     ): JsonResponse {
         Log::error(
             'Error while validating token: ' . $e->getMessage(),
@@ -140,9 +144,9 @@ class AuthenticateJwt
             ],
         );
 
-        return $this->handleUnauthorized(
+        return $this->handleJwtError(
             $message,
-            $link,
+            $e->getTraceAsString(),
         );
     }
 }
