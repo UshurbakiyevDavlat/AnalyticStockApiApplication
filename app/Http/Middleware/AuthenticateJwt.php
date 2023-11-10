@@ -36,10 +36,9 @@ class AuthenticateJwt
             try {
                 $this->handleTokenExpired($token);
             } catch (JWTException $e) {
-                return $this->handleJWTException(
-                    $e,
-                    'Token expired, but not refreshed',
-                    $link,
+                return $this->handleJwtError(
+                    $e->getMessage(),
+                    $e->getTraceAsString(),
                 );
             }
         } catch (JWTException $e) {
@@ -66,6 +65,23 @@ class AuthenticateJwt
             'Unauthorized. ' . $message,
             [
                 'link' => $link,
+            ],
+        );
+    }
+
+    /**
+     * Handle JWTException
+     *
+     * @param string $message
+     * @param string $trace
+     * @return JsonResponse
+     */
+    protected function handleJwtError(string $message, string $trace): JsonResponse
+    {
+        return self::sendError(
+            'JwtError. ' . $message,
+            [
+                'trace' => $trace,
             ],
         );
     }
