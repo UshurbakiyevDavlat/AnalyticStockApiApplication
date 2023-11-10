@@ -71,6 +71,7 @@ class AuthenticateJwt
             'Unauthorized. ' . $message,
             [
                 'link' => $link,
+                'status' => false
             ],
         );
     }
