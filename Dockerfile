@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libldap2-dev \
     && docker-php-ext-configure gd --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql pgsql xml zip intl ldap
+    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql pgsql xml zip intl ldap \
+    && docker-php-ext-install pcntl
 
 # Install Xdebug 3.x
 RUN pecl install xdebug \
