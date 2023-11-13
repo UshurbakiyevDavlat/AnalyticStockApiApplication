@@ -9,21 +9,33 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-/**
- * @property string $driver
- * @property string $domain
- * @property string $name
- * @property string $path
- * @property int $expired
- */
 class AuthService
 {
+    /**
+     * @var string
+     */
+    private string $domain;
+
+    /**
+     * @var string
+     */
+    private string $name;
+
+    /**
+     * @var string
+     */
+    private string $path;
+
+    /**
+     * @var int
+     */
+    private int $expired;
+
     /**
      * @constructor AuthService
      */
     public function __construct()
     {
-        $this->driver = AuthStrEnum::DRIVER->value;
         $this->domain = config('app.env') !== 'local'
             ? AuthStrEnum::JWT_DOMAIN->value
             : '';
