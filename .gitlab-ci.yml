@@ -17,7 +17,10 @@ test:
     - composer install --no-interaction
     - cp .env.example .env # TODO need test db for testing and change .env.example
     - php artisan key:generate
-    - php artisan test
+    - php artisan test --coverage-clover=coverage.xml
+  artifacts:
+    paths:
+      - coverage.xml
   only:
     - dev
     - stage
