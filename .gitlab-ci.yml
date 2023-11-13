@@ -15,9 +15,11 @@ test:
   stage: test
   script:
     - composer install --no-interaction
-    - cp .env.example .env # TODO need test db for testing and change .env.example
+    - echo "$DOT_ENV" > .env
     - php artisan key:generate
     - php artisan test --coverage
+  environment:
+    name: 'testing'
 
 build:
   stage: build
