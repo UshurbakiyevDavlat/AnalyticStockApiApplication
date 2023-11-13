@@ -1,5 +1,5 @@
 stages:
-  #- test
+  - test
   - build
   - push
   - deploy
@@ -11,14 +11,16 @@ variables:
 services:
   - docker:dind
 
-#test:
-#  stage: test
-#  script:
-#  # Add your tests here
-#  only:
-#    - dev
-#    - stage
-#    - master
+test:
+  stage: test
+  script:
+    - cp .env.example .env # TODO need test db for testing and change .env.example
+    - composer install --no-interaction
+    - php artisan test
+  only:
+    - dev
+    - stage
+    - main
 
 build:
   stage: build

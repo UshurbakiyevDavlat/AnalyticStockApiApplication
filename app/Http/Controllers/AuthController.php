@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\AuthInterface;
 use App\Enums\AuthStrEnum;
 use App\Enums\StatusCodeEnum;
 use App\Models\User;
@@ -13,7 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Laravel\Socialite\Facades\Socialite;
 
-class AuthController extends Controller
+class AuthController extends Controller implements AuthInterface
 {
     use ApiResponse;
 
@@ -87,6 +88,11 @@ class AuthController extends Controller
     }
 
     // TODO Implement logout for sso and jwt
+    /**
+     * Log the user out of the application.
+     *
+     * @return JsonResponse
+     */
     public function logout(): JsonResponse
     {
         return self::sendSuccess(
