@@ -89,10 +89,10 @@ class AuthController extends Controller implements AuthInterface
         $source = Cookie::get('source');
         Log::info('Source: ' . $source);
 
-        if (str_contains($source, 'admin')) {
-            return redirect(config('app.admin_url'));
-        } else {
+        if (!str_contains($source, 'admin')) {
             return redirect(config('app.frontend_url'));
+        } else {
+            return redirect(config('app.admin_url'));
         }
     }
 
