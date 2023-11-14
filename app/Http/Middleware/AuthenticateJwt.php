@@ -31,6 +31,7 @@ class AuthenticateJwt
 
         $token = Cookie::get(AuthStrEnum::JWT_NAME->value);
         Log::info('Token', [$token]);
+        Log::info('Cookies array', [$_COOKIE]);
 
         $link = config('app.url') . '/auth';
 
