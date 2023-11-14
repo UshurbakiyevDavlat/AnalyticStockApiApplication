@@ -94,6 +94,7 @@ class AuthenticateJwt
             'JwtError. ' . $message,
             [
                 'trace' => $trace,
+                'status' => false,
             ],
         );
     }
@@ -146,7 +147,9 @@ class AuthenticateJwt
         Log::error(
             'Error while validating token: ' . $e->getMessage(),
             [
-                'data' => $e->getTraceAsString(),
+                'data' => [
+                    $e->getTraceAsString(),
+                ],
             ],
         );
 
