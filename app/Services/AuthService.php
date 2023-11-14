@@ -64,6 +64,9 @@ class AuthService
             $this->expired,
             $this->path,
             $this->domain,
+            true,  // HttpOnly
+            true,   // Secure
+            'None'  // SameSite: 'None'
         );
     }
 }
