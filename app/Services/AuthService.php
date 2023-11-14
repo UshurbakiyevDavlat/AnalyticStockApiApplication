@@ -65,7 +65,7 @@ class AuthService
             $this->path,
             $this->domain,
             true,  // Secure
-            true,   // HttpOnly
+            false,   // HttpOnly
             'None'  // SameSite: 'None'
         );
     }
