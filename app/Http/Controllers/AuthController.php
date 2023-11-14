@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
+use Log;
 
 class AuthController extends Controller implements AuthInterface
 {
@@ -91,11 +92,16 @@ class AuthController extends Controller implements AuthInterface
 
         $this->authService->login($existingUser);
 
-        $source = Cookie::get('source') . '/user';
-        \Log::info('Source url: ' . $source);
+        $source = Cookie::get('source');
+        Log::info('Source url: ' . $source);
 
-        // Redirect based on the 'source' value
-        return redirect(config('app.frontend_url'));
+        if (str_contains($source, 'api')) {
+            // Redirect to the frontend URL
+            return redirect(config('app.frontend_url'));
+        } else {
+            // Redirect to the admin URL
+            return redirect(config('app.admin_url'));
+        }
     }
 
     // TODO Implement logout for sso and jwt
