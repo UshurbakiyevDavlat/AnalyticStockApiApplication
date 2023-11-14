@@ -27,12 +27,9 @@ class AuthenticateJwt
     public function handle($request, Closure $next): mixed
     {
         // Get the entire request URL
-        $requestUrl = parse_url(request()->url(), PHP_URL_HOST);
+        $referrer = $request->headers->get('Referer');
 
-        // Set the cookie with the request URL
-        Cookie::queue('source', $requestUrl, 60); // Adjust the expiration time as needed
-        Log::info('Source: ' . Cookie::get('source'));
-        Log::info('requestUrl: ' . $requestUrl);
+        Log::info('requestUrl: ' . $referrer);
 
         $token = Cookie::get(AuthStrEnum::JWT_NAME->value);
         $link = config('app.url') . '/auth';
@@ -63,7 +60,7 @@ class AuthenticateJwt
             );
         }
 
-        return $next($request);
+        return $next($request)->cookie('source', $referrer);
     }
 
     /**
