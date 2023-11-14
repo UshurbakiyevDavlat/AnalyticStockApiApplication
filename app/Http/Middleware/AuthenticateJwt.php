@@ -31,6 +31,8 @@ class AuthenticateJwt
 
         // Set the cookie with the request URL
         Cookie::queue('source', $requestUrl, 60); // Adjust the expiration time as needed
+        Log::info('Source: ' . Cookie::get('source'));
+        Log::info('requestUrl: ' . $requestUrl);
 
         $token = Cookie::get(AuthStrEnum::JWT_NAME->value);
         $link = config('app.url') . '/auth';
