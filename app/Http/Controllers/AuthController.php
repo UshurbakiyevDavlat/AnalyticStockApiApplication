@@ -92,12 +92,10 @@ class AuthController extends Controller implements AuthInterface
         $this->authService->login($existingUser);
 
         $source = Cookie::get('source') . '/user';
+        \Log::info('Source url: ' . $source);
 
         // Redirect based on the 'source' value
-        return redirect(
-            $source
-                ?: config('app.frontend_url'),
-        );
+        return redirect(config('app.frontend_url'));
     }
 
     // TODO Implement logout for sso and jwt
