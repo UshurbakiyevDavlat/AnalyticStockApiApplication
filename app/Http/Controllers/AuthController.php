@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
+use Log;
 
 class AuthController extends Controller implements AuthInterface
 {
@@ -92,6 +93,7 @@ class AuthController extends Controller implements AuthInterface
         $this->authService->login($existingUser);
 
         $source = Cookie::get('source');
+        Log::info('Source: ' . $source);
 
         if (str_contains($source, 'api')) {
             // Redirect to the frontend URL
