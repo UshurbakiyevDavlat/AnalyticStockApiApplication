@@ -193,4 +193,5 @@ return [
     |
     */
     'frontend_url' => env('FRONTEND_URL', 'http://localhost:5173'),
+    'admin_url' => env('ADMIN_URL', 'http://localhost:8080'),
 ];

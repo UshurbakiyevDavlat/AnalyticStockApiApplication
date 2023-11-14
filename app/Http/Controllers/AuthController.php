@@ -12,6 +12,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller implements AuthInterface
@@ -49,6 +50,12 @@ class AuthController extends Controller implements AuthInterface
      */
     public function redirectToProvider(): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
     {
+        // Get the entire request URL
+        $requestUrl = parse_url(request()->url(), PHP_URL_HOST);
+
+        // Set the cookie with the request URL
+        Cookie::queue('source', $requestUrl, 60); // Adjust the expiration time as needed
+
         return Socialite::driver('azure')->redirect();
     }
 
@@ -84,10 +91,17 @@ class AuthController extends Controller implements AuthInterface
 
         $this->authService->login($existingUser);
 
-        return redirect(config('app.frontend_url'));
+        $source = Cookie::get('source') . '/user';
+
+        // Redirect based on the 'source' value
+        return redirect(
+            $source
+                ?: config('app.frontend_url'),
+        );
     }
 
     // TODO Implement logout for sso and jwt
+
     /**
      * Log the user out of the application.
      *
