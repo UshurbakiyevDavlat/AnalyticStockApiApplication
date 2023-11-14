@@ -92,7 +92,6 @@ class AuthController extends Controller implements AuthInterface
         $this->authService->login($existingUser);
 
         $source = Cookie::get('source');
-        \Log::info('Source url: ' . $source);
 
         if (str_contains($source, 'api')) {
             // Redirect to the frontend URL
