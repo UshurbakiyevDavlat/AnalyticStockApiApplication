@@ -30,6 +30,7 @@ class AuthenticateJwt
         $referrer = $request->headers->get('Referer');
 
         $token = Cookie::get(AuthStrEnum::JWT_NAME->value);
+        Log::info('Token', [$token]);
 
         $link = config('app.url') . '/auth';
 
