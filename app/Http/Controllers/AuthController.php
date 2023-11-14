@@ -87,6 +87,7 @@ class AuthController extends Controller implements AuthInterface
         $this->authService->login($existingUser);
 
         $source = Cookie::get('source');
+        Log::info('Source: ' . $source);
 
         if (str_contains($source, 'admin')) {
             return redirect(config('app.admin_url'));
