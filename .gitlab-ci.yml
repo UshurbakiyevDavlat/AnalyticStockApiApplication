@@ -7,6 +7,7 @@ stages:
 variables:
   DOCKER_IMAGE: $REGISTRY_USER/$REPOSITORY_NAME:api-latest
   ENVIRONMENT: $CI_COMMIT_REF_NAME
+  DOCKER_DRIVER: overlay
 
 services:
   - docker:dind
