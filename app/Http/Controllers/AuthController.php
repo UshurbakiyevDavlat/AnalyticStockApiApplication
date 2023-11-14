@@ -51,12 +51,6 @@ class AuthController extends Controller implements AuthInterface
      */
     public function redirectToProvider(): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
     {
-        // Get the entire request URL
-        $requestUrl = parse_url(request()->url(), PHP_URL_HOST);
-
-        // Set the cookie with the request URL
-        Cookie::queue('source', $requestUrl, 60); // Adjust the expiration time as needed
-
         return Socialite::driver('azure')->redirect();
     }
 

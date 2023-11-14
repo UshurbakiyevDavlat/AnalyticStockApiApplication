@@ -24,8 +24,14 @@ class AuthenticateJwt
      * @param Closure $next
      * @return JsonResponse|mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): mixed
     {
+        // Get the entire request URL
+        $requestUrl = parse_url(request()->url(), PHP_URL_HOST);
+
+        // Set the cookie with the request URL
+        Cookie::queue('source', $requestUrl, 60); // Adjust the expiration time as needed
+
         $token = Cookie::get(AuthStrEnum::JWT_NAME->value);
         $link = config('app.url') . '/auth';
 
