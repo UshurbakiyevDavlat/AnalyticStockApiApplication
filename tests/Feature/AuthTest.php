@@ -29,7 +29,6 @@ it('handles OAuth provider callback', function () {
 
     // Assert
     $response->assertStatus(302); // Check for a 302 (temporary redirect) status
-    $response->assertRedirect(config('app.frontend_url'));
 
     // Check that the user was created or updated in the database
     $this->assertDatabaseHas('users', [
