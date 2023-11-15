@@ -14,7 +14,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
-use Log;
 
 class AuthController extends Controller implements AuthInterface
 {
@@ -51,11 +50,6 @@ class AuthController extends Controller implements AuthInterface
      */
     public function redirectToProvider(): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
     {
-        \Illuminate\Support\Facades\Log::info('cookie in provider', [
-            'sourceCOokie' => Cookie::get('source'),
-            'allCookies' => $_COOKIE,
-        ]);
-
         return Socialite::driver('azure')->redirect();
     }
 
@@ -67,13 +61,6 @@ class AuthController extends Controller implements AuthInterface
     public function handleProviderCallback(
     ): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        \Illuminate\Support\Facades\Log::info(
-            'cookie in callback',
-            [
-                'sourceCOokie' => Cookie::get('source'),
-                'allCookies' => $_COOKIE,
-            ],
-        );
         $driver = AuthStrEnum::DRIVER->value;
         $user = Socialite::driver($driver)->user();
 
@@ -98,13 +85,15 @@ class AuthController extends Controller implements AuthInterface
 
         $this->authService->login($existingUser);
 
-        $source = Cookie::get('source');
-        Log::info('Source: ' . $source);
+        $source = Cookie::get(AuthStrEnum::SOURCE_COOKIE->value);
+
+        $adminUrl = config('app.admin_url') . '/user';
+        $frontendUrl = config('app.frontend_url');
 
         if (!str_contains($source, 'admin')) {
-            return redirect(config('app.frontend_url'));
+            return redirect($frontendUrl);
         } else {
-            return redirect(config('app.admin_url') . '/user');
+            return redirect($adminUrl);
         }
     }
 
@@ -119,7 +108,6 @@ class AuthController extends Controller implements AuthInterface
     {
         return self::sendSuccess(
             'Logout',
-            [],
         );
     }
 }

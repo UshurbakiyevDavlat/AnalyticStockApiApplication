@@ -8,4 +8,5 @@ enum AuthStrEnum: string
     case JWT_DOMAIN = '.ffin.global';
     case JWT_NAME = 'jwt';
     case JWT_PATH = '/';
+    case SOURCE_COOKIE = 'source';
 }
