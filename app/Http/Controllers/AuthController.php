@@ -50,7 +50,7 @@ class AuthController extends Controller implements AuthInterface
      */
     public function redirectToProvider(): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
     {
-        return Socialite::driver('azure')->redirect();
+        return Socialite::driver(AuthStrEnum::DRIVER->value)->redirect();
     }
 
     /**
