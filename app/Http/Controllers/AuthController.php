@@ -87,7 +87,7 @@ class AuthController extends Controller implements AuthInterface
 
         $source = Cookie::get(AuthStrEnum::SOURCE_COOKIE->value);
 
-        $adminUrl = config('app.admin_url') . '/user';
+        $adminUrl = config('app.admin_url') . '/auth';
         $frontendUrl = config('app.frontend_url');
 
         if (!str_contains($source, 'admin')) {

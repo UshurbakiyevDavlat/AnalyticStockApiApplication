@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['authJwt'])->group(function () {
-    Route::get('user', [AuthController::class, 'user']);
+    Route::get('auth', [AuthController::class, 'user']);
 });
