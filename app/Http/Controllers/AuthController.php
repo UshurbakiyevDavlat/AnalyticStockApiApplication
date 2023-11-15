@@ -52,7 +52,7 @@ class AuthController extends Controller implements AuthInterface
     public function redirectToProvider(): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
     {
         \Illuminate\Support\Facades\Log::info('cookie in provider', [
-            'sourceCOokie' => Cookie::get('admin-source'),
+            'sourceCOokie' => Cookie::get('source'),
             'allCookies' => $_COOKIE,
         ]);
 
@@ -70,7 +70,7 @@ class AuthController extends Controller implements AuthInterface
         \Illuminate\Support\Facades\Log::info(
             'cookie in callback',
             [
-                'sourceCOokie' => Cookie::get('admin-source'),
+                'sourceCOokie' => Cookie::get('source'),
                 'allCookies' => $_COOKIE,
             ],
         );
