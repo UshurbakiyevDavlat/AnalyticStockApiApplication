@@ -28,6 +28,9 @@ class AuthenticateJwt
     {
         // Get the entire request URL
         $referrer = $request->headers->get('Referer');
+        $authHeader = $request->headers->get('Authorization');
+
+        Log::info('Auth header', [$authHeader]);
 
         $token = Cookie::get(AuthStrEnum::JWT_NAME->value);
         Log::info('Token', [$token]);
