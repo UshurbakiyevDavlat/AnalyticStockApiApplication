@@ -51,7 +51,11 @@ class AuthController extends Controller implements AuthInterface
      */
     public function redirectToProvider(): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
     {
-        \Illuminate\Support\Facades\Log::info('cookie in provider', [Cookie::get('source')]);
+        \Illuminate\Support\Facades\Log::info('cookie in provider', [
+            'sourceCOokie' => Cookie::get('source'),
+            'allCookies' => $_COOKIE,
+        ]);
+
         return Socialite::driver('azure')->redirect();
     }
 
@@ -63,7 +67,11 @@ class AuthController extends Controller implements AuthInterface
     public function handleProviderCallback(
     ): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        \Illuminate\Support\Facades\Log::info('cookie in callback', [Cookie::get('source')]);
+        \Illuminate\Support\Facades\Log::info('cookie in callback', [
+                'sourceCOokie' => Cookie::get('source'),
+                'allCookies' => $_COOKIE,
+            ],
+        );
         $driver = AuthStrEnum::DRIVER->value;
         $user = Socialite::driver($driver)->user();
 
