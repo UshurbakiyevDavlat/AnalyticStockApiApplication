@@ -104,7 +104,7 @@ class AuthController extends Controller implements AuthInterface
         if (!str_contains($source, 'admin')) {
             return redirect(config('app.frontend_url'));
         } else {
-            return redirect(config('app.admin_url'));
+            return redirect(config('app.admin_url') . '/user');
         }
     }
 
