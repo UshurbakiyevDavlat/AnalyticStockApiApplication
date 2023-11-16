@@ -130,7 +130,8 @@ class AuthenticateJwt
             $refreshedToken = JWTAuth::refresh($token);
             JWTAuth::setToken($refreshedToken)->toUser();
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            Log::error('Token Refresh Error: ' . $e->getMessage());
+            Log::error('Token Refresh Stack Trace: ' . $e->getTraceAsString());
             throw new JWTException('Something went wrong while refreshing token');
         }
     }
