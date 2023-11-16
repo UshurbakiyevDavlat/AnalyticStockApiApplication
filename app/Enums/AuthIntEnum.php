@@ -4,5 +4,10 @@ namespace App\Enums;
 
 enum AuthIntEnum: int
 {
-    case EXPIRED = 1; //min
+    /**
+     * min depends on the token expiration and should be more than session expiration of admin panel
+     *
+     * @var int
+     */
+    case EXPIRED = 2;
 }
