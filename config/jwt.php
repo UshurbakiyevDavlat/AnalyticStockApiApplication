@@ -101,7 +101,7 @@ return [
     |
     */
 
-    'ttl' => env('JWT_TTL', \App\Enums\AuthIntEnum::EXPIRED->value),
+    'ttl' => env('JWT_TTL', 1440),
 
     /*
     |--------------------------------------------------------------------------
