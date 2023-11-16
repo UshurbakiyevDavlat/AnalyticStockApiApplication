@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
+use OpenApi\Annotations as OA;
 
 class AuthController extends Controller implements AuthInterface
 {
@@ -29,6 +30,14 @@ class AuthController extends Controller implements AuthInterface
 
     /**
      * Get the authenticated User.
+     *
+     * @OA\Get(
+     *      path="/get-user info",
+     *      summary="Get user info api",
+     *      description="Getting user info api",
+     *      @OA\Response(response="200", description="Successful response"),
+     *      @OA\Response(response="400", description="Bad request"),
+     *  )
      *
      * @return JsonResponse
      */
