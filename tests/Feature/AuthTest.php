@@ -49,10 +49,11 @@ it('returns an error for a non-existing user', function () {
     // Arrange
     $nonExistingUserEmail = 'non-existing@example.com';
     $userToken = 'token-azure';
+    $userName = 'John Doe';
 
     // Mock the Socialite facade to return a fake driver
     Socialite::shouldReceive('driver->user')->andReturn(
-        new SocialiteUser($nonExistingUserEmail, $userToken),
+        new SocialiteUser($nonExistingUserEmail, $userToken, $userName),
     );
 
     // Act

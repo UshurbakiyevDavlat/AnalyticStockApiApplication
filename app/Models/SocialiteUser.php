@@ -8,8 +8,11 @@ class SocialiteUser
 
     public string $token;
 
-    public function __construct(string $email, string $token)
+    public string $name;
+
+    public function __construct(string $email, string $token, string $name)
     {
+        $this->name = $name;
         $this->email = $email;
         $this->token = $token;
     }
@@ -24,9 +27,9 @@ class SocialiteUser
         // Implement as needed
     }
 
-    public function getName()
+    public function getName(): string
     {
-        // Implement as needed
+        return $this->name;
     }
 
     public function getEmail(): string
