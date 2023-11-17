@@ -2,14 +2,14 @@
 
 use App\Contracts\AuthInterface;
 use App\Enums\StatusCodeEnum;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SSOAuthController;
 use App\Models\SocialiteUser;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 
 it('implements AuthInterface', function () {
-    $authController = new AuthController(new AuthService());
+    $authController = new SSOAuthController(new AuthService());
 
     expect($authController)->toBeInstanceOf(AuthInterface::class);
 });
@@ -70,7 +70,7 @@ it('returns an error for a non-existing user', function () {
 });
 
 it('returns JsonResponse from user method', function () {
-    $authController = new AuthController(new AuthService());
+    $authController = new SSOAuthController(new AuthService());
 
     $response = $authController->user();
 
@@ -78,7 +78,7 @@ it('returns JsonResponse from user method', function () {
 });
 
 it('returns JsonResponse from logout method', function () {
-    $authController = new AuthController(new AuthService());
+    $authController = new SSOAuthController(new AuthService());
 
     $response = $authController->logout();
 

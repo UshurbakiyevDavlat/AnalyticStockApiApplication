@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\AuthInterface;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SSOAuthController;
 use Illuminate\Support\ServiceProvider;
 use URL;
 
@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             AuthInterface::class,
-            AuthController::class,
+            SSOAuthController::class,
         );
     }
 

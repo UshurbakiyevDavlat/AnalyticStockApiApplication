@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ApiAuthController;
+use App\Http\Controllers\SSOAuthController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['authJwt'])->group(function () {
-    Route::get('auth', [AuthController::class, 'user']);
+Route::middleware(['auth.jwt.cookie'])->group(function () {
+    Route::get('auth', [SSOAuthController::class, 'user']);
+});
+
+Route::group(['prefix', 'v1'], function () {
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('/', [CategoryController::class, 'getCategories']);
+        Route::get('/{category}', [CategoryController::class, 'getCategory']);
+    });
 });

@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'default' => 'default',
+    'default' => 'V1',
     'documentations' => [
-        'default' => [
+        'V1' => [
             'api' => [
                 'title' => 'VPA API SWAGGER',
             ],
@@ -157,6 +157,12 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
+                'jwt' => [
+                    'type' => 'apiKey',
+                    'description' => 'JWT Token',
+                    'name' => 'Authorization',
+                    'in' => 'header',
+                ],
                 /*
                  * Examples of Security schemes
                 */

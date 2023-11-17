@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
 use OpenApi\Annotations as OA;
 
-class AuthController extends Controller implements AuthInterface
+class SSOAuthController extends Controller implements AuthInterface
 {
     use ApiResponse;
 
     /**
-     * @constructor AuthController
+     * @constructor SSOAuthController
      * @param AuthService $authService
      */
     public function __construct(
@@ -29,15 +29,7 @@ class AuthController extends Controller implements AuthInterface
     ) {}
 
     /**
-     * Get the authenticated User.
-     *
-     * @OA\Get(
-     *      path="/get-user info",
-     *      summary="Get user info api",
-     *      description="Getting user info api",
-     *      @OA\Response(response="200", description="Successful response"),
-     *      @OA\Response(response="400", description="Bad request"),
-     *  )
+     * Get the authenticated User info for SSO auth flow.
      *
      * @return JsonResponse
      */
@@ -78,19 +70,7 @@ class AuthController extends Controller implements AuthInterface
             $user->getEmail(),
         )->first();
 
-        if (!$existingUser) {
-            return self::sendError(
-                'User not found',
-                [],
-                StatusCodeEnum::NOT_FOUND->value,
-            );
-        }
-
-        $existingUser->update(
-            [
-                'azure_token' => $user->token,
-            ],
-        );
+        $existingUser = $this->authService->handleUser($user, $existingUser);
 
         $this->authService->login($existingUser);
 

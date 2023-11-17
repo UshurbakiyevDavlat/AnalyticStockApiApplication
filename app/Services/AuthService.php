@@ -5,8 +5,10 @@ namespace App\Services;
 use App\Enums\AuthIntEnum;
 use App\Enums\AuthStrEnum;
 use App\Models\User;
+use Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
@@ -66,7 +68,35 @@ class AuthService
             $this->domain,
             true,  // Secure
             true,   // HttpOnly
-            'None'  // SameSite: 'None'
+            'None',  // SameSite: 'None'
         );
+    }
+
+    /**
+     * Create or update the user according to the Azure response and return it
+     *
+     * @param mixed $azureUser
+     * @param User|null $user
+     * @return User
+     */
+    public function handleUser(mixed $azureUser, ?User $user): User
+    {
+        if (!$user) {
+            User::create([
+                'name' => $azureUser->getName(),
+                'email' => $azureUser->getEmail(),
+                'password' => Hash::make(Str::random(6)),
+                'azure_token' => $azureUser->token,
+            ]);
+        } else {
+            $user->update([
+                'azure_token' => $azureUser->token,
+            ]);
+        }
+
+        return User::where(
+            'email',
+            $azureUser->getEmail(),
+        )->first();
     }
 }
