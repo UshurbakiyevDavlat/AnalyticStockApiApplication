@@ -20,7 +20,7 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
     Route::get('auth', [SSOAuthController::class, 'user']);
 });
 
-Route::group(['prefix', 'v1'], function () {
+Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/', [CategoryController::class, 'getCategories']);
         Route::get('/{category}', [CategoryController::class, 'getCategory']);
