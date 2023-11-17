@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
@@ -39,7 +41,11 @@ class CategoryController extends Controller
         return self::sendSuccess(
             'Categories list',
             [
-                'categories' => Category::all(),
+                'categories' => CategoryCollection::make(
+                    Category::whereNull('parent_id')
+                        ->orderBy('order')
+                        ->get(),
+                ),
             ],
         );
     }
@@ -82,7 +88,7 @@ class CategoryController extends Controller
         return self::sendSuccess(
             'Category info',
             [
-                'category' => $category,
+                'category' => CategoryResource::make($category),
             ],
         );
     }
