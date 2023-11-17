@@ -19,6 +19,9 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="order", type="integer", example=1),
  *     @OA\Property(property="parent_id", type="integer", example=2),
  *     @OA\Property(property="status_id", type="integer", example=3),
+ *     @OA\Property(property="slug", type="string", example="category-slug"),
+ *     @OA\Property(property="description", type="string", example="Category Description"),
+ *     @OA\Property(property="img", type="string", example="category-image.jpg"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true),
@@ -37,7 +40,6 @@ use OpenApi\Annotations as OA;
  *     ),
  * )
  */
-
 class Category extends Model
 {
     use HasFactory;
@@ -55,7 +57,15 @@ class Category extends Model
      *
      * @var array<string, string>
      */
-    protected $fillable = ['title', 'order', 'parent_id', 'status_id'];
+    protected $fillable = [
+        'title',
+        'order',
+        'parent_id',
+        'status_id',
+        'slug',
+        'description',
+        'img',
+    ];
 
     /**
      * Get the status that owns the category.
