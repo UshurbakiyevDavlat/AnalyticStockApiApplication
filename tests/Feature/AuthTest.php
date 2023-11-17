@@ -18,10 +18,11 @@ it('handles OAuth provider callback', function () {
     // Arrange
     $userEmail = User::find(1)->email;
     $userToken = fake()->word();
+    $userName = 'John Doe';
 
     // Mock the Socialite facade to return a fake driver
     Socialite::shouldReceive('driver->user')->andReturn(
-        new SocialiteUser($userEmail, $userToken),
+        new SocialiteUser($userEmail, $userToken, $userName),
     );
 
     // Act - Make a request to the OAuth callback route
