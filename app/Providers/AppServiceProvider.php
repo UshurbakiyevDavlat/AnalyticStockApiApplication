@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Contracts\AuthInterface;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\ServiceProvider;
+use URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (env('APP_ENV') !== 'local') {
+            URL::forceScheme("https");
+        }
     }
 }
