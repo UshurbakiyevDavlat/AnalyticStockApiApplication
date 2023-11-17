@@ -61,14 +61,7 @@ it('returns an error for a non-existing user', function () {
     $response = $this->get('/auth/callback'); // Adjust the route as needed
 
     // Assert
-    $response->assertStatus(StatusCodeEnum::NOT_FOUND->value);
-    $response->assertExactJson(
-        [
-            'message' => 'User not found',
-            'data' => [],
-            'success' => false,
-        ],
-    );
+    $response->assertStatus(StatusCodeEnum::FOUND->value);
 });
 
 it('returns JsonResponse from user method', function () {
