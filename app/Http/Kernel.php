@@ -36,11 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class => [
-                'key' => 'global_throttle',
-                'maxAttempts' => 60,
-                'decayMinutes' => 1,
-            ],
+            \Illuminate\Routing\Middleware\ThrottleRequests::class.':web',
         ],
 
         'api' => [
