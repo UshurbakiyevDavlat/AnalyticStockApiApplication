@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Enums\AuthIntEnum;
 use App\Enums\AuthStrEnum;
+use App\Enums\EnvStrEnum;
+use App\Enums\PasswordIntEnum;
 use App\Models\User;
 use Hash;
 use Illuminate\Support\Facades\Auth;
@@ -14,42 +16,48 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AuthService
 {
     /**
-     * @var string
+     * @var string Domain
      */
     private string $domain;
 
     /**
-     * @var string
+     * @var string Name
      */
     private string $name;
 
     /**
-     * @var string
+     * @var string Path
      */
     private string $path;
 
     /**
-     * @var int
+     * @var int Expired time
      */
     private int $expired;
+
+    /**
+     * @var string SameSite
+     */
+    private string $sameSite;
 
     /**
      * @constructor AuthService
      */
     public function __construct()
     {
-        $this->domain = config('app.env') !== 'local'
+        $this->domain = config('app.env') !== EnvStrEnum::LOCAL_ENV->value
             ? AuthStrEnum::JWT_DOMAIN->value
             : '';
         $this->name = AuthStrEnum::JWT_NAME->value;
         $this->path = AuthStrEnum::JWT_PATH->value;
         $this->expired = AuthIntEnum::EXPIRED->value;
+        $this->sameSite = AuthStrEnum::SAME_SITE->value;
     }
 
     /**
      * Login the user and create a JWT token
      *
-     * @param User $user
+     * @param User $user User
      * @return void
      */
     public function login(User $user): void
@@ -68,28 +76,28 @@ class AuthService
             $this->domain,
             true,  // Secure
             true,   // HttpOnly
-            'None',  // SameSite: 'None'
+            $this->sameSite,  // SameSite: 'None'
         );
     }
 
     /**
      * Create or update the user according to the Azure response and return it
      *
-     * @param mixed $azureUser
-     * @param User|null $user
+     * @param mixed $azureUser Azure user
+     * @param User|null $user User
      * @return User
      */
     public function handleUser(mixed $azureUser, ?User $user): User
     {
-        if (!$user) {
-            User::create([
-                'name' => $azureUser->getName(),
-                'email' => $azureUser->getEmail(),
-                'password' => Hash::make(Str::random(6)),
+        if ($user) {
+            $user->update([
                 'azure_token' => $azureUser->token,
             ]);
         } else {
-            $user->update([
+            User::create([
+                'name' => $azureUser->getName(),
+                'email' => $azureUser->getEmail(),
+                'password' => Hash::make(Str::random(PasswordIntEnum::DEFAULT_PASS_LENGTH->value)),
                 'azure_token' => $azureUser->token,
             ]);
         }
