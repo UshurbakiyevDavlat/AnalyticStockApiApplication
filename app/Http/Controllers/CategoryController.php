@@ -48,7 +48,7 @@ class CategoryController extends Controller
             now()->addMinutes(CacheIntEnum::EXPIRED->value),
             static function () {
                 // Cache miss, fetch the categories from the database
-                return CategoryCollection::collection(
+                return CategoryCollection::make(
                     Category::whereNull('parent_id')
                         ->orderBy('order')
                         ->get(),
