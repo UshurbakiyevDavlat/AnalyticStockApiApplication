@@ -27,7 +27,7 @@ build:
   script:
     # Pull the latest code from the repository
     - git checkout "$ENVIRONMENT"
-    - git pull
+    - git pull --rebase
     - npm install
     - npm run build
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
