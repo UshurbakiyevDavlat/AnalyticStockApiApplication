@@ -165,9 +165,9 @@ class AuthenticateJwt
      * Get token from header
      *
      * @param string|null $authHeader
-     * @return array|string
+     * @return array|string|null
      */
-    private function getToken(?string $authHeader): array|string
+    private function getToken(?string $authHeader): null|array|string
     {
         return $authHeader
             ?: Cookie::get(
