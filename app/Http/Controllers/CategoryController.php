@@ -52,7 +52,7 @@ class CategoryController extends Controller
                     Category::whereNull('parent_id')
                         ->orderBy('order')
                         ->get(),
-                );
+                )->jsonSerialize();
             },
         );
 
@@ -100,7 +100,7 @@ class CategoryController extends Controller
             $cacheKey,
             now()->addMinutes(CacheIntEnum::EXPIRED->value),
             static function () use ($category) {
-                return CategoryResource::make($category);
+                return CategoryResource::make($category)->jsonSerialize();
             },
         );
 
