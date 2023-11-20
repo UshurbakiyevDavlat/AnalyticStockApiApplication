@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Contracts\AuthInterface;
 use App\Enums\AuthStrEnum;
-use App\Enums\StatusCodeEnum;
 use App\Models\User;
 use App\Services\AuthService;
 use App\Traits\ApiResponse;
@@ -14,7 +13,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
-use OpenApi\Annotations as OA;
 
 class SSOAuthController extends Controller implements AuthInterface
 {
@@ -74,7 +72,11 @@ class SSOAuthController extends Controller implements AuthInterface
 
         $this->authService->login($existingUser);
 
-        $source = Cookie::get(AuthStrEnum::SOURCE_COOKIE->value);
+        $source = Cookie::get(
+            config('app.env')
+            . '_'
+            . AuthStrEnum::SOURCE_COOKIE->value
+        );
 
         $adminUrl = config('app.admin_url');
         $frontendUrl = config('app.frontend_url');

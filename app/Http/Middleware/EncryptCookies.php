@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\AuthStrEnum;
 use Illuminate\Cookie\Middleware\EncryptCookies as Middleware;
 
 class EncryptCookies extends Middleware
@@ -13,7 +12,11 @@ class EncryptCookies extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        AuthStrEnum::JWT_NAME->value,
-        AuthStrEnum::SOURCE_COOKIE->value,
+        'dev_jwt_research',
+        'stage_jwt_research',
+        'production_jwt_research',
+        'dev_source',
+        'stage_source',
+        'production_source',
     ];
 }
