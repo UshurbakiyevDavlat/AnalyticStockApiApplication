@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CacheIntEnum;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use OpenApi\Annotations as OA;
 
 class CategoryController extends Controller
@@ -38,16 +40,23 @@ class CategoryController extends Controller
      */
     public function getCategories(): JsonResponse
     {
-        return self::sendSuccess(
-            'Categories list',
-            [
-                'categories' => CategoryCollection::make(
+        $cacheKey = 'categories_list';
+
+        // Attempt to retrieve categories from the cache
+        $categories = Cache::remember(
+            $cacheKey,
+            now()->addMinutes(CacheIntEnum::EXPIRED->value),
+            static function () {
+                // Cache miss, fetch the categories from the database
+                return CategoryCollection::make(
                     Category::whereNull('parent_id')
                         ->orderBy('order')
                         ->get(),
-                ),
-            ],
+                );
+            },
         );
+
+        return self::sendSuccess('Categories list', ['categories' => $categories]);
     }
 
     /**
@@ -85,11 +94,16 @@ class CategoryController extends Controller
      */
     public function getCategory(Category $category): JsonResponse
     {
-        return self::sendSuccess(
-            'Category info',
-            [
-                'category' => CategoryResource::make($category),
-            ],
+        $cacheKey = 'categories_' . $category->id;
+
+        $category = Cache::remember(
+            $cacheKey,
+            now()->addMinutes(CacheIntEnum::EXPIRED->value),
+            static function () use ($category) {
+                return CategoryResource::make($category);
+            },
         );
+
+        return self::sendSuccess('Category info', ['category' => $category]);
     }
 }
