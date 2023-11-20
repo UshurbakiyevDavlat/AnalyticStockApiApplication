@@ -29,8 +29,7 @@ class AuthenticateJwt
         // Get the entire request URL
         $referrer = $request->headers->get('Referer');
         $authHeader = $request->headers->get('Authorization');
-        $token = $authHeader
-            ?: Cookie::get(AuthStrEnum::JWT_NAME->value);
+        $token = $this->getToken($authHeader);
         $link = config('app.url') . '/auth';
 
         if (!$token) {
@@ -160,5 +159,21 @@ class AuthenticateJwt
             $message,
             $e->getTraceAsString(),
         );
+    }
+
+    /**
+     * Get token from header
+     *
+     * @param string|null $authHeader
+     * @return array|string
+     */
+    private function getToken(?string $authHeader): array|string
+    {
+        return $authHeader
+            ?: Cookie::get(
+                config('app.env')
+                . '_'
+                . AuthStrEnum::JWT_NAME->value,
+            );
     }
 }

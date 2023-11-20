@@ -79,11 +79,11 @@ class SSOAuthController extends Controller implements AuthInterface
         $adminUrl = config('app.admin_url');
         $frontendUrl = config('app.frontend_url');
 
-        if (!str_contains($source, 'admin')) {
-            return redirect($frontendUrl);
-        } else {
+        if (str_contains($source, 'admin')) {
             return redirect($adminUrl);
         }
+
+        return redirect($frontendUrl);
     }
 
     // TODO Implement logout for sso and jwt
