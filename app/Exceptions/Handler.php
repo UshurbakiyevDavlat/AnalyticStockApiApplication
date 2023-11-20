@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+use App\Enums\StatusCodeEnum;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -24,7 +29,25 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+            Log::error($e);
         });
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param Request $request
+     * @param Throwable $e
+     * @throws Throwable
+     * @return Response
+     *
+     */
+    public function render($request, Throwable $e): Response
+    {
+        if ($e instanceof ThrottleRequestsException) {
+            return response()->json(['error' => 'Too Many Attempts.'], StatusCodeEnum::TOO_MANY_REQUESTS->value);
+        }
+
+        return parent::render($request, $e);
     }
 }
