@@ -19,6 +19,12 @@ class SSOAuthController extends Controller implements AuthInterface
     use ApiResponse;
 
     /**
+     * @const string
+     * Source of admin redirect.
+     */
+    private const ADMIN_COOKIE_SOURCE = 'admin';
+
+    /**
      * @constructor SSOAuthController
      * @param AuthService $authService
      */
@@ -75,13 +81,16 @@ class SSOAuthController extends Controller implements AuthInterface
         $source = Cookie::get(
             config('app.env')
             . '_'
-            . AuthStrEnum::SOURCE_COOKIE->value
+            . AuthStrEnum::SOURCE_COOKIE->value,
         );
 
         $adminUrl = config('app.admin_url');
         $frontendUrl = config('app.frontend_url');
 
-        if (str_contains($source, 'admin')) {
+        if (
+            $source
+            && str_contains($source, self::ADMIN_COOKIE_SOURCE)
+        ) {
             return redirect($adminUrl);
         }
 

@@ -58,12 +58,7 @@ class AuthenticateJwt
             );
         }
 
-        return $next($request)->cookie(
-            config('app.env')
-            . '_'
-            . AuthStrEnum::SOURCE_COOKIE->value,
-            $referrer,
-        );
+        return $next($request);
     }
 
     /**
