@@ -39,7 +39,7 @@ it('handles OAuth provider callback', function () {
 
     // Check that the user was created or updated in the database
     $this->assertDatabaseHas('users', [
-        'email' => encrypt($userEmail),
+        'email' => $userEmail,
     ]);
 
     // Retrieve the user from the database
