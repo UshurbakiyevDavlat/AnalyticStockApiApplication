@@ -17,7 +17,6 @@ test:
   script:
     - composer install --no-interaction
     - echo "$DOT_ENV" > .env
-    - php artisan key:generate
     - php artisan test --coverage
   environment:
     name: 'testing'
