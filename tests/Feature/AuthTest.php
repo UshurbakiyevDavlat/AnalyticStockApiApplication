@@ -22,6 +22,8 @@ it('handles OAuth provider callback', function () {
         'azure_token' => 'testtoken',
     ]);
 
+    dd(User::where('email','test@ffin.kz')->get());
+
     $userEmail = $user->email;
     $userToken = fake()->word();
     $userName = $user->name;
@@ -40,7 +42,6 @@ it('handles OAuth provider callback', function () {
     // Retrieve the user from the database
     $existingUser = User::where('email', $userEmail)->first();
 
-    dd(User::where('email','test@ffin.kz')->get());
     // Check that the user's Azure token was updated
     expect($existingUser->azure_token)->toBe($userToken);
 
