@@ -22,8 +22,6 @@ it('handles OAuth provider callback', function () {
         'azure_token' => 'testtoken',
     ]);
 
-    dd(User::where('email','test@ffin.kz')->get());
-
     $userEmail = $user->email;
     $userToken = fake()->word();
     $userName = $user->name;
@@ -40,7 +38,7 @@ it('handles OAuth provider callback', function () {
     $response->assertStatus(302); // Check for a 302 (temporary redirect) status
 
     // Retrieve the user from the database
-    $existingUser = User::where('email', $userEmail)->first();
+    $existingUser = User::where('email', 'email_index', $userEmail)->first();
 
     // Check that the user's Azure token was updated
     expect($existingUser->azure_token)->toBe($userToken);

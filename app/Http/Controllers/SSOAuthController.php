@@ -71,6 +71,7 @@ class SSOAuthController extends Controller implements AuthInterface
 
         $existingUser = User::where(
             'email',
+            'email_index',
             $user->getEmail(),
         )->first();
 

@@ -3,12 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use OpenApi\Annotations as OA;
+use ParagonIE\CipherSweet\BlindIndex;
+use ParagonIE\CipherSweet\EncryptedRow;
+use Spatie\LaravelCipherSweet\Concerns\UsesCipherSweet;
+use Spatie\LaravelCipherSweet\Contracts\CipherSweetEncrypted;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -24,12 +27,13 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  * )
  */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use HasRoles;
+    use UsesCipherSweet;
 
     /**
      * The attributes that are mass assignable.
@@ -83,17 +87,18 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    protected function name(): Attribute {
-        return Attribute::make(
-            get: fn (string $value) => decrypt($value),
-            set: fn (string $value) => encrypt($value),
-        );
-    }
-
-    protected function email(): Attribute {
-        return Attribute::make(
-            get: fn (string $value) => decrypt($value),
-            set: fn (string $value) => encrypt($value),
-        );
+    public static function configureCipherSweet(EncryptedRow $encryptedRow): void
+    {
+        $encryptedRow
+            ->addField('email')
+            ->addField('name')
+            ->addBlindIndex(
+                'email',
+                new BlindIndex('email_index'),
+            )
+            ->addBlindIndex(
+                'name',
+                new BlindIndex('name_index'),
+            );
     }
 }
