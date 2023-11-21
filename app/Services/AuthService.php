@@ -100,9 +100,6 @@ class AuthService
             ]);
         }
 
-        dump('email which you find'. $azureUser->getEmail());
-        dump('email which you have'. $user->email);
-
         return $user;
     }
 }
