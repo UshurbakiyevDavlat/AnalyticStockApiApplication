@@ -23,7 +23,6 @@ it('handles OAuth provider callback', function () {
     ]);
 
     $userEmail = $user->email;
-    dump($userEmail);
     $userToken = fake()->word();
     $userName = $user->name;
 
