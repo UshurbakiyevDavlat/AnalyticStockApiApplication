@@ -93,16 +93,16 @@ class AuthService
                 'azure_token' => $azureUser->token,
             ]);
         } else {
-            User::create([
+            $user = User::create([
                 'name' => $azureUser->getName(),
                 'email' => $azureUser->getEmail(),
                 'azure_token' => $azureUser->token,
             ]);
         }
 
-        return User::where(
-            'email',
-            $azureUser->getEmail(),
-        )->first();
+        dump('email which you find'. $azureUser->getEmail());
+        dump('email which you have'. $user->email);
+
+        return $user;
     }
 }
