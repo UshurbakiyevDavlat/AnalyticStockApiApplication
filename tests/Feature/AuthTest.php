@@ -16,9 +16,15 @@ it('implements AuthInterface', function () {
 
 it('handles OAuth provider callback', function () {
     // Arrange
-    $userEmail = User::find(1)->email;
+    $user = User::create([
+        'name' => 'test',
+        'email' => 'test@ffin.kz',
+        'azure_token' => 'testtoken',
+    ]);
+
+    $userEmail = $user->email;
     $userToken = fake()->word();
-    $userName = 'John Doe';
+    $userName = $user->name;
 
     // Mock the Socialite facade to return a fake driver
     Socialite::shouldReceive('driver->user')->andReturn(

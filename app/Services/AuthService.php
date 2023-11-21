@@ -5,12 +5,9 @@ namespace App\Services;
 use App\Enums\AuthIntEnum;
 use App\Enums\AuthStrEnum;
 use App\Enums\EnvStrEnum;
-use App\Enums\PasswordIntEnum;
 use App\Models\User;
-use Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
