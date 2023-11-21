@@ -37,9 +37,11 @@ it('handles OAuth provider callback', function () {
     // Assert
     $response->assertStatus(302); // Check for a 302 (temporary redirect) status
 
+    $expectedEncryptedEmail = encrypt($userEmail);
+
     // Check that the user was created or updated in the database
     $this->assertDatabaseHas('users', [
-        'email' => $userEmail,
+        'email' => $expectedEncryptedEmail,
     ]);
 
     // Retrieve the user from the database
