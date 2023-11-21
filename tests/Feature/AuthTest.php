@@ -37,6 +37,8 @@ it('handles OAuth provider callback', function () {
     // Assert
     $response->assertStatus(302); // Check for a 302 (temporary redirect) status
 
+    dump($userEmail);
+    dump(User::all());
     // Retrieve the user from the database
     $existingUser = User::where('email', $userEmail)->first();
 
