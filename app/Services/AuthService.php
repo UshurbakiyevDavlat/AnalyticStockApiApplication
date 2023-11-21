@@ -100,15 +100,6 @@ class AuthService
             ]);
         }
 
-        dump('ok, debug then.' . $azureUser->getEmail());
-        dump(
-            'ok, debug then.' . encrypt(
-                $azureUser->getEmail(),
-            ),
-        );
-
-        dump('ok, debug then' . User::find(18));
-
         return User::where(
             'email',
             encrypt(
