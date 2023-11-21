@@ -39,11 +39,11 @@ it('handles OAuth provider callback', function () {
 
     // Check that the user was created or updated in the database
     $this->assertDatabaseHas('users', [
-        'email' => $userEmail,
+        'email' => encrypt($userEmail),
     ]);
 
     // Retrieve the user from the database
-    $existingUser = User::where('email', $userEmail)->first();
+    $existingUser = User::where('email', encrypt($userEmail))->first();
 
     // Check that the user's Azure token was updated
     expect($existingUser->azure_token)->toBe($userToken);
