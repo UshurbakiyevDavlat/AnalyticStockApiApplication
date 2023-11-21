@@ -102,9 +102,7 @@ class AuthService
 
         return User::where(
             'email',
-            encrypt(
-                $azureUser->getEmail(),
-            ),
+            $azureUser->getEmail(),
         )->first();
     }
 }

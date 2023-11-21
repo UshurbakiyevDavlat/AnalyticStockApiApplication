@@ -71,7 +71,7 @@ class SSOAuthController extends Controller implements AuthInterface
 
         $existingUser = User::where(
             'email',
-            encrypt($user->getEmail()),
+            $user->getEmail(),
         )->first();
 
         $existingUser = $this->authService->handleUser($user, $existingUser);
