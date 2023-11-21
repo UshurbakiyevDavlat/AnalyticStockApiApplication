@@ -37,11 +37,10 @@ it('handles OAuth provider callback', function () {
     // Assert
     $response->assertStatus(302); // Check for a 302 (temporary redirect) status
 
-    dump($userEmail);
-    dump(User::all());
     // Retrieve the user from the database
     $existingUser = User::where('email', $userEmail)->first();
 
+    dd(User::where('email','test@ffin.kz')->get());
     // Check that the user's Azure token was updated
     expect($existingUser->azure_token)->toBe($userToken);
 
