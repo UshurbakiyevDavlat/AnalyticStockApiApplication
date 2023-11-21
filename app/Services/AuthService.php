@@ -99,7 +99,6 @@ class AuthService
             User::create([
                 'name' => $azureUser->getName(),
                 'email' => $azureUser->getEmail(),
-                'password' => Hash::make(Str::random(PasswordIntEnum::DEFAULT_PASS_LENGTH->value)),
                 'azure_token' => $azureUser->token,
             ]);
         }
