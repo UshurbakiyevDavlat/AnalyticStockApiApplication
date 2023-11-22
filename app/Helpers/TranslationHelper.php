@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Enums\LangStrEnum;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\App;
@@ -14,7 +15,7 @@ class TranslationHelper
         int $id,
         string $key = 'title',
     ): Application|array|string|Translator|\Illuminate\Contracts\Foundation\Application|null {
-        $supportedLanguages = ['en', 'kz'];
+        $supportedLanguages = LangStrEnum::getSupportedLangs(); //TODO нужно будет добавить
 
         // Check if the requested language is supported
         if (in_array($lang, $supportedLanguages)) {

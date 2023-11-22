@@ -1,16 +1,23 @@
 <?php
 
-return [
-    '1' => [
-        'title' => 'first category',
-        'description' => 'first category description',
-    ],
-    '2' => [
-        'title' => 'second category',
-        'description' => 'second category description',
-    ],
-    '3' => [
-        'title' => 'third category',
-        'description' => 'third category description',
-    ],
-];
+return array (
+  1 => 
+  array (
+    'description' => 'first category description',
+    'title' => 'first category',
+  ),
+  10 => 
+  array (
+    'title' => 'testtranslation',
+  ),
+  2 => 
+  array (
+    'description' => 'second category description',
+    'title' => 'second category',
+  ),
+  3 => 
+  array (
+    'description' => 'third category description',
+    'title' => 'third category',
+  ),
+);
