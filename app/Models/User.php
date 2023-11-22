@@ -43,7 +43,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
     protected $fillable = [
         'name',
         'email',
-        'password',
         'azure_token',
     ];
 
@@ -53,7 +52,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -64,7 +62,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 
     /**
