@@ -69,7 +69,7 @@ class SSOAuthController extends Controller implements AuthInterface
         $driver = AuthStrEnum::DRIVER->value;
         $user = Socialite::driver($driver)->user();
 
-        $existingUser = User::where(
+        $existingUser = User::whereBlind(
             'email',
             'email_index',
             $user->getEmail(),
