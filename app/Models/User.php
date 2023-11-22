@@ -84,6 +84,12 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
         return [];
     }
 
+    /**
+     * Configuration of Cipher sweet package encryption
+     *
+     * @param EncryptedRow $encryptedRow
+     * @return void
+     */
     public static function configureCipherSweet(EncryptedRow $encryptedRow): void
     {
         $encryptedRow
