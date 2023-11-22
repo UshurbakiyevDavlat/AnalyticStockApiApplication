@@ -35,7 +35,7 @@ it('handles OAuth provider callback', function () {
     $response = $this->withoutMiddleware()->get('/auth/callback');
 
     // Assert
-    $response->assertStatus(302); // Check for a 302 (temporary redirect) status
+    $response->assertStatus(StatusCodeEnum::FOUND->value); // Check for a 302 (temporary redirect) status
 
     // Retrieve the user from the database
     $existingUser = User::whereBlind('email', 'email_index', $userEmail)->first();
