@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Lang;
 
 class TranslationHelper
 {
+    /**
+     * Helper method for getting translation for category
+     *
+     * @param string $lang
+     * @param int $id
+     * @param string $key
+     * @return Application|array|string|Translator|\Illuminate\Contracts\Foundation\Application|null
+     */
     public static function getCategoryTranslation(
         string $lang,
         int $id,
@@ -18,7 +26,7 @@ class TranslationHelper
         $supportedLanguages = LangStrEnum::getSupportedLangs(); //TODO нужно будет добавить
 
         // Check if the requested language is supported
-        if (in_array($lang, $supportedLanguages)) {
+        if (in_array($lang, $supportedLanguages, true)) {
             App::setLocale($lang);
             $key = "category.{$id}.$key";
 
