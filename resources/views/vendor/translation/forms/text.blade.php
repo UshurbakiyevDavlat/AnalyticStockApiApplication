@@ -57,7 +57,7 @@
         <input
             name="{{ $field }}"
             id="{{ $field }}"
-{{--            type='hidden'--}}
+            type='hidden'
             value="{{ $primary_field . '.' . $argument_field}}"
         >
     @else
