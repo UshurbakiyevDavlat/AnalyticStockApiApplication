@@ -57,7 +57,7 @@
         <input
             name="{{ $field }}"
             id="{{ $field }}"
-            type='hidden'
+{{--            type='hidden'--}}
             value="{{ $primary_field . '.' . $argument_field}}"
         >
     @else
@@ -112,10 +112,10 @@
                     for (const paramValue in params) {
                         const paramLabel = params[paramValue];
                         const option = document.createElement('option');
-                        option.value = paramValue;
+                        option.value = paramLabel;
                         option.text = paramLabel;
                         option.selected = (
-                            paramValue === '{{ old($argument_field) }}'
+                            paramLabel === '{{ old($argument_field) }}'
                         );
 
                         selectElement.appendChild(option);
