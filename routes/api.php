@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\SSOAuthController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
