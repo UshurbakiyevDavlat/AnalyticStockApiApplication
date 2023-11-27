@@ -2,16 +2,19 @@
 
 namespace App\Enums;
 
-use App\Models\Category;
-
 enum LangStrEnum: string
 {
     case ENG = 'en';
     case KZ = 'kz';
-    case CATEGORIES = 'Category'; //should fit to name of the model
+    case CATEGORIES = 'Category'; //should fit to name of the model, there is convention of this web application
     case TITLE = 'title';
-    case DECS = 'description';
+    case DESC = 'description';
 
+    /**
+     * Get supported languages for translation. TODO need to move to the database
+     *
+     * @return array
+     */
     public static function getSupportedLangs(): array
     {
         return [
@@ -20,6 +23,11 @@ enum LangStrEnum: string
         ];
     }
 
+    /**
+     * Get groups for translation. TODO need to move to the database
+     *
+     * @return array
+     */
     public static function getGroupsForTranslation(): array
     {
         return [
@@ -27,11 +35,31 @@ enum LangStrEnum: string
         ];
     }
 
-    public static function getParamsForTranslation(): array
+    /**
+     * Get params for translation of the given group.
+     *
+     * @param string $group
+     * @return array
+     */
+    public static function getParamsForTranslation(string $group): array
+    {
+        $params = self::getParamsForGroup();
+
+        return $params[$group];
+    }
+
+    /**
+     * Get params for translations enum groups. TODO need to move to the database
+     *
+     * @return array[]
+     */
+    private static function getParamsForGroup(): array
     {
         return [
-            self::TITLE->value,
-            self::DECS->value,
+            strtolower(self::CATEGORIES->value) => [
+                self::TITLE->value,
+                self::DESC->value,
+            ],
         ];
     }
 }

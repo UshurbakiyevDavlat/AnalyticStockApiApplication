@@ -21,6 +21,5 @@ yarn-error.log
 storage/api-docs
 lang/*
 !lang/.keep
-!lang/en
 !lang/en/.keep
 !lang/en/response.php

@@ -18,8 +18,8 @@ it('handles OAuth provider callback', function () {
     // Arrange
     $user = User::create([
         'name' => 'test',
-        'email' => 'test@ffin.kz',
-        'azure_token' => 'testtoken',
+        'email' => fake()->safeEmail(),
+        'azure_token' => fake()->word(),
     ]);
 
     $userEmail = $user->email;

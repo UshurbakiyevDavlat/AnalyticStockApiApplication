@@ -18,10 +18,11 @@
 
                 <div class="panel-body p-4">
 
+                    <!--So this is for select fields only, such as model groups and params of those-->
                     @include(
                      'translation::forms.text', [
                          'options' => \App\Enums\LangStrEnum::getGroupsForTranslation(),
-                         'params' => \App\Enums\LangStrEnum::getParamsForTranslation(),
+                         'params' => [],
                          'field' => 'key',
                          'group_field' => 'group',
                          'primary_field' => 'id',
@@ -34,26 +35,13 @@
                          'param_placeholder' => 'enter param',
                      ])
 
+                    <!--This is for text fields only-->
                     @include(
                      'translation::forms.text', [
                          'field' => 'value',
                          'label' => __('translation::translation.value_label'),
                          'placeholder' => __('translation::translation.value_placeholder')
                      ])
-
-                    <div class="input-group">
-
-                        <button v-on:click="toggleAdvancedOptions"
-                                class="text-blue">{{ __('translation::translation.advanced_options') }}</button>
-
-                    </div>
-
-                    <div v-show="showAdvancedOptions">
-
-                        @include('translation::forms.text', ['field' => 'namespace', 'label' => __('translation::translation.namespace_label'), 'placeholder' => __('translation::translation.namespace_placeholder')])
-
-                    </div>
-
 
                 </div>
 
