@@ -6,6 +6,36 @@ use App\Enums\LangStrEnum;
 use App\Helpers\TranslationHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Schema(
+ *     schema="CategoryResource",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="title",
+ *         type="object",
+ *         @OA\Property(property="ru", type="string"),
+ *         @OA\Property(property="eng", type="string"),
+ *         @OA\Property(property="kz", type="string"),
+ *     ),
+ *     @OA\Property(
+ *         property="description",
+ *         type="object",
+ *         @OA\Property(property="ru", type="string"),
+ *         @OA\Property(property="eng", type="string"),
+ *         @OA\Property(property="kz", type="string"),
+ *     ),
+ *     @OA\Property(property="slug", type="string"),
+ *     @OA\Property(property="img", type="string"),
+ *     @OA\Property(
+ *         property="subcategories",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/CategoryResource"),
+ *     ),
+ * )
+ */
 
 class CategoryResource extends JsonResource
 {

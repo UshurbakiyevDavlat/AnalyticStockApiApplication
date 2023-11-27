@@ -4,7 +4,19 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema(
+ *     schema="CategoryCollection",
+ *     type="object",
+ *     @OA\Property(
+ *         property="list",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/CategoryResource")
+ *     ),
+ * )
+ */
 class CategoryCollection extends ResourceCollection
 {
     /**

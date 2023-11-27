@@ -19,25 +19,30 @@ class CategoryController extends Controller
      * Get the list of categories.
      *
      * @OA\Get(
-     *      path="/api/v1/categories",
-     *      summary="Get categories list",
-     *      description="Retrieve a list of categories.",
-     *      operationId="getCategories",
-     *      tags={"Category"},
-     *      security={{"passport": {}}},
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="categories", type="array", @OA\Items(ref="#/components/schemas/Category")),
-     *          ),
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
+     *     path="/api/v1/categories",
+     *     summary="Get categories list",
+     *     description="Retrieve a list of categories.",
+     *     operationId="getCategories",
+     *     tags={"Category"},
+     *     security={{"passport": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="categories",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/CategoryCollection")
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(response=400, description="Bad request"),
      * )
      *
      * @return JsonResponse
      */
+
     public function getCategories(): JsonResponse
     {
         $cacheKey = 'categories_list';
@@ -83,7 +88,7 @@ class CategoryController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="user", ref="#/components/schemas/Category"),
+     *              @OA\Property(property="category", ref="#/components/schemas/CategoryResource"),
      *          ),
      *      ),
      *      @OA\Response(response=400, description="Bad request"),
