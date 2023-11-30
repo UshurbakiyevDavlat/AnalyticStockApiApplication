@@ -44,7 +44,7 @@ it('handles OAuth provider callback', function () {
     expect($existingUser->azure_token)->toBe($userToken);
 
     // Check that the user is authenticated
-    $this->assertAuthenticatedAs($existingUser, 'web');
+    $this->assertAuthenticatedAs($existingUser);
 });
 
 it('returns an error for a non-existing user', function () {
