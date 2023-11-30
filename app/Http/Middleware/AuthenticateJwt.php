@@ -33,8 +33,9 @@ class AuthenticateJwt
         $link = config('app.url') . '/auth';
 
         if (
-            (config('app.debug')
-                || $request->origin == config('app.url'))
+            (
+                config('app.debug')
+                && $request->origin == config('app.url'))
             || config('app.env') == 'local'
         ) {
             $user = JWTAuth::setToken($token)->toUser();
