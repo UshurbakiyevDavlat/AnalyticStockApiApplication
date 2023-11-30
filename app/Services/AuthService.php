@@ -60,7 +60,7 @@ class AuthService
      */
     public function login(User $user): void
     {
-        auth()->guard('web')->login($user);
+        auth()->login($user);
 
         // Create a JWT token from the user authenticated
         $token = JWTAuth::fromUser($user);

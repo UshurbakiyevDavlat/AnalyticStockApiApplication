@@ -41,7 +41,7 @@ class SSOAuthController extends Controller implements AuthInterface
         return self::sendSuccess(
             'Authenticated user',
             [
-                'user' => auth()->guard('web')->user(),
+                'user' => auth()->user(),
                 'status' => true,
             ],
         );
