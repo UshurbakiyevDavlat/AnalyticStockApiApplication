@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Resources;
+
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Schema(
+ *     schema="PostResource",
+ *     type="object",
+ *     required={"id", "title", "typeId", "categoryId", "subcategoriesId", "createdAt", "content", "likes", "views",
+ *     "ticker", "country", "author"},
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="title", type="string"),
+ *     @OA\Property(property="typeId", type="string"),
+ *     @OA\Property(property="categoryId", type="integer"),
+ *     @OA\Property(property="subcategoriesId", type="array", @OA\Items(type="integer")),
+ *     @OA\Property(property="createdAt", type="string", format="date-time"),
+ *     @OA\Property(property="content", type="string"),
+ *     @OA\Property(property="likes", type="integer"),
+ *     @OA\Property(property="views", type="integer"),
+ *     @OA\Property(
+ *         property="ticker",
+ *         type="object",
+ *         @OA\Property(property="fullName", type="string"),
+ *         @OA\Property(property="shortName", type="string"),
+ *     ),
+ *     @OA\Property(property="country", type="string"),
+ *     @OA\Property(
+ *         property="author",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="avatar", type="string"),
+ *     ),
+ * )
+ */
+class PostResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'typeId' => $this->typePaper->title,
+            'categoryId' => $this->category_id,
+            'subcategoriesId' => Category::find($this->category_id)->children->pluck('id'),
+            'createdAt' => $this->created_at,
+            'content' => $this->content,
+            'likes' => $this->likes->count(),
+            'views' => $this->views->count(),
+            'ticker' => [
+                'fullName' => $this->ticker->full_name,
+                'shortName' => $this->ticker->short_name,
+            ],
+            'country' => $this->country->title,
+            'author' => [
+                'id' => $this->author->id,
+                'name' => $this->author->name,
+                'avatar' => $this->author->avatar_url,
+            ],
+        ];
+    }
+}

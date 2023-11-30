@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Enums\LangStrEnum;
@@ -8,6 +10,12 @@ use Illuminate\Http\Request;
 
 class LangController extends Controller
 {
+    /**
+     * Set language group
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function setGroup(Request $request): JsonResponse
     {
         $group = $request->group;
