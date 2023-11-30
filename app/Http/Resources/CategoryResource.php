@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Enums\LangStrEnum;
@@ -36,7 +38,6 @@ use OpenApi\Annotations as OA;
  *     ),
  * )
  */
-
 class CategoryResource extends JsonResource
 {
     /**
@@ -57,11 +58,11 @@ class CategoryResource extends JsonResource
                 LangStrEnum::RU->value => $this->title,
                 LangStrEnum::ENG->value => TranslationHelper::getCategoryTranslation(
                     LangStrEnum::ENG->value,
-                    $this->id
+                    $this->id,
                 ),
                 LangStrEnum::KZ->value => TranslationHelper::getCategoryTranslation(
                     LangStrEnum::KZ->value,
-                    $this->id
+                    $this->id,
                 ),
             ],
             'description' => [

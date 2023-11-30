@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Enums\AuthStrEnum;
+use App\Enums\StatusCodeEnum;
 use App\Traits\ApiResponse;
 use Closure;
 use Illuminate\Http\JsonResponse;
@@ -27,10 +28,30 @@ class AuthenticateJwt
     public function handle($request, Closure $next): mixed
     {
         // Get the entire request URL
-        $referrer = $request->headers->get('Referer');
         $authHeader = $request->headers->get('Authorization');
         $token = $this->getToken($authHeader);
         $link = config('app.url') . '/auth';
+
+        if (config('app.debug')) {
+            $user = JWTAuth::setToken($token)->toUser();
+
+            // Set the authenticated user
+            auth()->setUser($user);
+
+            if (
+                !$token
+                || !auth()->user()
+            ) {
+                return response()->json(
+                    [
+                        'error' => 'Unauthorized',
+                    ],
+                    StatusCodeEnum::UNAUTHORIZED->value,
+                );
+            }
+
+            return $next($request);
+        }
 
         if (!$token) {
             return $this->handleUnauthorized(

@@ -6,7 +6,6 @@ use App\Enums\AuthIntEnum;
 use App\Enums\AuthStrEnum;
 use App\Enums\EnvStrEnum;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -61,7 +60,7 @@ class AuthService
      */
     public function login(User $user): void
     {
-        Auth::login($user);
+        auth()->guard('web')->login($user);
 
         // Create a JWT token from the user authenticated
         $token = JWTAuth::fromUser($user);

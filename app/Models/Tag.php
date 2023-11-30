@@ -5,23 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema(
+ *     schema="Tag",
+ *     type="object",
+ *     required={"id", "title", "created_at", "updated_at"},
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="title", type="string"),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time"),
+ * )
+ */
 class Tag extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     /**
-     * The attributes that are guarded.
-     *
-     * @var array<int, string>
+     * {@inheritDoc}
      */
     protected $guarded = ['id'];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<string, string>
+     * {@inheritDoc}
      */
     protected $fillable = [
         'title',

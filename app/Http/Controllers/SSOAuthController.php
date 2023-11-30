@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Contracts\AuthInterface;
 use App\Enums\AuthStrEnum;
 use App\Models\User;
 use App\Services\AuthService;
-use App\Traits\ApiResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -16,8 +17,6 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SSOAuthController extends Controller implements AuthInterface
 {
-    use ApiResponse;
-
     /**
      * @const string
      * Source of admin redirect.
@@ -42,7 +41,7 @@ class SSOAuthController extends Controller implements AuthInterface
         return self::sendSuccess(
             'Authenticated user',
             [
-                'user' => auth()->user(),
+                'user' => auth()->guard('web')->user(),
                 'status' => true,
             ],
         );

@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Api\Posts;
 
 use App\Enums\CacheIntEnum;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
@@ -13,18 +16,16 @@ use OpenApi\Annotations as OA;
 
 class CategoryController extends Controller
 {
-    use ApiResponse;
-
     /**
      * Get the list of categories.
      *
      * @OA\Get(
-     *     path="/api/v1/categories",
-     *     summary="Get categories list",
-     *     description="Retrieve a list of categories.",
+     *     path="/api/v1/posts/categories",
+     *     summary="Get post categories list",
+     *     description="Retrieve a list of post categories.",
      *     operationId="getCategories",
-     *     tags={"Category"},
-     *     security={{"passport": {}}},
+     *     tags={"Posts"},
+     *     security={{ "jwt": {} }},
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -33,7 +34,7 @@ class CategoryController extends Controller
      *             @OA\Property(
      *                 property="categories",
      *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/CategoryCollection")
+     *                 @OA\Items(ref="#/components/schemas/CategoryResource")
      *             ),
      *         ),
      *     ),
@@ -68,14 +69,12 @@ class CategoryController extends Controller
      * Get the concrete category.
      *
      * @OA\Get(
-     *      path="/api/v1/categories/{category}",
-     *      summary="Get category info API",
-     *      description="Retrieve information about the category",
+     *      path="/api/v1/posts/categories/{category}",
+     *      summary="Get post category info API",
+     *      description="Retrieve information about the posts category",
      *      operationId="getCategoryInfo",
-     *      tags={"Category"},
-     *      security={
-     *           {"passport": {}},
-     *       },
+     *      tags={"Posts"},
+     *      security={{ "jwt": {} }},
      *      @OA\Parameter(
      *           name="category",
      *           in="path",
