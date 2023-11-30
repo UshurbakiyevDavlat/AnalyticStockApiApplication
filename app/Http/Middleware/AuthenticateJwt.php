@@ -32,7 +32,10 @@ class AuthenticateJwt
         $token = $this->getToken($authHeader);
         $link = config('app.url') . '/auth';
 
-        if (config('app.debug')) {
+        if (
+            config('app.debug')
+            || $request->origin == config('app.url')
+        ) {
             $user = JWTAuth::setToken($token)->toUser();
 
             // Set the authenticated user
