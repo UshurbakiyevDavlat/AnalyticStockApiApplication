@@ -16,7 +16,6 @@ test('/get posts', function () {
         'Authorization' => $token,
     ])->get('/api/v1/posts/');
 
-    // Assertions
     $response->assertStatus(StatusCodeEnum::OK->value)
         ->assertJson([
             'success' => true,
