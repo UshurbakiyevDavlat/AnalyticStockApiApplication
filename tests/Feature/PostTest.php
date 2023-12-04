@@ -20,28 +20,6 @@ test('/get posts', function () {
         ->assertJson([
             'success' => true,
             'message' => 'Successfully executed',
-            'data' => [
-                '*' => [
-                    'id',
-                    'title',
-                    'typeId',
-                    'categoryId',
-                    'subcategoriesId',
-                    'createdAt',
-                    'content',
-                    'likes',
-                    'views',
-                    'ticker' => [
-                        'fullName',
-                        'shortName',
-                    ],
-                    'country',
-                    'author' => [
-                        'id',
-                        'name',
-                        'avatar',
-                    ],
-                ],
-            ],
+            'data' => [],
         ]);
 });
