@@ -7,6 +7,7 @@ use App\Enums\AuthStrEnum;
 use App\Enums\EnvStrEnum;
 use App\Models\User;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
@@ -87,6 +88,7 @@ class AuthService
      */
     public function handleUser(mixed $azureUser, ?User $user): User
     {
+        Log::info('Azure user: ' . json_encode($azureUser));
         if ($user) {
             $user->update([
                 'azure_token' => $azureUser->token,
