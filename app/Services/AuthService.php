@@ -88,7 +88,6 @@ class AuthService
      */
     public function handleUser(mixed $azureUser, ?User $user): User
     {
-        Log::info('Azure user: ' . json_encode($azureUser));
         if ($user) {
             $user->update([
                 'azure_token' => $azureUser->token,
