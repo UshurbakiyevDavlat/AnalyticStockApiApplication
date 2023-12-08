@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Posts;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\LikeRequest;
 use App\Http\Resources\PostCollection;
+use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
 
@@ -44,6 +46,64 @@ class LikeController extends Controller
             PostCollection::make($user->likes()->get())
                 ->jsonSerialize(),
         );
+    }
 
+    /**
+     * Like or unlike a post.
+     *
+     * @OA\Post(
+     *        path="/api/v1/posts/likes",
+     *        summary="Like or unlike post",
+     *        description="Like or unlike a post of authenticated user.",
+     *        operationId="likePost",
+     *        tags={"Posts"},
+     *        security={{ "jwt": {} }},
+     *       @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="likeable_id", type="integer", example="1"),
+     *         ),
+     *     ),
+     *        @OA\Response(
+     *            response=200,
+     *            description="Successful operation",
+     *            @OA\JsonContent(
+     *                type="object",
+     *                @OA\Property(property="message", type="string", example="Success message"),
+     *            ),
+     *        ),
+     *        @OA\Response(response=400, description="Bad request"),
+     *   )
+     *
+     * @param LikeRequest $request
+     * @return JsonResponse
+     */
+    public function likePost(LikeRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+        $user = auth()->user();
+
+        $like = $user->likes()
+            ->where(
+                'likeable_id',
+                $data['likeable_id'],
+            )
+            ->first();
+
+        if ($like) {
+            $user->likes()->detach($data['likeable_id']);
+            $liked = 'unliked';
+        } else {
+            $user->likes()->attach(
+                $data['likeable_id'],
+                ['likeable_type' => Post::class],
+            );
+
+            $liked = 'liked';
+        }
+
+        return self::sendSuccess(
+            __('response.post.' . $liked),
+        );
     }
 }

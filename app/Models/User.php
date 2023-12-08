@@ -177,10 +177,10 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
     public function subscriptions(): BelongsToMany
     {
         return $this->belongsToMany(
-            Post::class,
-            'post_subscription',
+            Category::class,
+            'post_category_subscription',
             'user_id',
-            'post_id',
+            'category_id',
             'id',
             'id',
         );
