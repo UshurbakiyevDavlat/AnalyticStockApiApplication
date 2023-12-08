@@ -40,6 +40,14 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
             Route::group(['prefix' => 'categories'], static function () {
                 Route::get('/', [CategoryController::class, 'getCategories'])
                     ->name('getCategories');
+
+                Route::group(['prefix' => 'subscriptions'], static function () {
+                    Route::get('/', [SubscriptionController::class, 'getSubscriptions'])
+                        ->name('getSubscriptions');
+                    Route::post('/', [SubscriptionController::class, 'subscribeToCategory'])
+                        ->name('subscribeToCategory');
+                });
+
                 Route::get('/{category}', [CategoryController::class, 'getCategory'])
                     ->name('getCategory');
             });
@@ -47,21 +55,20 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
             Route::group(['prefix' => 'bookmarks'], static function () {
                 Route::get('/', [BookmarkController::class, 'getBookmarks'])
                     ->name('getBookmarks');
+                Route::post('/', [BookmarkController::class, 'bookmarkPost']);
             });
 
             Route::group(['prefix' => 'views'], static function () {
                 Route::get('/', [ViewController::class, 'getViews'])
                     ->name('getViews');
+                Route::post('/', [ViewController::class, 'viewPost']);
             });
 
             Route::group(['prefix' => 'likes'], static function () {
                 Route::get('/', [LikeController::class, 'getLikes'])
                     ->name('getLikes');
-            });
-
-            Route::group(['prefix' => 'subscriptions'], static function () {
-                Route::get('/', [SubscriptionController::class, 'getSubscriptions'])
-                    ->name('getSubscriptions');
+                Route::post('/', [LikeController::class, 'likePost'])
+                    ->name('likePost');
             });
 
             Route::group(['prefix' => 'horizonData'], static function () {

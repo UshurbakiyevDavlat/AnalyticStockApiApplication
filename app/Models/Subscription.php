@@ -28,7 +28,7 @@ class Subscription extends Model
     /**
      * {@inheritDoc}
      */
-    protected $table = 'post_subscription';
+    protected $table = 'post_category_subscription';
 
     /**
      * {@inheritDoc}
@@ -39,13 +39,13 @@ class Subscription extends Model
     ];
 
     /**
-     * Post relationship
+     * Category relationship
      *
      * @return BelongsTo
      */
-    public function post(): BelongsTo
+    public function category(): BelongsTo
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Category::class);
     }
 
     /**
