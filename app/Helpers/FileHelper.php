@@ -18,7 +18,7 @@ class FileHelper
      */
     public static function getFormData(string $path): string
     {
-        $url = Storage::disk('admin')->url($path);
+        $url = Storage::disk('admin-docker')->url($path);
 
         $context = stream_context_create([
             'http' => [
