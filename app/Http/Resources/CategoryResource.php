@@ -8,6 +8,7 @@ use App\Enums\LangStrEnum;
 use App\Helpers\TranslationHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
 /**
@@ -79,7 +80,7 @@ class CategoryResource extends JsonResource
                 ),
             ],
             'slug' => $this->slug,
-            'img' => $this->img,
+            'img' => Storage::disk('admin')->url($this->img),
             'subcategories' => CategoryCollection::make($this->children),
         ];
     }
