@@ -7,6 +7,8 @@ use App\Enums\AuthStrEnum;
 use App\Enums\EnvStrEnum;
 use App\Models\User;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
@@ -98,6 +100,9 @@ class AuthService
                 'azure_token' => $azureUser->token,
             ]);
         }
+
+        $user->avatar_url = Storage::disk('admin')->url($this->avatar_url);
+        Log::info('User created or updated', ['user' => $user]);
 
         return $user;
     }
