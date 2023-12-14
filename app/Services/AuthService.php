@@ -101,7 +101,7 @@ class AuthService
             ]);
         }
 
-        $user->avatar_url = Storage::disk('admin')->url($this->avatar_url);
+        $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
         Log::info('User created or updated', ['user' => $user]);
 
         return $user;
