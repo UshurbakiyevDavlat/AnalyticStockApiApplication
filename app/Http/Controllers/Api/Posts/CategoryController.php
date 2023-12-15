@@ -65,7 +65,7 @@ class CategoryController extends Controller
                 ->get(),
         )->jsonSerialize();
 
-        return self::sendSuccess('Categories list', ['categories' => $categories]);
+        return self::sendSuccess('Categories list', $categories);
     }
 
     /**
@@ -111,6 +111,6 @@ class CategoryController extends Controller
         //     },
         // );
 
-        return self::sendSuccess('Category info', ['category' => CategoryResource::make($category)->jsonSerialize()]);
+        return self::sendSuccess('Category info', CategoryResource::make($category)->jsonSerialize());
     }
 }

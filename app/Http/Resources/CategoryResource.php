@@ -44,7 +44,7 @@ class CategoryResource extends JsonResource
     /**
      * @var null Wrapper
      */
-    public static $wrap = null;
+    public static $wrap;
 
     /**
      * Transform the resource into an array.
