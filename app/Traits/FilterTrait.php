@@ -80,16 +80,20 @@ trait FilterTrait
      * Apply time period filter.
      *
      * @param Builder $query
-     * @param string $key
      * @param array $value
      * @return Builder
      */
     public function applyTimePeriodFilter(
         Builder $query,
-        string $key,
         array $value,
     ): Builder {
-        $query->whereBetween($key, $value);
+        $query->whereBetween(
+            'expired_at',
+            [
+                $value[FilterStrEnum::START_DATE->value],
+                $value[FilterStrEnum::END_DATE->value],
+            ],
+        );
 
         return $query;
     }

@@ -22,7 +22,7 @@ class PostController extends Controller
     /**
      * @const int PAGINATE_LIMIT
      */
-    private const PAGINATE_LIMIT = 5;
+    private const PAGINATE_LIMIT = 10;
 
     /**
      * Get all posts.
@@ -82,13 +82,16 @@ class PostController extends Controller
             ? Carbon::createFromTimestamp($data['end_date'])->format('Y-m-d H:i:s')
             : null;
 
-        $query = $this->applyTimePeriodFilter($query, 'published_at', [$publishedAt, $expiredAt]);
-        $post = $query->get();
+        $query = $this->applyTimePeriodFilter($query, [
+            'start_date' => $publishedAt,
+            'end_date' => $expiredAt,
+        ]);
 
+        // dd($query->toRawSql());
         return self::sendSuccess(
             __('response.success'),
             PostCollection::make(
-                $post,
+                $query->paginate(self::PAGINATE_LIMIT),
             )->jsonSerialize(),
         );
     }
