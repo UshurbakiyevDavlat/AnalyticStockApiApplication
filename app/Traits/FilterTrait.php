@@ -51,25 +51,30 @@ trait FilterTrait
         return $query;
     }
 
-    // /**
-    //  * Apply filters to query.
-    //  *
-    //  * @param Builder $query query
-    //  * @param array $value value
-    //  * @param string $relation
-    //  * @param string $column column
-    //  * @return Builder
-    //  */
-    // public function applyRelationFilter(
-    //     Builder $query,
-    //     array $value,
-    //     string $relation,
-    //     string $column,
-    // ): Builder {
-    //     $query->$$relation->whereIn($column, $value);
-    //
-    //     return $query;
-    // }
+    /**
+     * Apply filters to query.
+     *
+     * @param Builder $query query
+     * @param array $value value
+     * @param string $relation
+     * @param array $column column
+     * @return Builder
+     */
+    public function applyRelationFilter(
+        Builder $query,
+        array $value,
+        string $relation,
+        array $column,
+    ): Builder {
+        foreach ($column as $item) {
+            $query = $query
+                ->whereHas($relation, function ($query) use ($item, $value) {
+                    $query->whereIn($item, $value);
+                });
+        }
+
+        return $query;
+    }
 
     /**
      * Apply time period filter.

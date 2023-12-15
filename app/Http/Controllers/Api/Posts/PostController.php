@@ -61,9 +61,10 @@ class PostController extends Controller
                 $query = $this->applySort($query, $value);
             } elseif (!in_array($key, PostStrEnum::timePeriods(), true)) {
                 if (in_array($key, PostStrEnum::getRelationColums(), true)) {
-                    // $relation = PostStrEnum::getRelationFilterValues();
-                    //
-                    // $query = $this->applyRelationFilter($query, $relation, $value, $key);
+                    $relations = PostStrEnum::getRelationFilterValues();
+                    foreach ($relations as $relation => $item) {
+                        $query = $this->applyRelationFilter($query, $value, $relation, $item);
+                    }
                 } else {
                     $column = PostStrEnum::getFilterColumn($key);
                     if (!$column) {
@@ -82,11 +83,12 @@ class PostController extends Controller
             : null;
 
         $query = $this->applyTimePeriodFilter($query, 'published_at', [$publishedAt, $expiredAt]);
+        $post = $query->get();
 
         return self::sendSuccess(
             __('response.success'),
             PostCollection::make(
-                $query->get(),
+                $post,
             )->jsonSerialize(),
         );
     }

@@ -38,6 +38,7 @@ enum PostStrEnum: string
     public static function getRelationColums(): array
     {
         return [
+            self::subCategory->value,
             self::region->value,
             self::sector->value,
             self::ticker->value,
