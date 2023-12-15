@@ -9,7 +9,43 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema(
+ *     schema="Post",
+ *     type="object",
+ *     required={"id", "title", "desc", "content", "order", "ticker", "author_id", "type_paper_id", "status_id",
+ *     "category_id", "country_id", "published_at", "expired_at", "created_at", "updated_at"},
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="title", type="string"),
+ *     @OA\Property(property="desc", type="string"),
+ *     @OA\Property(property="content", type="string"),
+ *     @OA\Property(property="order", type="integer"),
+ *     @OA\Property(property="author_id", type="integer"),
+ *     @OA\Property(property="type_paper_id", type="integer"),
+ *     @OA\Property(property="status_id", type="integer"),
+ *     @OA\Property(property="category_id", type="integer"),
+ *     @OA\Property(property="country_id", type="integer"),
+ *     @OA\Property(property="ticker_id", type="integer"),
+ *     @OA\Property(property="published_at", type="string", format="date-time"),
+ *     @OA\Property(property="expired_at", type="string", format="date-time"),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time"),
+ *     @OA\Property(property="author", type="object", ref="#/components/schemas/User"),
+ *     @OA\Property(property="type_paper", type="object", ref="#/components/schemas/TypePaper"),
+ *     @OA\Property(property="status", type="object", ref="#/components/schemas/Status"),
+ *     @OA\Property(property="category", type="object", ref="#/components/schemas/Category"),
+ *     @OA\Property(property="country", type="object", ref="#/components/schemas/Country"),
+ *     @OA\Property(property="ticker", type="object", ref="#/components/schemas/Ticker"),
+ *     @OA\Property(property="likes", type="array", @OA\Items(ref="#/components/schemas/Like")),
+ *     @OA\Property(property="views", type="array", @OA\Items(ref="#/components/schemas/PostView")),
+ *     @OA\Property(property="subscriptions", type="array", @OA\Items(ref="#/components/schemas/Subscription")),
+ *     @OA\Property(property="bookmarks", type="array", @OA\Items(ref="#/components/schemas/Favourite")),
+ *     @OA\Property(property="horizon_dataset", type="object", ref="#/components/schemas/HorizonDataset"),
+ *     @OA\Property(property="files", type="array", @OA\Items(ref="#/components/schemas/File")),
+ * )
+ */
 class Post extends Model
 {
     use HasFactory;
