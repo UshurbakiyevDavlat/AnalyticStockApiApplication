@@ -5,85 +5,64 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use OpenApi\Annotations as OA;
 
-/**
- * @OA\Schema(
- *     schema="Post",
- *     type="object",
- *     required={"id", "title", "desc", "content", "order", "ticker", "author_id", "type_paper_id", "status_id", "category_id", "country_id", "published_at", "expired_at", "created_at", "updated_at"},
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="title", type="string"),
- *     @OA\Property(property="desc", type="string"),
- *     @OA\Property(property="content", type="string"),
- *     @OA\Property(property="order", type="integer"),
- *     @OA\Property(property="author_id", type="integer"),
- *     @OA\Property(property="type_paper_id", type="integer"),
- *     @OA\Property(property="status_id", type="integer"),
- *     @OA\Property(property="category_id", type="integer"),
- *     @OA\Property(property="country_id", type="integer"),
- *     @OA\Property(property="ticker_id", type="integer"),
- *     @OA\Property(property="published_at", type="string", format="date-time"),
- *     @OA\Property(property="expired_at", type="string", format="date-time"),
- *     @OA\Property(property="created_at", type="string", format="date-time"),
- *     @OA\Property(property="updated_at", type="string", format="date-time"),
- *     @OA\Property(property="author", type="object", ref="#/components/schemas/User"),
- *     @OA\Property(property="type_paper", type="object", ref="#/components/schemas/TypePaper"),
- *     @OA\Property(property="status", type="object", ref="#/components/schemas/Status"),
- *     @OA\Property(property="category", type="object", ref="#/components/schemas/Category"),
- *     @OA\Property(property="country", type="object", ref="#/components/schemas/Country"),
- *     @OA\Property(property="ticker", type="object", ref="#/components/schemas/Ticker"),
- *     @OA\Property(property="likes", type="array", @OA\Items(ref="#/components/schemas/Like")),
- *     @OA\Property(property="views", type="array", @OA\Items(ref="#/components/schemas/PostView")),
- *     @OA\Property(property="subscriptions", type="array", @OA\Items(ref="#/components/schemas/Subscription")),
- *     @OA\Property(property="bookmarks", type="array", @OA\Items(ref="#/components/schemas/Favourite")),
- *     @OA\Property(property="horizon_dataset", type="object", ref="#/components/schemas/HorizonDataset"),
- *     @OA\Property(property="files", type="array", @OA\Items(ref="#/components/schemas/File")),
- * )
- */
 class Post extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     /**
-     * {@inheritDoc}
+     * @const post view post id field name
      */
-    protected $guarded = ['id'];
+    private const POST_VIEW_POST_ID_FIELD = 'post_id';
 
     /**
-     * {@inheritDoc}
+     * @const subscription post id field name
      */
+    private const SUBS_VIEW_POST_ID_FIELD = 'post_id';
+
+    /**
+     * @const user id field name
+     */
+    private const USER_ID_FIELD = 'user_id';
+
+    /** {@inheritDoc} */
+    protected $guarded = ['id'];
+
+    /** {@inheritDoc} */
     protected $fillable = [
         'title',
         'desc',
         'content',
         'order',
-        'ticker_id',
         'author_id',
         'type_paper_id',
         'status_id',
         'category_id',
-        'country_id',
+        'post_type_id',
         'published_at',
         'expired_at',
     ];
 
     /**
-     * The author that belong to the Post
+     * Get the author that owns the Post.
      *
      * @return BelongsTo
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(
+            User::class,
+            'author_id',
+        );
     }
 
     /**
-     * The type paper that belong to the Post
+     * Get the typePaper that owns the Post.
      *
      * @return BelongsTo
      */
@@ -93,7 +72,7 @@ class Post extends Model
     }
 
     /**
-     * The status that belong to the Post
+     * Get the status that owns the Post.
      *
      * @return BelongsTo
      */
@@ -103,7 +82,7 @@ class Post extends Model
     }
 
     /**
-     * The category that belong to the Post
+     * Get the category that owns the Post.
      *
      * @return BelongsTo
      */
@@ -113,23 +92,13 @@ class Post extends Model
     }
 
     /**
-     * The country that belong to the Post
+     * The tags that belong to the Post
      *
-     * @return BelongsTo
+     * @return BelongsToMany
      */
-    public function country(): BelongsTo
+    public function tags(): BelongsToMany
     {
-        return $this->belongsTo(Country::class, 'country_id');
-    }
-
-    /**
-     * Get the ticker that owns the Post
-     *
-     * @return BelongsTo
-     */
-    public function ticker(): BelongsTo
-    {
-        return $this->belongsTo(Ticker::class, 'ticker_id');
+        return $this->belongsToMany(Tag::class, 'posts_has_tags');
     }
 
     /**
@@ -145,7 +114,7 @@ class Post extends Model
             'likeable_id',
             'id',
             'id',
-            'user_id',
+            self::USER_ID_FIELD,
         )->where(
             'likes.likeable_type',
             '=',
@@ -163,10 +132,10 @@ class Post extends Model
         return $this->hasManyThrough(
             User::class,
             PostView::class,
-            'post_id',
+            self::POST_VIEW_POST_ID_FIELD,
             'id',
             'id',
-            'user_id',
+            self::USER_ID_FIELD,
         );
     }
 
@@ -180,10 +149,10 @@ class Post extends Model
         return $this->hasManyThrough(
             User::class,
             Subscription::class,
-            'post_id',
+            self::SUBS_VIEW_POST_ID_FIELD,
             'id',
             'id',
-            'user_id',
+            self::USER_ID_FIELD,
         );
     }
 
@@ -200,7 +169,7 @@ class Post extends Model
             'favouriteable_id',
             'id',
             'id',
-            'user_id',
+            self::USER_ID_FIELD,
         )->where(
             'favourites.favouriteable_type',
             '=',
@@ -226,5 +195,15 @@ class Post extends Model
     public function files(): HasMany
     {
         return $this->hasMany(File::class, 'post_id');
+    }
+
+    /**
+     * Post type that belong to the Post
+     *
+     * @return BelongsTo
+     */
+    public function postType(): BelongsTo
+    {
+        return $this->belongsTo(PostType::class, 'post_type_id');
     }
 }

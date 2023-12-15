@@ -42,7 +42,9 @@ class PostController extends Controller
         return self::sendSuccess(
             __('response.success'),
             PostCollection::make(
-                Post::orderBy('created_at', 'desc')->get(),
+                Post::with('horizonDataset')
+                    ->orderBy('created_at', 'desc')
+                    ->get(),
             )->jsonSerialize(),
         );
     }
