@@ -6,7 +6,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use OpenApi\Annotations as OA;
 
 class PostCollection extends ResourceCollection
 {

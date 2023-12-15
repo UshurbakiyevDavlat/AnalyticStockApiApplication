@@ -56,6 +56,8 @@ class PostResource extends JsonResource
             'categoryId' => $this->category_id,
             'subcategoriesId' => Category::find($this->category_id)?->children->pluck('id'),
             'createdAt' => $this->created_at,
+            'publishedAt' => $this->published_at,
+            'expiredAt' => $this->expired_at,
             'content' => $this->content,
             'likes' => $this->likes->count(),
             'views' => $this->views->count(),
