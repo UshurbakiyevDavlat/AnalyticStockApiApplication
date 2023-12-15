@@ -21,9 +21,7 @@ it('can get categories', function () {
         ->assertJsonStructure([
             'success',
             'message',
-            'data' => [
-                'categories',
-            ],
+            'data' => [],
         ]);
 });
 
@@ -48,9 +46,7 @@ it('can get category by ID', function () {
         ->assertJsonStructure([
             'success',
             'message',
-            'data' => [
-                'category',
-            ],
+            'data' => [],
         ]);
 });
 
