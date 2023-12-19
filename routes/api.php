@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FilesController;
 use App\Http\Controllers\Api\Posts\BookmarkController;
 use App\Http\Controllers\Api\Posts\CategoryController;
+use App\Http\Controllers\Api\Posts\FilterDataListController;
 use App\Http\Controllers\Api\Posts\HorizonDatasetController;
 use App\Http\Controllers\Api\Posts\LikeController;
 use App\Http\Controllers\Api\Posts\PostController;
@@ -72,6 +73,21 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
             });
 
             Route::group(['prefix' => 'horizonData'], static function () {
+                Route::get('/countries', [FilterDataListController::class, 'getCountries'])
+                    ->name('getCountries');
+
+                Route::get('/sectors', [FilterDataListController::class, 'getSectors'])
+                    ->name('getSectors');
+
+                Route::get('/authors', [FilterDataListController::class, 'getAuthors'])
+                    ->name('getAuthors');
+
+                Route::get('/tickers', [FilterDataListController::class, 'getTickers'])
+                    ->name('getTickers');
+
+                Route::get('/isins', [FilterDataListController::class, 'getIsins'])
+                    ->name('getIsins');
+
                 Route::get('/{post}', [HorizonDatasetController::class, 'list'])
                     ->name('getHorizonData');
             });
