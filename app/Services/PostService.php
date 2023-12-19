@@ -62,10 +62,12 @@ class PostService
                 ? Carbon::createFromTimestamp($data['end_date'])->format('Y-m-d H:i:s')
                 : null;
 
-            $query = $this->applyTimePeriodFilter($query, [
-                'start_date' => $publishedAt,
-                'end_date' => $expiredAt,
-            ]);
+            if ($publishedAt || $expiredAt) {
+                $query = $this->applyTimePeriodFilter($query, [
+                    'start_date' => $publishedAt,
+                    'end_date' => $expiredAt,
+                ]);
+            }
         }
 
         return $query->paginate(self::PAGINATE_LIMIT);

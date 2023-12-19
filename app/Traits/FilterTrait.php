@@ -22,11 +22,15 @@ trait FilterTrait
                 break;
 
             case 'popularity':
-                $query->orderBy('views', FilterStrEnum::DESC->value);
+                $query
+                    ->withCount(['views'])
+                    ->orderBy('views_count', FilterStrEnum::DESC->value);
                 break;
 
             case 'likes':
-                $query->orderBy('likes', FilterStrEnum::DESC->value);
+                $query
+                    ->withCount(['likes'])
+                    ->orderBy('likes_count', FilterStrEnum::DESC->value);
                 break;
         }
 
