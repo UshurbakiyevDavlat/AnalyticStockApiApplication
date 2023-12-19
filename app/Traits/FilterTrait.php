@@ -87,13 +87,16 @@ trait FilterTrait
         Builder $query,
         array $value,
     ): Builder {
-        $query->whereBetween(
+        $query->where(
             'expired_at',
-            [
-                $value[FilterStrEnum::START_DATE->value],
+            '>=',
+            $value[FilterStrEnum::START_DATE->value],
+        )
+            ->where(
+                'expired_at',
+                '<=',
                 $value[FilterStrEnum::END_DATE->value],
-            ],
-        );
+            );
 
         return $query;
     }

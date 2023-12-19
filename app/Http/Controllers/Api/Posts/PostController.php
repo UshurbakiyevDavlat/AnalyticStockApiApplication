@@ -4,25 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Posts;
 
-use App\Enums\PostStrEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\GetPostsRequest;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use App\Traits\FilterTrait;
+use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Carbon;
 use OpenApi\Annotations as OA;
 
 class PostController extends Controller
 {
-    use FilterTrait;
-
-    /**
-     * @const int PAGINATE_LIMIT
-     */
-    private const PAGINATE_LIMIT = 10;
+    public function __construct(private readonly PostService $postService) {}
 
     /**
      * Get all posts.
@@ -52,47 +45,11 @@ class PostController extends Controller
     public function getPosts(GetPostsRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $query = Post::query()->with('horizonDataset');
+        $posts = $this->postService->getPosts($data);
 
-        $data = $this->prepareDataForFilter($data);
-
-        foreach ($data as $key => $value) {
-            if ($key === 'sort') {
-                $query = $this->applySort($query, $value);
-            } elseif (!in_array($key, PostStrEnum::timePeriods(), true)) {
-                if (in_array($key, PostStrEnum::getRelationColums(), true)) {
-                    $relations = PostStrEnum::getRelationFilterValues();
-                    foreach ($relations as $relation => $item) {
-                        $query = $this->applyRelationFilter($query, $value, $relation, $item);
-                    }
-                } else {
-                    $column = PostStrEnum::getFilterColumn($key);
-                    if (!$column) {
-                        continue;
-                    }
-                    $query = $this->applyFilter($query, $value, $column);
-                }
-            }
-        }
-
-        $publishedAt = isset($data['start_date'])
-            ? Carbon::createFromTimestamp($data['start_date'])->format('Y-m-d H:i:s')
-            : null;
-        $expiredAt = isset($data['end_date'])
-            ? Carbon::createFromTimestamp($data['end_date'])->format('Y-m-d H:i:s')
-            : null;
-
-        $query = $this->applyTimePeriodFilter($query, [
-            'start_date' => $publishedAt,
-            'end_date' => $expiredAt,
-        ]);
-
-        // dd($query->toRawSql());
         return self::sendSuccess(
             __('response.success'),
-            PostCollection::make(
-                $query->paginate(self::PAGINATE_LIMIT),
-            )->jsonSerialize(),
+            PostCollection::make($posts)->jsonSerialize(),
         );
     }
 
@@ -135,22 +92,5 @@ class PostController extends Controller
             __('response.success'),
             PostResource::make($post)->jsonSerialize(),
         );
-    }
-
-    /**
-     * Prepare data for filter.
-     *
-     * @param array $data
-     * @return array
-     */
-    private function prepareDataForFilter(array $data): array
-    {
-        foreach ($data as $key => $value) {
-            if (!in_array($key, PostStrEnum::getValuesToNotDecode(), true)) {
-                $data[$key] = array_map('intval', explode(',', $value));
-            }
-        }
-
-        return $data;
     }
 }

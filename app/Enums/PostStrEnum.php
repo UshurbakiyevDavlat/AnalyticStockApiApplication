@@ -35,7 +35,7 @@ enum PostStrEnum: string
      *
      * @return array
      */
-    public static function getRelationColums(): array
+    public static function getRelationColumns(): array
     {
         return [
             self::subCategory->value,
@@ -80,6 +80,11 @@ enum PostStrEnum: string
         ];
     }
 
+    /**
+     * Get time periods.
+     *
+     * @return array
+     */
     public static function timePeriods(): array
     {
         return [
