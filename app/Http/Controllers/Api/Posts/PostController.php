@@ -46,6 +46,7 @@ class PostController extends Controller
     {
         $data = $request->validated();
         $posts = $this->postService->getPosts($data);
+        $posts->paginated = true;
 
         return self::sendSuccess(
             __('response.success'),

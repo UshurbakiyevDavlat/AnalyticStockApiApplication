@@ -16,15 +16,19 @@ class PostCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return [
-            'data' => $this->collection,
-            'pagination' => [
+        if (!empty($this->paginated)) {
+            $pagination = [
                 'total' => $this->total(),
                 'count' => $this->count(),
                 'per_page' => $this->perPage(),
                 'current_page' => $this->currentPage(),
                 'total_pages' => $this->lastPage(),
-            ],
+            ];
+        }
+
+        return [
+            'data' => $this->collection,
+            'pagination' => $pagination ?? null,
         ];
     }
 }
