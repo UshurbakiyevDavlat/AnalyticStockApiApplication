@@ -54,7 +54,7 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'typeId' => $this->typePaper->title,
             'categoryId' => $this->category_id,
-            'subcategoriesId' => Category::find($this->category_id)?->children->pluck('id'),
+            'subcategoriesId' => $this->subcategory_id,
             'createdAt' => $this->created_at,
             'publishedAt' => $this->published_at,
             'expiredAt' => $this->expired_at,
