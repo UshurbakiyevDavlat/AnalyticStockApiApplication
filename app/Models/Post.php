@@ -55,12 +55,10 @@ class Post extends Model
      * @const post view post id field name
      */
     private const POST_VIEW_POST_ID_FIELD = 'post_id';
-
     /**
      * @const subscription post id field name
      */
     private const SUBS_VIEW_POST_ID_FIELD = 'post_id';
-
     /**
      * @const user id field name
      */
@@ -79,6 +77,7 @@ class Post extends Model
         'type_paper_id',
         'status_id',
         'category_id',
+        'subcategory_id',
         'post_type_id',
         'published_at',
         'expired_at',
