@@ -58,6 +58,7 @@ class PostResource extends JsonResource
             'publishedAt' => $this->published_at,
             'expiredAt' => $this->expired_at,
             'content' => $this->content,
+            'desc' => $this->desc,
             'likes' => $this->likes->count(),
             'views' => $this->views->count(),
             'sector' => $this->horizonDataset->sector->title,
