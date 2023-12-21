@@ -40,6 +40,7 @@ class SSOAuthController extends Controller implements AuthInterface
     public function user(): JsonResponse
     {
         $user = auth()->user();
+
         if ($user instanceof User) {
             $user->avatar_url = $user->avatar_url
                 ? Storage::disk('admin')->url($user->avatar_url)
