@@ -95,12 +95,14 @@ class AuthService
         if ($user) {
             $user->update([
                 'azure_token' => $azureUser->token,
+                'job_title' => $azureUser?->user['jobTitle'] ?? null,
             ]);
         } else {
             $user = User::create([
                 'name' => $azureUser->getName(),
                 'email' => $azureUser->getEmail(),
                 'azure_token' => $azureUser->token,
+                'job_title' => $azureUser?->user['jobTitle'] ?? null,
             ]);
         }
 
@@ -108,7 +110,6 @@ class AuthService
             'user' => $user,
             'azure_user' => $azureUser,
         ]);
-
         $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
 
         return $user;
