@@ -95,14 +95,14 @@ class AuthService
         if ($user) {
             $user->update([
                 'azure_token' => $azureUser->token,
-                'job_title' => $azureUser?->user?->job_title ?? null,
+                'job_title' => $azureUser?->user?->jobTitle ?? null,
             ]);
         } else {
             $user = User::create([
                 'name' => $azureUser->getName(),
                 'email' => $azureUser->getEmail(),
                 'azure_token' => $azureUser->token,
-                'job_title' => $azureUser?->user?->job_title ?? null,
+                'job_title' => $azureUser?->user?->jobTitle ?? null,
             ]);
         }
 
