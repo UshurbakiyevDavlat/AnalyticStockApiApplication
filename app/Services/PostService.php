@@ -43,7 +43,7 @@ class PostService
                     if (in_array($key, PostStrEnum::getRelationColumns(), true)) {
                         $relations = PostStrEnum::getRelationFilterValues();
                         foreach ($relations as $relation => $item) {
-                            $query = $this->applyRelationFilter($query, $value, $relation, $item);
+                            $query = $this->applyRelationFilter($query, $value, $relation, $item, $key);
                         }
                     } else {
                         $column = PostStrEnum::getFilterColumn($key);

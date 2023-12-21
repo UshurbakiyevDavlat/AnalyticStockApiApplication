@@ -7,7 +7,7 @@ enum PostStrEnum: string
     case sort = 'sort';
     case category = 'category';
     case subCategory = 'subCategory';
-    case region = 'region';
+    case region = 'country';
     case sector = 'sector';
     case author = 'author';
     case ticker = 'ticker';

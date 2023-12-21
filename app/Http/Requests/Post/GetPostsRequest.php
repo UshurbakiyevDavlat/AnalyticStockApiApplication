@@ -26,7 +26,7 @@ class GetPostsRequest extends FormRequest
             'sort' => 'nullable|string',
             'category' => 'nullable|string',
             'subCategory' => 'nullable|string',
-            'region' => 'nullable|string',
+            'country' => 'nullable|string',
             'sector' => 'nullable|string',
             'author' => 'nullable|string',
             'ticker' => 'nullable|string',

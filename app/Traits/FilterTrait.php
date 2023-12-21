@@ -62,6 +62,7 @@ trait FilterTrait
      * @param array $value value
      * @param string $relation
      * @param array $column column
+     * @param string $key
      * @return Builder
      */
     public function applyRelationFilter(
@@ -69,12 +70,15 @@ trait FilterTrait
         array $value,
         string $relation,
         array $column,
+        string $key,
     ): Builder {
-        foreach ($column as $item) {
-            $query = $query
-                ->whereHas($relation, function ($query) use ($item, $value) {
-                    $query->whereIn($item, $value);
-                });
+        foreach ($column as $itemkey => $itemVal) {
+            if ($itemkey === $key) {
+                $query = $query
+                    ->whereHas($relation, function ($query) use ($itemVal, $value) {
+                        $query->whereIn($itemVal, $value);
+                    });
+            }
         }
 
         return $query;
