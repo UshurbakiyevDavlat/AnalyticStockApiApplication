@@ -107,7 +107,7 @@ class AuthService
         }
 
         Log::info('User authenticated', [
-            'azure_user' => $azureUser->user->jobTitle,
+            'azure_user' => $azureUser->getUser(),
         ]);
         $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
 
