@@ -44,6 +44,7 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
         'email',
         'azure_token',
         'avatar_url',
+        'job_title',
     ];
 
     /**

@@ -7,6 +7,7 @@ use App\Enums\AuthStrEnum;
 use App\Enums\EnvStrEnum;
 use App\Models\User;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -88,20 +89,50 @@ class AuthService
      */
     public function handleUser(mixed $azureUser, ?User $user): User
     {
+        // $azureInfo = $this->getAzureInfo($azureUser->token, $azureUser->user['userPrincipalName']);
+
         if ($user) {
             $user->update([
                 'azure_token' => $azureUser->token,
+                'job_title' => $azureUser->user['jobTitle'],
             ]);
         } else {
             $user = User::create([
                 'name' => $azureUser->getName(),
                 'email' => $azureUser->getEmail(),
                 'azure_token' => $azureUser->token,
+                'job_title' => $azureUser->user['jobTitle'],
             ]);
         }
 
         $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
 
         return $user;
+    }
+
+    /**
+     * Get the Azure user info
+     *
+     * @param string $token
+     * @param string $fio
+     * @return array
+     */
+    private function getAzureInfo(string $token, string $fio): array
+    {
+        $userInfoUrl = config('app.graph_api') . '/users/' . $fio;
+        $photoInfo = $userInfoUrl . '/photo/$value';
+
+        // $userInfo = Http::withHeader('Authorization', $token)
+        //     ->get($userInfoUrl)
+        //     ->json();
+
+        $photo = Http::withHeader('Authorization', $token)
+            ->get($photoInfo)
+            ->json();
+
+        return [
+            //'userInfo' => $userInfo,
+            'photo' => $photo,
+        ];
     }
 }
