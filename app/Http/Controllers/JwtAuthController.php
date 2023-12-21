@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -50,6 +51,7 @@ class JwtAuthController extends Controller
     {
         $user = User::whereBlind('email', 'email_index', $request->email)->first();
 
+        $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
         $token = JWTAuth::fromUser($user);
         auth()->login($user);
 
@@ -98,6 +100,9 @@ class JwtAuthController extends Controller
      */
     public function userProfile(): Authenticatable
     {
-        return auth()->user();
+        $user = auth()->user();
+        $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
+
+        return $user;
     }
 }
