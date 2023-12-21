@@ -8,6 +8,7 @@ use App\Enums\EnvStrEnum;
 use App\Models\User;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -94,16 +95,19 @@ class AuthService
         if ($user) {
             $user->update([
                 'azure_token' => $azureUser->token,
-                'job_title' => $azureUser->user['jobTitle'],
             ]);
         } else {
             $user = User::create([
                 'name' => $azureUser->getName(),
                 'email' => $azureUser->getEmail(),
                 'azure_token' => $azureUser->token,
-                'job_title' => $azureUser->user['jobTitle'],
             ]);
         }
+
+        Log::info('User authenticated', [
+            'user' => $user,
+            'azure_user' => $azureUser,
+        ]);
 
         $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
 
