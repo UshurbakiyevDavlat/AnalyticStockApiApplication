@@ -26,6 +26,7 @@ enum PostStrEnum: string
         return [
             self::id->value => 'id',
             self::category->value => 'category_id',
+            self::subCategory->value => 'subcategory_id',
             self::author->value => 'author_id',
             self::start_date->value => 'published_at',
             self::end_date->value => 'expired_at',
@@ -40,7 +41,6 @@ enum PostStrEnum: string
     public static function getRelationColumns(): array
     {
         return [
-            self::subCategory->value,
             self::region->value,
             self::sector->value,
             self::ticker->value,
@@ -56,9 +56,6 @@ enum PostStrEnum: string
     public static function getRelationFilterValues(): array
     {
         return [
-            'category' => [
-                self::subCategory->value => 'id',
-            ],
             'horizonDataset' => [
                 self::region->value => 'country_id',
                 self::sector->value => 'sector_id',
