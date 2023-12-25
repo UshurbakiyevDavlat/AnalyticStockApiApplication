@@ -23,6 +23,7 @@ class GetPostsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => 'nullable|string',
             'sort' => 'nullable|string',
             'category' => 'nullable|string',
             'subCategory' => 'nullable|string',

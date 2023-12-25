@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api\Posts;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\BookmarkRequest;
-use App\Http\Resources\PostCollection;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
@@ -43,8 +42,7 @@ class BookmarkController extends Controller
 
         return self::sendSuccess(
             __('response.success'),
-            PostCollection::make($user->bookmarks()->get())
-                ->jsonSerialize(),
+            $user->bookmarks->pluck('id')->toArray(),
         );
     }
 

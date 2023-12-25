@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api\Posts;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\SubscriptionRequest;
-use App\Http\Resources\CategoryCollection;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
 
@@ -28,7 +27,8 @@ class SubscriptionController extends Controller
      *           @OA\JsonContent(
      *               type="object",
      *               @OA\Property(property="message", type="string", example="Success message"),
-     *               @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/CategoryResource")),
+     *               @OA\Property(property="data", type="array",
+     *     @OA\Items(ref="#/components/schemas/CategoryResource")),
      *           ),
      *       ),
      *       @OA\Response(response=400, description="Bad request"),
@@ -42,7 +42,7 @@ class SubscriptionController extends Controller
 
         return self::sendSuccess(
             __('response.success'),
-            CategoryCollection::make($user->subscriptions)->jsonSerialize(),
+            $user->subscriptions->pluck('id')->toArray(),
         );
     }
 

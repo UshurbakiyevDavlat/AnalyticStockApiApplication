@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum PostStrEnum: string
 {
+    case id = 'id';
     case sort = 'sort';
     case category = 'category';
     case subCategory = 'subCategory';
@@ -23,6 +24,7 @@ enum PostStrEnum: string
     public static function getFilterValues(): array
     {
         return [
+            self::id->value => 'id',
             self::category->value => 'category_id',
             self::author->value => 'author_id',
             self::start_date->value => 'published_at',
