@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Enums\AuthStrEnum;
 use App\Enums\StatusCodeEnum;
-use App\Models\User;
 use App\Traits\ApiResponse;
 use Closure;
 use Illuminate\Http\JsonResponse;
@@ -148,11 +147,8 @@ class AuthenticateJwt
      */
     protected function handleTokenExpired(): void
     {
-        $currentUser = User::find(auth()->user()->getAuthIdentifier());
-
         try {
-            JWTAuth::invalidate();
-            $refreshedToken = JwtAuth::fromUser($currentUser);
+            $refreshedToken = JWTAuth::refresh();
         } catch (\Exception $e) {
             Log::error('Token Refresh Error: ' . $e->getMessage());
             Log::error('Token Refresh Stack Trace: ' . $e->getTraceAsString());
