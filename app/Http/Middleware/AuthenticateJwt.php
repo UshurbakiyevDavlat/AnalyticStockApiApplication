@@ -70,7 +70,7 @@ class AuthenticateJwt
         } catch (TokenExpiredException $e) {
             Log::error($e->getMessage());
             try {
-                $this->handleTokenExpired($token);
+                $this->handleTokenExpired();
             } catch (JWTException $e) {
                 return $this->handleJwtError(
                     $e->getMessage(),
@@ -142,14 +142,13 @@ class AuthenticateJwt
     /**
      * Handle TokenExpiredException
      *
-     * @param string $token
      * @throws JWTException
      * @return void
      */
-    protected function handleTokenExpired(string $token): void
+    protected function handleTokenExpired(): void
     {
         try {
-            $refreshedToken = JWTAuth::refresh($token);
+            $refreshedToken = JWTAuth::refresh();
             JWTAuth::setToken($refreshedToken)->toUser();
         } catch (\Exception $e) {
             Log::error('Token Refresh Error: ' . $e->getMessage());
