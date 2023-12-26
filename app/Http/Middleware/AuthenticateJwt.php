@@ -148,7 +148,7 @@ class AuthenticateJwt
     protected function handleTokenExpired(): void
     {
         try {
-            $refreshedToken = JWTAuth::refresh();
+            $refreshedToken = JWTAuth::parseToken()->refresh();
             JWTAuth::setToken($refreshedToken)->toUser();
         } catch (\Exception $e) {
             Log::error('Token Refresh Error: ' . $e->getMessage());
