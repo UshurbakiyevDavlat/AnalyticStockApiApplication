@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
@@ -10,7 +12,7 @@ class CategoryCollection extends ResourceCollection
     /**
      * @var null Wrapper
      */
-    public static $wrap = null;
+    public static $wrap;
 
     /**
      * Transform the resource collection into an array.
@@ -19,10 +21,6 @@ class CategoryCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return [
-            'list' => $this->collection->transform(function ($category) {
-                return new CategoryResource($category);
-            }),
-        ];
+        return parent::toArray($request);
     }
 }
