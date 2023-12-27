@@ -39,7 +39,23 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'admin' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('ADMIN_URL') . '/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'admin-docker' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('ADMIN_DOCKER_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],

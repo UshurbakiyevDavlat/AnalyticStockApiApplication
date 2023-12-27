@@ -10,13 +10,13 @@ trait ApiResponse
      * Успешный ответ API
      *
      * @param string|null $message
-     * @param array|null $data
+     * @param array|object|null $data
      * @param int $statusCode
      * @return JsonResponse
      */
     public static function sendSuccess(
         ?string $message = null,
-        ?array $data = [],
+        array | object|null $data = [],
         int $statusCode = 200,
     ): JsonResponse {
         return response()->json(
