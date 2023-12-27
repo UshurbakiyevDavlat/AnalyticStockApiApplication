@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PostFileCollection;
+use App\Http\Resources\PostFileResource;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
@@ -50,9 +51,7 @@ class FilesController extends Controller
     {
         return self::sendSuccess(
             __('response.success'),
-            PostFileCollection::make(
-                $post->files()->get(),
-            )->jsonSerialize(),
+            PostFileResource::make($post)->jsonSerialize(),
         );
     }
 }

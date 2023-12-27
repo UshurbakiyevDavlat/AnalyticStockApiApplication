@@ -81,6 +81,7 @@ class Post extends Model
         'post_type_id',
         'published_at',
         'expired_at',
+        'attachment',
     ];
 
     /**

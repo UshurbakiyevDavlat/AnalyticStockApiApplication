@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Helpers\FileHelper;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class PostFileResource extends JsonResource
 {
@@ -21,8 +21,7 @@ class PostFileResource extends JsonResource
     {
         return [
             'title' => $this->title,
-            'file_type' => $this->fileType->title,
-            'formData' => FileHelper::getFormData($this->path),
+            'file' => Storage::disk('admin')->url($this->attachment),
             'created_at' => $this->created_at,
         ];
     }
