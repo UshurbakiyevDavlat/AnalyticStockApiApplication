@@ -1,8 +1,16 @@
 <?php
 
-use App\Http\Controllers\ApiAuthController;
+use App\Http\Controllers\Api\FilesController;
+use App\Http\Controllers\Api\Posts\BookmarkController;
+use App\Http\Controllers\Api\Posts\CategoryController;
+use App\Http\Controllers\Api\Posts\FilterDataListController;
+use App\Http\Controllers\Api\Posts\HorizonDatasetController;
+use App\Http\Controllers\Api\Posts\LikeController;
+use App\Http\Controllers\Api\Posts\PostController;
+use App\Http\Controllers\Api\Posts\SubscriptionController;
+use App\Http\Controllers\Api\Posts\ViewController;
+use App\Http\Controllers\JwtAuthController;
 use App\Http\Controllers\SSOAuthController;
-use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,13 +24,81 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth.jwt.cookie'])->group(function () {
-    Route::get('auth', [SSOAuthController::class, 'user']);
-});
+Route::post('jwt', [JwtAuthController::class, 'login'])
+    ->name('jwt.auth');
 
-Route::group(['prefix' => 'v1'], function () {
-    Route::group(['prefix' => 'categories'], function () {
-        Route::get('/', [CategoryController::class, 'getCategories']);
-        Route::get('/{category}', [CategoryController::class, 'getCategory']);
+Route::middleware(['auth.jwt.cookie'])->group(function () {
+    Route::get('auth', [SSOAuthController::class, 'user'])
+        ->name('sso.auth');
+    Route::get('profile', [JwtAuthController::class, 'userProfile'])
+        ->name('user.profile');
+
+    Route::group(['prefix' => 'v1'], static function () {
+        Route::group(['prefix' => 'posts'], static function () {
+            Route::get('/', [PostController::class, 'getPosts'])
+                ->name('getPosts');
+
+            Route::group(['prefix' => 'categories'], static function () {
+                Route::get('/', [CategoryController::class, 'getCategories'])
+                    ->name('getCategories');
+
+                Route::group(['prefix' => 'subscriptions'], static function () {
+                    Route::get('/', [SubscriptionController::class, 'getSubscriptions'])
+                        ->name('getSubscriptions');
+                    Route::post('/', [SubscriptionController::class, 'subscribeToCategory'])
+                        ->name('subscribeToCategory');
+                });
+
+                Route::get('/{category}', [CategoryController::class, 'getCategory'])
+                    ->name('getCategory');
+            });
+
+            Route::group(['prefix' => 'bookmarks'], static function () {
+                Route::get('/', [BookmarkController::class, 'getBookmarks'])
+                    ->name('getBookmarks');
+                Route::post('/', [BookmarkController::class, 'bookmarkPost']);
+            });
+
+            Route::group(['prefix' => 'views'], static function () {
+                Route::get('/', [ViewController::class, 'getViews'])
+                    ->name('getViews');
+                Route::post('/', [ViewController::class, 'viewPost']);
+            });
+
+            Route::group(['prefix' => 'likes'], static function () {
+                Route::get('/', [LikeController::class, 'getLikes'])
+                    ->name('getLikes');
+                Route::post('/', [LikeController::class, 'likePost'])
+                    ->name('likePost');
+            });
+
+            Route::group(['prefix' => 'horizonData'], static function () {
+                Route::get('/countries', [FilterDataListController::class, 'getCountries'])
+                    ->name('getCountries');
+
+                Route::get('/sectors', [FilterDataListController::class, 'getSectors'])
+                    ->name('getSectors');
+
+                Route::get('/authors', [FilterDataListController::class, 'getAuthors'])
+                    ->name('getAuthors');
+
+                Route::get('/tickers', [FilterDataListController::class, 'getTickers'])
+                    ->name('getTickers');
+
+                Route::get('/isins', [FilterDataListController::class, 'getIsins'])
+                    ->name('getIsins');
+
+                Route::get('/{post}', [HorizonDatasetController::class, 'list'])
+                    ->name('getHorizonData');
+            });
+
+            Route::group(['prefix' => 'files'], static function () {
+                Route::get('/{post}', [FilesController::class, 'getPostFiles'])
+                    ->name('getPostFiles');
+            });
+
+            Route::get('/{post}', [PostController::class, 'getPost'])
+                ->name('getPost');
+        });
     });
 });

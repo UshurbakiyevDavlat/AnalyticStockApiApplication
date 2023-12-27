@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -36,29 +37,25 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
     use UsesCipherSweet;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * {@inheritDoc}
      */
     protected $fillable = [
         'name',
         'email',
         'azure_token',
+        'avatar_url',
+        'job_title',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * {@inheritDoc}
      */
     protected $hidden = [
         'remember_token',
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * {@inheritDoc}
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -103,5 +100,90 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
                 'name',
                 new BlindIndex('name_index'),
             );
+    }
+
+    /**
+     * Posts relationship
+     *
+     * @return BelongsToMany
+     */
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Post::class,
+            'posts',
+            'user_id',
+            'post_id',
+        );
+    }
+
+    /**
+     * Bookmarks relationship
+     *
+     * @return BelongsToMany
+     */
+    public function bookmarks(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Post::class,
+            'favourites',
+            'user_id',
+            'favouriteable_id',
+            'id',
+            'id',
+        )
+            ->where('favouriteable_type', Post::class);
+    }
+
+    /**
+     * Likes relationship
+     *
+     * @return BelongsToMany
+     */
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Post::class,
+            'likes',
+            'user_id',
+            'likeable_id',
+            'id',
+            'id',
+        )
+            ->where('likeable_type', Post::class);
+    }
+
+    /**
+     * View relationship
+     *
+     * @return BelongsToMany
+     */
+    public function views(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Post::class,
+            'post_views',
+            'user_id',
+            'post_id',
+            'id',
+            'id',
+        );
+    }
+
+    /**
+     * Subscriptions relationship
+     *
+     * @return BelongsToMany
+     */
+    public function subscriptions(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Category::class,
+            'post_category_subscription',
+            'user_id',
+            'category_id',
+            'id',
+            'id',
+        );
     }
 }

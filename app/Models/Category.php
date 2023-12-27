@@ -46,16 +46,12 @@ class Category extends Model
     use SoftDeletes;
 
     /**
-     * The attributes that are guarded.
-     *
-     * @var array<int, string>
+     * {@inheritDoc}
      */
     protected $guarded = ['id'];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<string, string>
+     * {@inheritDoc}
      */
     protected $fillable = [
         'title',
