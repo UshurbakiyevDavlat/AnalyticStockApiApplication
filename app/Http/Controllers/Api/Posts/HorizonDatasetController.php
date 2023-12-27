@@ -48,8 +48,7 @@ class HorizonDatasetController extends Controller
         return self::sendSuccess(
             __('response.success'),
             $post->horizonDataset()
-                ->get()
-                ->jsonSerialize(),
+                ->first()
         );
     }
 }
