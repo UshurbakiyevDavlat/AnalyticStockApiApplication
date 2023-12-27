@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum LangStrEnum: string
 {
+    case RU = 'ru';
     case ENG = 'en';
     case KZ = 'kz';
     case CATEGORIES = 'Category'; //should fit to name of the model, there is convention of this web application

@@ -6,8 +6,8 @@ use App\Enums\AuthIntEnum;
 use App\Enums\AuthStrEnum;
 use App\Enums\EnvStrEnum;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
@@ -61,7 +61,7 @@ class AuthService
      */
     public function login(User $user): void
     {
-        Auth::login($user);
+        auth()->login($user);
 
         // Create a JWT token from the user authenticated
         $token = JWTAuth::fromUser($user);
@@ -91,14 +91,18 @@ class AuthService
         if ($user) {
             $user->update([
                 'azure_token' => $azureUser->token,
+                'job_title' => $azureUser?->user['jobTitle'] ?? null,
             ]);
         } else {
             $user = User::create([
                 'name' => $azureUser->getName(),
                 'email' => $azureUser->getEmail(),
                 'azure_token' => $azureUser->token,
+                'job_title' => $azureUser?->user['jobTitle'] ?? null,
             ]);
         }
+
+        $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
 
         return $user;
     }

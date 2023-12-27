@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Enums\AuthStrEnum;
+use App\Enums\StatusCodeEnum;
 use App\Traits\ApiResponse;
 use Closure;
 use Illuminate\Http\JsonResponse;
@@ -27,10 +28,35 @@ class AuthenticateJwt
     public function handle($request, Closure $next): mixed
     {
         // Get the entire request URL
-        $referrer = $request->headers->get('Referer');
         $authHeader = $request->headers->get('Authorization');
         $token = $this->getToken($authHeader);
         $link = config('app.url') . '/auth';
+
+        if (
+            (
+                config('app.debug')
+                && $request->origin == config('app.url'))
+            || config('app.env') == 'local'
+        ) {
+            $user = JWTAuth::setToken($token)->toUser();
+
+            // Set the authenticated user
+            auth()->setUser($user);
+
+            if (
+                !$token
+                || !auth()->user()
+            ) {
+                return response()->json(
+                    [
+                        'error' => 'Unauthorized',
+                    ],
+                    StatusCodeEnum::UNAUTHORIZED->value,
+                );
+            }
+
+            return $next($request);
+        }
 
         if (!$token) {
             return $this->handleUnauthorized(
@@ -44,7 +70,7 @@ class AuthenticateJwt
         } catch (TokenExpiredException $e) {
             Log::error($e->getMessage());
             try {
-                $this->handleTokenExpired($token);
+                $this->handleTokenExpired();
             } catch (JWTException $e) {
                 return $this->handleJwtError(
                     $e->getMessage(),
@@ -116,19 +142,25 @@ class AuthenticateJwt
     /**
      * Handle TokenExpiredException
      *
-     * @param string $token
      * @throws JWTException
      * @return void
      */
-    protected function handleTokenExpired(string $token): void
+    protected function handleTokenExpired(): void
     {
         try {
-            $refreshedToken = JWTAuth::refresh($token);
-            JWTAuth::setToken($refreshedToken)->toUser();
+            $refreshedToken = JWTAuth::refresh();
         } catch (\Exception $e) {
             Log::error('Token Refresh Error: ' . $e->getMessage());
             Log::error('Token Refresh Stack Trace: ' . $e->getTraceAsString());
             throw new JWTException('Something went wrong while refreshing token');
+        }
+
+        try {
+            JWTAuth::setToken($refreshedToken)->toUser();
+        } catch (\Exception $e) {
+            Log::error('Token Set Error: ' . $e->getMessage());
+            Log::error('Token Set Stack Trace: ' . $e->getTraceAsString());
+            throw new JWTException('Something went wrong while setting token');
         }
     }
 
