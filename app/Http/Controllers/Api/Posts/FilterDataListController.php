@@ -12,6 +12,7 @@ use App\Models\Ticker;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
 class FilterDataListController extends Controller
@@ -43,9 +44,16 @@ class FilterDataListController extends Controller
      */
     public function getCountries(): JsonResponse
     {
+        $countries = Country::all()->jsonSerialize();
+        $countries = array_map(static function ($country) {
+            $country['img'] = Storage::disk('admin')->url($country['img']);
+
+            return $country;
+        }, $countries);
+
         return self::sendSuccess(
             __('response.success'),
-            Country::all()->jsonSerialize(),
+            $countries,
         );
     }
 

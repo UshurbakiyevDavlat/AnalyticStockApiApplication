@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
 /**
@@ -72,7 +73,10 @@ class PostResource extends JsonResource
             'author' => [
                 'id' => $this->author->id,
                 'name' => $this->author->name,
-                'avatar' => $this->author->avatar_url,
+                'avatar' => $this->author->avatar_url
+                    ? Storage::disk('admin')->url($this->author->avatar_url)
+                    : null,
+                'job_title' => $this->author->job_title,
             ],
         ];
     }
