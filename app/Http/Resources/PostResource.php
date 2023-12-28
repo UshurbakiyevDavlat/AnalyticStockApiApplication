@@ -64,8 +64,8 @@ class PostResource extends JsonResource
             'sector' => $this->horizonDataset->sector->title,
             'postType' => $this->postType->title,
             'ticker' => [
-                'fullName' => $this->horizonDataset->ticker->full_name,
-                'shortName' => $this->horizonDataset->ticker->short_name,
+                'fullName' => $this->horizonDataset->ticker?->full_name,
+                'shortName' => $this->horizonDataset->ticker?->short_name,
             ],
             'potential' => $this->horizonDataset->potential,
             'country' => $this->horizonDataset->country->title,
