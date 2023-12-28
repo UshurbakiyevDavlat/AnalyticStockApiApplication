@@ -76,6 +76,7 @@ class PostResource extends JsonResource
                 'avatar' => $this->author->avatar_url
                     ? Storage::disk('admin')->url($this->author->avatar_url)
                     : null,
+                'job_title' => $this->author->job_title,
             ],
         ];
     }
