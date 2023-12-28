@@ -21,7 +21,9 @@ class PostFileResource extends JsonResource
     {
         return [
             'title' => $this->title,
-            'file' => Storage::disk('admin')->url($this->attachment),
+            'file' => $this->attachment
+                ? Storage::disk('admin')->url($this->attachment)
+                : null,
             'created_at' => $this->created_at,
         ];
     }

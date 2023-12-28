@@ -51,7 +51,9 @@ class JwtAuthController extends Controller
     {
         $user = User::whereBlind('email', 'email_index', $request->email)->first();
 
-        $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
+        $user->avatar_url = $user->avatar_url
+            ? Storage::disk('admin')->url($user->avatar_url)
+            : null;
         $token = JWTAuth::fromUser($user);
         auth()->login($user);
 
@@ -101,7 +103,9 @@ class JwtAuthController extends Controller
     public function userProfile(): Authenticatable
     {
         $user = auth()->user();
-        $user->avatar_url = Storage::disk('admin')->url($user->avatar_url);
+        $user->avatar_url = $user->avatar_url
+            ? Storage::disk('admin')->url($user->avatar_url)
+            : null;
 
         return $user;
     }
