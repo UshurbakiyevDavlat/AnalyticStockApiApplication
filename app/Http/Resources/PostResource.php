@@ -70,10 +70,10 @@ class PostResource extends JsonResource
             ],
             'isin' => $this->horizonDataset->isin?->code,
             'potential' => $this->horizonDataset?->potential,
-            'country' => $this->horizonDataset?->country->title,
+            'country' => $this->horizonDataset?->country?->title,
             'author' => [
-                'id' => $this->author->id,
-                'name' => $this->author->name,
+                'id' => $this->author?->id,
+                'name' => $this->author?->name,
                 'avatar' => $this->author?->avatar_url
                     ? Storage::disk('admin')->url($this->author?->avatar_url)
                     : null,
