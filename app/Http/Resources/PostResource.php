@@ -52,7 +52,7 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'typePaperTitle' => $this->typePaper->title,
+            'typePaperTitle' => $this->typePaper?->title,
             'categoryId' => $this->category_id,
             'subcategoriesId' => $this->subcategory_id,
             'createdAt' => $this->created_at,
@@ -62,22 +62,22 @@ class PostResource extends JsonResource
             'desc' => $this->desc,
             'likes' => $this->likes->count(),
             'views' => $this->views->count(),
-            'sector' => $this->horizonDataset->sector->title,
-            'postType' => $this->postType->title,
+            'sector' => $this->horizonDataset->sector?->title,
+            'postType' => $this->postType?->title,
             'ticker' => [
                 'fullName' => $this->horizonDataset->ticker?->full_name,
                 'shortName' => $this->horizonDataset->ticker?->short_name,
             ],
             'isin' => $this->horizonDataset->isin?->code,
-            'potential' => $this->horizonDataset->potential,
-            'country' => $this->horizonDataset->country->title,
+            'potential' => $this->horizonDataset?->potential,
+            'country' => $this->horizonDataset?->country->title,
             'author' => [
                 'id' => $this->author->id,
                 'name' => $this->author->name,
-                'avatar' => $this->author->avatar_url
-                    ? Storage::disk('admin')->url($this->author->avatar_url)
+                'avatar' => $this->author?->avatar_url
+                    ? Storage::disk('admin')->url($this->author?->avatar_url)
                     : null,
-                'job_title' => $this->author->job_title,
+                'job_title' => $this->author?->job_title,
             ],
         ];
     }
