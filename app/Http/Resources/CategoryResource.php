@@ -63,9 +63,10 @@ class CategoryResource extends JsonResource
                 $uniqueUserIds->push($child->subscriptions->pluck('user_id'));
             });
 
-            $uniqueUserIds = $uniqueUserIds->whenNotEmpty(function ($collection) {
-                return $collection->flatten();
-            })->unique();
+            $uniqueUserIds = $uniqueUserIds->whenNotEmpty(
+                fn($collection) => $collection->flatten(),
+            )
+                ->unique();
 
             $amountOfSubscribers = $uniqueUserIds->count();
         }
