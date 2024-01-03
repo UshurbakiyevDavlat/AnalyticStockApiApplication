@@ -53,6 +53,23 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $isParent = $this->children->count() > 0;
+        $amountOfSubscribers = $this->subscriptions->count();
+
+        if ($isParent) {
+            $uniqueUserIds = collect();
+
+            $this->children->each(function ($child) use ($uniqueUserIds) {
+                $uniqueUserIds->push($child->subscriptions->pluck('user_id'));
+            });
+
+            $uniqueUserIds = $uniqueUserIds->whenNotEmpty(function ($collection) {
+                return $collection->flatten();
+            })->unique();
+
+            $amountOfSubscribers = $uniqueUserIds->count();
+        }
+
         return [
             'id' => $this->id,
             'title' => [
@@ -79,7 +96,7 @@ class CategoryResource extends JsonResource
                     'description',
                 ),
             ],
-            'amountOfSubscribers' => $this->subscriptions->count(),
+            'amountOfSubscribers' => $amountOfSubscribers,
             'slug' => $this->slug,
             'img' => $this->img
                 ? Storage::disk('admin')->url($this->img)
