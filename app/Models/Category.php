@@ -92,4 +92,14 @@ class Category extends Model
     {
         return $this->hasMany(__CLASS__, 'parent_id');
     }
+
+    /**
+     * Get all the subscriptions for the Category
+     *
+     * @return HasMany
+     */
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
 }

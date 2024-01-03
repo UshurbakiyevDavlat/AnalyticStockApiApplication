@@ -79,6 +79,7 @@ class CategoryResource extends JsonResource
                     'description',
                 ),
             ],
+            'amountOfSubscribers' => $this->subscriptions->count(),
             'slug' => $this->slug,
             'img' => $this->img
                 ? Storage::disk('admin')->url($this->img)
