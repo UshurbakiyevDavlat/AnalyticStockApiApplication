@@ -80,7 +80,9 @@ class CategoryResource extends JsonResource
                 ),
             ],
             'slug' => $this->slug,
-            'img' => Storage::disk('admin')->url($this->img),
+            'img' => $this->img
+                ? Storage::disk('admin')->url($this->img)
+                : null,
             'subcategories' => CategoryCollection::make($this->children),
         ];
     }
