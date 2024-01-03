@@ -59,9 +59,9 @@ class CategoryResource extends JsonResource
         if ($isParent) {
             $uniqueUserIds = collect();
 
-            $this->children->each(function ($child) use ($uniqueUserIds) {
-                $uniqueUserIds->push($child->subscriptions->pluck('user_id'));
-            });
+            $this->children->each(fn($child) => $uniqueUserIds->push(
+                $child->subscriptions->pluck('user_id'),
+            ));
 
             $uniqueUserIds = $uniqueUserIds->whenNotEmpty(
                 fn($collection) => $collection->flatten(),
