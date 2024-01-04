@@ -53,10 +53,9 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $isParent = $this->children->count() > 0;
         $amountOfSubscribers = $this->subscriptions->count();
 
-        if ($isParent) {
+        if ($this->children->count() > 0) {
             $uniqueUserIds = collect();
 
             $this->children->each(fn($child) => $uniqueUserIds->push(
