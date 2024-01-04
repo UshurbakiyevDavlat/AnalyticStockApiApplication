@@ -96,12 +96,12 @@ trait FilterTrait
         array $value,
     ): Builder {
         $query->where(
-            'expired_at',
+            'created_at',
             '>=',
             $value[FilterStrEnum::START_DATE->value],
         )
             ->where(
-                'expired_at',
+                'created_at',
                 '<=',
                 $value[FilterStrEnum::END_DATE->value],
             );
