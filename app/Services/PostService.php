@@ -15,6 +15,18 @@ class PostService
     use FilterTrait;
 
     /**
+     * @var string TIME_FORMAT
+     */
+    private const DATE_FORMAT = 'Y-m-d H:i:s';
+    /**
+     * @var int TIME_COEFFICIENT
+     */
+    private const TIME_COEFFICIENT = 1000;
+    /**
+     * @var string TIME_ZONE
+     */
+    private const TIME_ZONE = 'Asia/Almaty';
+    /**
      * @var int PAGINATE_LIMIT
      */
     private const PAGINATE_LIMIT = 10;
@@ -56,10 +68,19 @@ class PostService
             }
 
             $publishedAt = isset($data['start_date'])
-                ? Carbon::createFromTimestamp($data['start_date'])->format('Y-m-d H:i:s')
+                ? Carbon::createFromTimestamp(
+                    $data['start_date'] / self::TIME_COEFFICIENT,
+                    self::TIME_ZONE,
+                )
+                    ->format(self::DATE_FORMAT)
                 : null;
+
             $expiredAt = isset($data['end_date'])
-                ? Carbon::createFromTimestamp($data['end_date'])->format('Y-m-d H:i:s')
+                ? Carbon::createFromTimestamp(
+                    $data['end_date'] / self::TIME_COEFFICIENT,
+                    self::TIME_ZONE,
+                )
+                    ->format(self::DATE_FORMAT)
                 : null;
 
             if ($publishedAt || $expiredAt) {
