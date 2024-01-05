@@ -70,32 +70,27 @@ class CategoryResource extends JsonResource
             $amountOfSubscribers = $uniqueUserIds->count();
         }
 
+        $lang = $request->header(LangStrEnum::LANG_HEADER->value, LangStrEnum::RU->value);
+
+        $title = $lang !== LangStrEnum::RU->value
+            ? TranslationHelper::getCategoryTranslation(
+                $lang,
+                $this->id,
+            )
+            : $this->title;
+
+        $description = $lang !== LangStrEnum::RU->value
+            ? TranslationHelper::getCategoryTranslation(
+                $lang,
+                $this->id,
+                'description',
+            )
+            : $this->description;
+
         return [
             'id' => $this->id,
-            'title' => [
-                LangStrEnum::RU->value => $this->title,
-                LangStrEnum::ENG->value => TranslationHelper::getCategoryTranslation(
-                    LangStrEnum::ENG->value,
-                    $this->id,
-                ),
-                LangStrEnum::KZ->value => TranslationHelper::getCategoryTranslation(
-                    LangStrEnum::KZ->value,
-                    $this->id,
-                ),
-            ],
-            'description' => [
-                LangStrEnum::RU->value => $this->description,
-                LangStrEnum::ENG->value => TranslationHelper::getCategoryTranslation(
-                    LangStrEnum::ENG->value,
-                    $this->id,
-                    'description',
-                ),
-                LangStrEnum::KZ->value => TranslationHelper::getCategoryTranslation(
-                    LangStrEnum::KZ->value,
-                    $this->id,
-                    'description',
-                ),
-            ],
+            'title' => $title,
+            'description' => $description,
             'amountOfSubscribers' => $amountOfSubscribers,
             'slug' => $this->slug,
             'img' => $this->img

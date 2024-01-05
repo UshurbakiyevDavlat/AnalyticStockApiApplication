@@ -42,7 +42,7 @@
                 onchange="updateHiddenField()"
             >
                 <option value="" disabled selected>Select an option</option>
-                {{-- Assume $options is an array of options --}}
+
                 @foreach($params as $paramValue => $paramLabel)
                     <option
                         value="{{ $paramLabel }}"
@@ -82,7 +82,6 @@
 @if(isset($inputType) && $inputType === 'select')
     <script>
         function updateHiddenField() {
-            // Update the value of the hidden input based on the values of $primary and $argument
             document.getElementById('{{ $field }}').value = document.getElementById(
                     '{{ $primary_field }}').value
                 + '.'
@@ -92,21 +91,19 @@
         function getParams() {
             const groupValue = document.getElementById('{{ $group_field }}').value;
 
-            // Use fetch API to send the value to the server
             fetch('{{ route('langAdmin.setGroup') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Add CSRF token if needed
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
                 body: JSON.stringify({ group: groupValue }),
             })
                 .then(response => response.json())
                 .then(data => {
                     const params = data.params;
-
-                    // Populate the options in your select element
                     const selectElement = document.getElementById('{{ $argument_field }}');
+
                     selectElement.innerHTML = '<option value="" disabled selected>Select an option</option>';
 
                     for (const paramValue in params) {
@@ -121,7 +118,6 @@
                         selectElement.appendChild(option);
                     }
 
-                    // Show the args div
                     document.getElementById('args').style.display = 'block';
                 })
                 .catch(error => console.error('Error:', error));

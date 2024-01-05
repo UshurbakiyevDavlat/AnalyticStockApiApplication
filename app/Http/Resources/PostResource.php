@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Enums\LangStrEnum;
+use App\Helpers\TranslationHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -49,17 +51,42 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $lang = $request->header(LangStrEnum::LANG_HEADER->value, LangStrEnum::RU->value);
+
+        $title = $lang !== LangStrEnum::RU->value
+            ? TranslationHelper::getPostTranslation(
+                $lang,
+                $this->id,
+            )
+            : $this->title;
+
+        $desc = $lang !== LangStrEnum::RU->value
+            ? TranslationHelper::getPostTranslation(
+                $lang,
+                $this->id,
+                'desc',
+            )
+            : $this->desc;
+
+        $content = $lang !== LangStrEnum::RU->value
+            ? TranslationHelper::getPostTranslation(
+                $lang,
+                $this->id,
+                'content',
+            )
+            : $this->content;
+
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'title' => $title,
+            'desc' => $desc,
+            'content' => $content,
             'typePaperTitle' => $this->typePaper?->title,
             'categoryId' => $this->category_id,
             'subcategoriesId' => $this->subcategory_id,
             'createdAt' => $this->created_at,
             'publishedAt' => $this->published_at,
             'expiredAt' => $this->expired_at,
-            'content' => $this->content,
-            'desc' => $this->desc,
             'likes' => $this->likes->count(),
             'views' => $this->views->count(),
             'sector' => $this->horizonDataset->sector?->title,
