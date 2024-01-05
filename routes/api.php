@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\EcosystemController;
 use App\Http\Controllers\Api\FilesController;
 use App\Http\Controllers\Api\Posts\BookmarkController;
 use App\Http\Controllers\Api\Posts\CategoryController;
@@ -34,6 +35,11 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
         ->name('user.profile');
 
     Route::group(['prefix' => 'v1'], static function () {
+        Route::group(['prefix' => 'ecosystem'], static function () {
+            Route::get('/', [EcosystemController::class, 'getEcosystem'])
+                ->name('getEcosystem');
+        });
+
         Route::group(['prefix' => 'posts'], static function () {
             Route::get('/', [PostController::class, 'getPosts'])
                 ->name('getPosts');

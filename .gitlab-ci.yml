@@ -35,6 +35,10 @@ build:
 
     # Change permissions for storage and bootstrap directories
     - chmod -R 777 storage bootstrap
+  only:
+    - dev
+    - stage
+    - main
 
 push:
   stage: push
