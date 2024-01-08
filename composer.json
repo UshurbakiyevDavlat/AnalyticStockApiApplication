@@ -12,6 +12,7 @@
         "laravel/framework": "^10.10",
         "laravel/pail": "^1.0",
         "laravel/sanctum": "^3.2",
+        "laravel/scout": "^10.6",
         "laravel/socialite": "^5.10",
         "laravel/tinker": "^2.8",
         "predis/predis": "^2.2",
