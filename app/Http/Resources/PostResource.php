@@ -67,7 +67,7 @@ class PostResource extends JsonResource
                 $lang,
             )
                 ->first()
-                ->id;
+                ?->id;
 
             $postTranslation = PostTranslation::where('post_id', $this->id)
                 ->where('locale_id', $lang_id)

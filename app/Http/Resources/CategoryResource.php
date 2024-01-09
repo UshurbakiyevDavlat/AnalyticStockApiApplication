@@ -85,7 +85,7 @@ class CategoryResource extends JsonResource
                 $lang,
             )
                 ->first()
-                ->id;
+                ?->id;
 
             $categoryTranslation = CategoryTranslation::where('category_id', $this->id)
                 ->where('locale_id', $lang_id)
