@@ -23,6 +23,13 @@ class CategoryController extends Controller
      *     operationId="getCategories",
      *     tags={"Posts"},
      *     security={{ "jwt": {} }},
+     *     @OA\Parameter(
+     *           name="Lang",
+     *           in="header",
+     *           description="Language for the response",
+     *           required=false,
+     *           @OA\Schema(type="string", default="en"),
+     *  ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -85,6 +92,13 @@ class CategoryController extends Controller
      *           description="ID of the category",
      *           @OA\Schema(type="integer"),
      *       ),
+     *     @OA\Parameter(
+     *           name="Lang",
+     *           in="header",
+     *           description="Language for the response",
+     *           required=false,
+     *           @OA\Schema(type="string", default="en"),
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",

@@ -95,16 +95,21 @@ trait FilterTrait
         Builder $query,
         array $value,
     ): Builder {
-        $query->where(
-            'expired_at',
-            '>=',
-            $value[FilterStrEnum::START_DATE->value],
-        )
-            ->where(
-                'expired_at',
+        if (isset($value[FilterStrEnum::START_DATE->value])) {
+            $query = $query->where(
+                'created_at',
+                '>=',
+                $value[FilterStrEnum::START_DATE->value],
+            );
+        }
+
+        if (isset($value[FilterStrEnum::END_DATE->value])) {
+            $query = $query->where(
+                'created_at',
                 '<=',
                 $value[FilterStrEnum::END_DATE->value],
             );
+        }
 
         return $query;
     }

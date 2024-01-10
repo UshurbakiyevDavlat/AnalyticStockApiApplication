@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Enums\LangStrEnum;
-use App\Helpers\TranslationHelper;
+use App\Models\CategoryTranslation;
+use App\Models\Locale;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -70,32 +71,37 @@ class CategoryResource extends JsonResource
             $amountOfSubscribers = $uniqueUserIds->count();
         }
 
+        $lang = $request->header(
+            LangStrEnum::LANG_HEADER->value,
+            LangStrEnum::RU->value,
+        );
+
+        $title = $this->title;
+        $description = $this->description;
+
+        if ($lang !== LangStrEnum::RU->value) {
+            $lang_id = Locale::where(
+                'locale',
+                $lang,
+            )
+                ->first()
+                ?->id;
+
+            $categoryTranslation = CategoryTranslation::where('category_id', $this->id)
+                ->where('locale_id', $lang_id)
+                ->first();
+
+            $title = $categoryTranslation->title
+                ?? LangStrEnum::NO_TRANSLATION->value;
+
+            $description = $categoryTranslation->description
+                ?? LangStrEnum::NO_TRANSLATION->value;
+        }
+
         return [
             'id' => $this->id,
-            'title' => [
-                LangStrEnum::RU->value => $this->title,
-                LangStrEnum::ENG->value => TranslationHelper::getCategoryTranslation(
-                    LangStrEnum::ENG->value,
-                    $this->id,
-                ),
-                LangStrEnum::KZ->value => TranslationHelper::getCategoryTranslation(
-                    LangStrEnum::KZ->value,
-                    $this->id,
-                ),
-            ],
-            'description' => [
-                LangStrEnum::RU->value => $this->description,
-                LangStrEnum::ENG->value => TranslationHelper::getCategoryTranslation(
-                    LangStrEnum::ENG->value,
-                    $this->id,
-                    'description',
-                ),
-                LangStrEnum::KZ->value => TranslationHelper::getCategoryTranslation(
-                    LangStrEnum::KZ->value,
-                    $this->id,
-                    'description',
-                ),
-            ],
+            'title' => $title,
+            'description' => $description,
             'amountOfSubscribers' => $amountOfSubscribers,
             'slug' => $this->slug,
             'img' => $this->img

@@ -25,12 +25,40 @@ class TranslationHelper
         int $id,
         string $key = 'title',
     ): Application|array|string|Translator|\Illuminate\Contracts\Foundation\Application|null {
-        $supportedLanguages = LangStrEnum::getSupportedLangs(); //TODO нужно будет добавить
+        $supportedLanguages = LangStrEnum::getSupportedLangs();
 
         // Check if the requested language is supported
         if (in_array($lang, $supportedLanguages, true)) {
             App::setLocale($lang);
             $key = "category.{$id}.$key";
+
+            return Lang::has($key)
+                ? Lang::get($key)
+                : 'No translation';
+        }
+
+        return 'Not supported language';
+    }
+
+    /**
+     * Get post translation
+     *
+     * @param string $lang
+     * @param int $id
+     * @param string $key
+     * @return Application|array|string|Translator|\Illuminate\Contracts\Foundation\Application|null
+     */
+    public static function getPostTranslation(
+        string $lang,
+        int $id,
+        string $key = 'title',
+    ): Application|array|string|Translator|\Illuminate\Contracts\Foundation\Application|null {
+        $supportedLanguages = LangStrEnum::getSupportedLangs();
+
+        // Check if the requested language is supported
+        if (in_array($lang, $supportedLanguages, true)) {
+            App::setLocale($lang);
+            $key = "post.{$id}.$key";
 
             return Lang::has($key)
                 ? Lang::get($key)
