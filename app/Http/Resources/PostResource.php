@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Enums\LangStrEnum;
+use App\Models\Locale;
+use App\Models\PostTranslation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -49,17 +52,48 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $lang = $request->header(
+            LangStrEnum::LANG_HEADER->value,
+            LangStrEnum::RU->value,
+        );
+
+        $title = $this->title;
+        $desc = $this->desc;
+        $content = $this->content;
+
+        if ($lang !== LangStrEnum::RU->value) {
+            $lang_id = Locale::where(
+                'locale',
+                $lang,
+            )
+                ->first()
+                ?->id;
+
+            $postTranslation = PostTranslation::where('post_id', $this->id)
+                ->where('locale_id', $lang_id)
+                ->first();
+
+            $title = $postTranslation->title
+                ?? LangStrEnum::NO_TRANSLATION->value;
+
+            $desc = $postTranslation->desc
+                ?? LangStrEnum::NO_TRANSLATION->value;
+
+            $content = $postTranslation->content
+                ?? LangStrEnum::NO_TRANSLATION->value;
+        }
+
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'title' => $title,
+            'desc' => $desc,
+            'content' => $content,
             'typePaperTitle' => $this->typePaper?->title,
             'categoryId' => $this->category_id,
             'subcategoriesId' => $this->subcategory_id,
             'createdAt' => $this->created_at,
             'publishedAt' => $this->published_at,
             'expiredAt' => $this->expired_at,
-            'content' => $this->content,
-            'desc' => $this->desc,
             'likes' => $this->likes->count(),
             'views' => $this->views->count(),
             'sector' => $this->horizonDataset->sector?->title,

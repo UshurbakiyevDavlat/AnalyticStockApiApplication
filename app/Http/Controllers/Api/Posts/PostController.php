@@ -27,6 +27,14 @@ class PostController extends Controller
      *        operationId="getPosts",
      *        tags={"Posts"},
      *        security={{ "jwt": {} }},
+     *
+     *     @OA\Parameter(
+     *           name="Lang",
+     *           in="header",
+     *           description="Language for the response",
+     *           required=false,
+     *           @OA\Schema(type="string", default="en"),
+     *  ),
      *        @OA\Response(
      *            response=200,
      *            description="Successful operation",
@@ -64,6 +72,14 @@ class PostController extends Controller
      *       operationId="getPost",
      *       tags={"Posts"},
      *       security={{ "jwt": {} }},
+     *
+     *       @OA\Parameter(
+     *           name="Lang",
+     *           in="header",
+     *           description="Language for the response",
+     *           required=false,
+     *           @OA\Schema(type="string", default="en"),
+     *  ),
      *       @OA\Parameter(
      *           name="post",
      *           in="path",
@@ -71,6 +87,7 @@ class PostController extends Controller
      *           required=true,
      *           @OA\Schema(type="integer"),
      *       ),
+     *
      *       @OA\Response(
      *           response=200,
      *           description="Successful operation",

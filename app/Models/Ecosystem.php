@@ -1,37 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     schema="Lang",
+ *     schema="Ecosystem",
  *     type="object",
- *     required={"id", "title", "created_at", "updated_at"},
+ *     required={"id", "website", "img", "created_at" ,"updated_at"},
  *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="title", type="string"),
+ *     @OA\Property(property="website", type="string"),
+ *     @OA\Property(property="img", type="string"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  * )
  */
-class Lang extends Model
+class Ecosystem extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected $guarded = ['id'];
+    /** @inheritdoc */
+    protected $table = 'ecosystem';
 
-    /**
-     * {@inheritDoc}
-     */
+    /** @inheritdoc */
+    protected $guarded = [
+        'id',
+    ];
+
+    /** @inheritdoc */
     protected $fillable = [
-        'title',
+        'website',
+        'img',
     ];
 }

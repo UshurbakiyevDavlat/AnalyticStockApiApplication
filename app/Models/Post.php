@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -241,5 +243,15 @@ class Post extends Model
     public function postType(): BelongsTo
     {
         return $this->belongsTo(PostType::class, 'post_type_id');
+    }
+
+    /**
+     * Post translations that belong to the Post
+     *
+     * @return HasMany
+     */
+    public function translations(): HasMany
+    {
+        return $this->hasMany(PostTranslation::class);
     }
 }
