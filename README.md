@@ -1,6 +1,7 @@
 ## IAnalytics api project
 
 ### Description
+
 ~~~
 This project is a part of IAnalytics project.
 - It is an api for IAnalytics project.
@@ -11,6 +12,7 @@ This project is a part of IAnalytics project.
 ~~~
 
 ### Requirements
+
 ~~~
 1. Git
 2. Gitlab account
@@ -20,6 +22,7 @@ This project is a part of IAnalytics project.
 ~~~
 
 ### Installation
+
 ~~~
 1. Clone this repository: `git clone git@10.50.223.215:developers/ffin/ianalytics-api.git
 2. docker-compose build 
@@ -32,6 +35,7 @@ This project is a part of IAnalytics project.
 ~~~
 
 ### Most important 3-rd party packages
+
 ~~~
 - [Pest] - for testing
 - [Pest-stress] - for stress testing
@@ -63,4 +67,11 @@ This project is a part of IAnalytics project.
  - Для поиска используется scout, который индексирует данные в elasticsearch. Поэтому для поиска нужно запустить meilisearch (Для локалки он в докере, а для работы на сервере нужно установить его на сервере).
  - Для индексации данных нужно запустить команду php artisan scout:import "App\Models\{ModelName}".
  - Для удаления индекса нужно запустить команду php artisan scout:flush "App\Models\{ModelName}".
+ 
+ Для создания контейнера в докере на сервере нужно прописать
+ 
+ docker run -d --name=meilisearch --restart=always --network=vpa_network -p 7700:7700     
+ -v /opt/meilisearch/data:/meili_data     
+ -e MEILI_MASTER_KEY=masterKey 
+ getmeili/meilisearch
 ~~~
