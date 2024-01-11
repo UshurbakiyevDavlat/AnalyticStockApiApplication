@@ -8,6 +8,7 @@ use App\Enums\PostStrEnum;
 use App\Models\Post;
 use App\Traits\FilterTrait;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
 class PostService
@@ -110,5 +111,16 @@ class PostService
         }
 
         return $data;
+    }
+
+    /**
+     * Search posts by query. It can be by title or Ticker/ISIN.
+     *
+     * @param string $query
+     * @return Collection
+     */
+    public function searchPost(string $query): Collection
+    {
+        return Post::search($query)->get();
     }
 }

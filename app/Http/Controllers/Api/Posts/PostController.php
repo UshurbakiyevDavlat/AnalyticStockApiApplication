@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Posts;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\GetPostsRequest;
+use App\Http\Requests\Post\SearchRequest;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
@@ -109,6 +110,23 @@ class PostController extends Controller
         return self::sendSuccess(
             __('response.success'),
             PostResource::make($post)->jsonSerialize(),
+        );
+    }
+
+    /**
+     * Search posts by query. It can be by title or Ticker/ISIN.
+     *
+     * @param SearchRequest $request
+     * @return JsonResponse
+     */
+    public function searchPosts(SearchRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+        $posts = $this->postService->searchPost($data['query']);
+
+        return self::sendSuccess(
+            __('response.success'),
+            PostCollection::make($posts)->jsonSerialize(),
         );
     }
 }

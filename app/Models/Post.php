@@ -274,11 +274,12 @@ class Post extends Model
      *
      * @return array<string, mixed>
      */
-    #[SearchUsingPrefix(['title'])]
-    // #[SearchUsingFullText(['content'])]
     public function toSearchableArray(): array
     {
-        return $this->toArray();
+        return [
+            'id' => $this->getKey(),
+            'title' => $this->title,
+        ];
     }
 
     /**
