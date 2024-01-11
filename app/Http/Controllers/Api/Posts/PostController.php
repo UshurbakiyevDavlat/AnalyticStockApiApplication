@@ -115,6 +115,38 @@ class PostController extends Controller
 
     /**
      * Search posts by query. It can be by title or Ticker/ISIN.
+     * @OA\Get(
+     *     path="/api/v1/posts/search",
+     *     summary="Search posts",
+     *     description="Search posts by query. It can be by title or Ticker/ISIN.",
+     *     operationId="searchPosts",
+     *     tags={"Posts"},
+     *     security={{ "jwt": {} }},
+     *     @OA\Parameter(
+     *      name="Lang",
+     *     in="header",
+     *     description="Language for the response",
+     *     required=false,
+     *     @OA\Schema(type="string", default="en"),
+     *     ),
+     *     @OA\Parameter(
+     *     name="query",
+     *     in="query",
+     *     description="Query for search",
+     *     required=true,
+     *     @OA\Schema(type="string"),
+     *     ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(
+     *     type="object",
+     *     @OA\Property(property="message", type="string", example="Success message"),
+     *     @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PostResource")),
+     *     ),
+     *     ),
+     *     @OA\Response(response=400, description="Bad request"),
+     *     )
      *
      * @param SearchRequest $request
      * @return JsonResponse

@@ -56,3 +56,11 @@ This project is a part of IAnalytics project.
    
  - Управление админ панелью переводов лежит в vendor/translation оттуда можно смотреть логику.
 ~~~
+
+### Scout search
+
+~~~
+ - Для поиска используется scout, который индексирует данные в elasticsearch. Поэтому для поиска нужно запустить meilisearch (Для локалки он в докере, а для работы на сервере нужно установить его на сервере).
+ - Для индексации данных нужно запустить команду php artisan scout:import "App\Models\{ModelName}".
+ - Для удаления индекса нужно запустить команду php artisan scout:flush "App\Models\{ModelName}".
+~~~
