@@ -279,6 +279,8 @@ class Post extends Model
         return [
             'id' => $this->getKey(),
             'title' => $this->title,
+            'ticker' => $this->horizonDataset->ticker?->short_name,
+            'isin' => $this->horizonDataset->isin?->code,
         ];
     }
 
