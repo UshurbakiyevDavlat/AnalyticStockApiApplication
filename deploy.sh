@@ -47,3 +47,6 @@ docker exec vpa-api-container composer install --no-interaction --prefer-dist --
 
 # Run artisan optimize:clear (if Laravel project)
 docker exec vpa-api-container php artisan optimize:clear
+
+# Set imports for scout search
+docker exec vpa-api-container php artisan scout:import "App\Models\Post"
