@@ -44,6 +44,8 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
             Route::get('/', [PostController::class, 'getPosts'])
                 ->name('getPosts');
 
+            Route::get('search', [PostController::class, 'searchPosts'])->name('searchPosts');
+
             Route::group(['prefix' => 'categories'], static function () {
                 Route::get('/', [CategoryController::class, 'getCategories'])
                     ->name('getCategories');
