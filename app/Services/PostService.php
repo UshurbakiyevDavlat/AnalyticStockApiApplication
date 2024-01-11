@@ -43,7 +43,8 @@ class PostService
      */
     public function getPosts(array $data): LengthAwarePaginator
     {
-        $query = Post::query()->with('horizonDataset');
+        $query = Post::query()->with('horizonDataset')
+            ->where('is_published', true);
 
         if (!empty($data)) {
             $data = $this->prepareDataForFilter($data);
