@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Enums\LangStrEnum;
-use App\Helpers\TranslationHelper;
+use App\Models\Locale;
+use App\Models\PostTranslation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -51,30 +52,36 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $lang = $request->header(LangStrEnum::LANG_HEADER->value, LangStrEnum::RU->value);
+        $lang = $request->header(
+            LangStrEnum::LANG_HEADER->value,
+            LangStrEnum::RU->value,
+        );
 
-        $title = $lang !== LangStrEnum::RU->value
-            ? TranslationHelper::getPostTranslation(
-                $lang,
-                $this->id,
-            )
-            : $this->title;
+        $title = $this->title;
+        $desc = $this->desc;
+        $content = $this->content;
 
-        $desc = $lang !== LangStrEnum::RU->value
-            ? TranslationHelper::getPostTranslation(
+        if ($lang !== LangStrEnum::RU->value) {
+            $lang_id = Locale::where(
+                'locale',
                 $lang,
-                $this->id,
-                'desc',
             )
-            : $this->desc;
+                ->first()
+                ?->id;
 
-        $content = $lang !== LangStrEnum::RU->value
-            ? TranslationHelper::getPostTranslation(
-                $lang,
-                $this->id,
-                'content',
-            )
-            : $this->content;
+            $postTranslation = PostTranslation::where('post_id', $this->id)
+                ->where('locale_id', $lang_id)
+                ->first();
+
+            $title = $postTranslation->title
+                ?? LangStrEnum::NO_TRANSLATION->value;
+
+            $desc = $postTranslation->desc
+                ?? LangStrEnum::NO_TRANSLATION->value;
+
+            $content = $postTranslation->content
+                ?? LangStrEnum::NO_TRANSLATION->value;
+        }
 
         return [
             'id' => $this->id,

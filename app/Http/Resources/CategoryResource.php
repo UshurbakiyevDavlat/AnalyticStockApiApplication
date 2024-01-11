@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Enums\LangStrEnum;
-use App\Helpers\TranslationHelper;
+use App\Models\CategoryTranslation;
+use App\Models\Locale;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -70,22 +71,32 @@ class CategoryResource extends JsonResource
             $amountOfSubscribers = $uniqueUserIds->count();
         }
 
-        $lang = $request->header(LangStrEnum::LANG_HEADER->value, LangStrEnum::RU->value);
+        $lang = $request->header(
+            LangStrEnum::LANG_HEADER->value,
+            LangStrEnum::RU->value,
+        );
 
-        $title = $lang !== LangStrEnum::RU->value
-            ? TranslationHelper::getCategoryTranslation(
-                $lang,
-                $this->id,
-            )
-            : $this->title;
+        $title = $this->title;
+        $description = $this->description;
 
-        $description = $lang !== LangStrEnum::RU->value
-            ? TranslationHelper::getCategoryTranslation(
+        if ($lang !== LangStrEnum::RU->value) {
+            $lang_id = Locale::where(
+                'locale',
                 $lang,
-                $this->id,
-                'description',
             )
-            : $this->description;
+                ->first()
+                ?->id;
+
+            $categoryTranslation = CategoryTranslation::where('category_id', $this->id)
+                ->where('locale_id', $lang_id)
+                ->first();
+
+            $title = $categoryTranslation->title
+                ?? LangStrEnum::NO_TRANSLATION->value;
+
+            $description = $categoryTranslation->description
+                ?? LangStrEnum::NO_TRANSLATION->value;
+        }
 
         return [
             'id' => $this->id,
