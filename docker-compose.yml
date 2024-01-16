@@ -66,8 +66,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      - RABBITMQ_DEFAULT_USER=vpa
-      - RABBITMQ_DEFAULT_PASS=vpa
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     labels:
       NAME: "rabbitmq"
     networks:
