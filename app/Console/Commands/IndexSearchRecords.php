@@ -37,7 +37,7 @@ class IndexSearchRecords extends Command
     {
         $this->info('Indexing search records for Meilisearch...');
 
-        $this->call('php artisan scout:import --model=App\Models\Post');
+        $this->call('scout:import', ['model' => 'App\Models\Post']);
 
         $this->info('Indexing completed.');
     }
