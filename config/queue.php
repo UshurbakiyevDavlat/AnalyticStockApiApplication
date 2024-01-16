@@ -1,7 +1,7 @@
 <?php
 
-use Enqueue\AmqpLib\AmqpConnectionFactory;
-use Interop\Amqp\AmqpTopic as AmqpTopicAlias;
+use Enqueue\AmqpBunny\AmqpConnectionFactory;
+use Interop\Amqp\AmqpTopic;
 
 return [
 
@@ -101,7 +101,7 @@ return [
                     * Determine if exchange should be created if it does not exist.
                     */
                     'declare' => env('RABBITMQ_EXCHANGE_DECLARE', true),
-                    'type' => env('RABBITMQ_EXCHANGE_TYPE', AmqpTopicAlias::TYPE_DIRECT),
+                    'type' => env('RABBITMQ_EXCHANGE_TYPE', AmqpTopic::TYPE_DIRECT),
                     'passive' => env('RABBITMQ_EXCHANGE_PASSIVE', false),
                     'durable' => env('RABBITMQ_EXCHANGE_DURABLE', true),
                     'auto_delete' => env('RABBITMQ_EXCHANGE_AUTODELETE', false),
@@ -112,12 +112,10 @@ return [
                     * Determine if queue should be created if it does not exist.
                     */
                     'declare' => env('RABBITMQ_QUEUE_DECLARE', true),
-
                     /*
                     * Determine if queue should be binded to the exchange created.
                     */
                     'bind' => env('RABBITMQ_QUEUE_DECLARE_BIND', true),
-
                     'passive' => env('RABBITMQ_QUEUE_PASSIVE', false),
                     'durable' => env('RABBITMQ_QUEUE_DURABLE', true),
                     'exclusive' => env('RABBITMQ_QUEUE_EXCLUSIVE', false),
@@ -125,7 +123,6 @@ return [
                     'arguments' => env('RABBITMQ_QUEUE_ARGUMENTS'),
                 ],
             ],
-
             /*
             * Determine the number of seconds to sleep if there's an error communicating with rabbitmq
             * If set to false, it'll throw an exception rather than doing the sleep for X seconds.

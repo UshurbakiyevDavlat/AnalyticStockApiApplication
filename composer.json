@@ -1,13 +1,23 @@
 {
-    "name": "laravel/laravel",
+    "name": "ffin/vpa-api",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "VPA API project skeleton with Laravel 10",
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
+    "authors": [
+        {
+            "name": "Davlatbek Ushurbakiyev",
+            "email": "davlatbek.ushurbakiyev@ffin.kz"
+        }
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
         "algolia/algoliasearch-client-php": "^3.4",
         "darkaonline/l5-swagger": "^8.5",
+        "enqueue/amqp-bunny": "^0.10.19",
         "enqueue/amqp-lib": "*",
         "guzzlehttp/guzzle": "^7.2",
         "http-interop/http-factory-guzzle": "^1.2",
