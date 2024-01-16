@@ -28,8 +28,8 @@ services:
     container_name: nginx-analytics-api
     restart: unless-stopped
     ports:
-    - "8001:80"   # Use a different host port, like 8080, for example
-    - "443:443"  # Use a different host port, like 8443, for example
+      - "8001:80"   # Use a different host port, like 8080, for example
+      - "443:443"  # Use a different host port, like 8443, for example
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./public:/var/www/html/public
@@ -56,6 +56,24 @@ services:
     volumes:
       - ./data.ms:/data.ms
     restart: unless-stopped
+
+
+  # RabbitMQ Service
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: "rabbit"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=vpa
+      - RABBITMQ_DEFAULT_PASS=vpa
+    labels:
+      NAME: "rabbitmq"
+    networks:
+      - ianalytics-admin_app_network
+    volumes:
+      - ./rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
 
 volumes:
   dbdata:

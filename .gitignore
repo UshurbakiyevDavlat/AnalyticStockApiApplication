@@ -24,3 +24,4 @@ lang/*
 !lang/en/.keep
 !lang/en/response.php
 data.ms
+rabbitmq-isolated.conf
