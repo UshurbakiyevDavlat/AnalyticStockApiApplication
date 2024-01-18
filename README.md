@@ -79,6 +79,13 @@ This project is a part of IAnalytics project.
 ~~~
 
 ### RabbitMQ
+
 ~~~
 docker run -d --name=rabbitmq --restart=always --network=vpa_network -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
+~~~
+
+### Supervisor
+
+~~~
+docker run -d   --name supervisor   --network vpa_network   --link app-analytics-api:app-analytics-api   davlatfin2023/vpa-admin:api-latest bash -c 'sleep 10 && supervisord'
 ~~~
