@@ -43,4 +43,4 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 EXPOSE 9000
 
 # Start PHP-FPM and supervisor
-CMD ["php-fpm", "-F", "&", "supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["sh", "-c", "php-fpm -F & supervisord -c /etc/supervisor/conf.d/worker.conf"]
