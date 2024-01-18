@@ -88,4 +88,5 @@ docker run -d --name=rabbitmq --restart=always --network=vpa_network -p 5672:567
 
 ~~~
 docker run -d   --name supervisor   --network vpa_network   --link app-analytics-api:app-analytics-api   davlatfin2023/vpa-admin:api-latest bash -c 'supervisord'
+Do not forget install composer there docker exec -it 90d2d8d5d82b /usr/local/bin/composer install
 ~~~
