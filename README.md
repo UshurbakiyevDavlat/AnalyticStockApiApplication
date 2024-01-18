@@ -48,6 +48,8 @@ This project is a part of IAnalytics project.
 - [Laravel ide-helper] - for ide helper
 - [Laravel pail] - for logging
 - [Laravel translation] - for translation
+- [Laravel scout] - for search
+- [Laravel rabbitmq] - for message and task broker
 ~~~
 
 ## Notes
@@ -74,4 +76,10 @@ This project is a part of IAnalytics project.
  -v /opt/meilisearch/data:/meili_data     
  -e MEILI_MASTER_KEY=masterKey 
  getmeili/meilisearch
+~~~
+
+### RabbitMQ
+
+~~~
+docker run -d --name=rabbitmq --restart=always --network=vpa_network -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
 ~~~
