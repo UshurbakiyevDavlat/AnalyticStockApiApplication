@@ -9,10 +9,11 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libicu-dev \
     unzip \
+    supervisor \
     libpq-dev \
     libldap2-dev \
     && docker-php-ext-configure gd --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql pgsql xml zip intl ldap \
+    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql pgsql xml zip intl ldap sockets \
     && docker-php-ext-install pcntl
 
 # Install Xdebug 3.x
@@ -24,6 +25,7 @@ WORKDIR /var/www/html
 
 # Copy the composer files into the container
 COPY composer.json composer.lock ./
+COPY docker/supervisor.conf /etc/supervisor/conf.d/worker.conf
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
