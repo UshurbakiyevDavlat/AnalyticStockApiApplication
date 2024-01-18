@@ -76,7 +76,6 @@ return [
 
         'rabbitmq' => [
             'driver' => 'rabbitmq',
-            'retry_after' => 90,
             /*
             * Set to "horizon" if you wish to use Laravel Horizon.
             */
