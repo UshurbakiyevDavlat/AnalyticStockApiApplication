@@ -42,5 +42,5 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 # Expose the container's port 9000 for PHP-FPM
 EXPOSE 9000
 
-# Start PHP-FPM
-CMD ["php-fpm", "supervisord"]
+# Start PHP-FPM and supervisor
+CMD ["php-fpm", "-F", "&", "supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
