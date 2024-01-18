@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Post;
 use Illuminate\Console\Command;
 
 class IndexSearchRecords extends Command
@@ -37,7 +38,7 @@ class IndexSearchRecords extends Command
     {
         $this->info('Indexing search records for Meilisearch...');
 
-        $this->call('scout:import', ['model' => 'App\Models\Post']);
+        $this->call('scout:import', ['model' => Post::class]);
 
         $this->info('Indexing completed.');
     }
