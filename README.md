@@ -87,5 +87,5 @@ docker run -d --name=rabbitmq --restart=always --network=vpa_network -p 5672:567
 ### Supervisor
 
 ~~~
-docker run -d   --name supervisor   --network vpa_network   --link app-analytics-api:app-analytics-api   davlatfin2023/vpa-admin:api-latest bash -c 'sleep 10 && supervisord'
+docker run -d   --name supervisor   --network vpa_network   --link app-analytics-api:app-analytics-api   davlatfin2023/vpa-admin:api-latest bash -c 'supervisord'
 ~~~
