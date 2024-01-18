@@ -40,7 +40,7 @@ docker stop vpa-api-container || true
 docker rm vpa-api-container || true
 
 # Run the Docker container
-docker run -d --name vpa-api-container --network=vpa_network -p 8001:80 -v "$APP_DIR":/var/www/html "$DOCKER_IMAGE" #bash -c 'supervisord'
+docker run -d --name vpa-api-container --network=vpa_network -p 8001:80 -v "$APP_DIR":/var/www/html "$DOCKER_IMAGE"
 
 #install composer dependencies
 docker exec vpa-api-container composer install --no-interaction --prefer-dist --optimize-autoloader
