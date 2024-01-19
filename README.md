@@ -83,3 +83,9 @@ This project is a part of IAnalytics project.
 ~~~
 docker run -d --name=rabbitmq --restart=always --network=vpa_network -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
 ~~~
+
+### Redis
+
+~~~
+docker run -d --name ianalytics_redis -p 6382:6379 --network vpa_network redis:4.0
+~~~
