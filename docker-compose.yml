@@ -76,16 +76,6 @@ services:
     volumes:
       - ./rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
 
-
-  supervisor:
-    image: app
-    networks:
-      - ianalytics-admin_app_network
-    depends_on:
-      - app
-      - nginx
-    command: supervisord
-
 volumes:
   dbdata:
 

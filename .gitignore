@@ -25,3 +25,5 @@ lang/*
 !lang/en/response.php
 data.ms
 rabbitmq-isolated.conf
+supervisord.log
+supervisord.pid
