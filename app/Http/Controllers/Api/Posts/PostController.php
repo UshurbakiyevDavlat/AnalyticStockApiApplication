@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Posts;
 
+use App\Enums\CacheIntEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\GetPostsRequest;
 use App\Http\Requests\Post\SearchRequest;
@@ -12,6 +13,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use OpenApi\Annotations as OA;
 
 class PostController extends Controller
@@ -54,13 +56,19 @@ class PostController extends Controller
     public function getPosts(GetPostsRequest $request): JsonResponse
     {
         $data = $request->validated();
+        $cacheKey = 'posts_list';
         $posts = $this->postService->getPosts($data);
         $posts->paginated = true;
 
-        return self::sendSuccess(
-            __('response.success'),
-            PostCollection::make($posts)->jsonSerialize(),
+        $cachedPosts = Cache::remember(
+            $cacheKey,
+            now()->addMinutes(CacheIntEnum::EXPIRED->value),
+            static function () use ($posts) {
+                return PostCollection::make($posts)->jsonSerialize();
+            },
         );
+
+        return self::sendSuccess(__('response.success'), $cachedPosts);
     }
 
     /**
@@ -107,10 +115,17 @@ class PostController extends Controller
      */
     public function getPost(Post $post): JsonResponse
     {
-        return self::sendSuccess(
-            __('response.success'),
-            PostResource::make($post)->jsonSerialize(),
+        $cacheKey = 'post_' . $post->id;
+
+        $cachedPost = Cache::remember(
+            $cacheKey,
+            now()->addMinutes(CacheIntEnum::EXPIRED->value),
+            static function () use ($post) {
+                return PostResource::make($post)->jsonSerialize();
+            },
         );
+
+        return self::sendSuccess(__('response.success'), $cachedPost);
     }
 
     /**

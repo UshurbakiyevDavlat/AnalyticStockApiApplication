@@ -76,15 +76,13 @@ services:
     volumes:
       - ./rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
 
-
-  supervisor:
-    image: app
+  redis:
+    image: redis:4.0
+    container_name: ianalytics_redis
+    ports:
+      - "6382:6379"
     networks:
       - ianalytics-admin_app_network
-    depends_on:
-      - app
-      - nginx
-    command: supervisord
 
 volumes:
   dbdata:
