@@ -13,7 +13,6 @@ variables:
 services:
   - docker:dind
 
-
 phpstan:
   stage: staticanalysis
   image: composer
@@ -24,10 +23,6 @@ phpstan:
     key: ${CI_COMMIT_REF_SLUG}-composer-larastan
     paths:
       - vendor/
-  artifacts:
-    when: always
-    reports:
-      codequality: phpstan.json
   allow_failure: true
 
 test:
