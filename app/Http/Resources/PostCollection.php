@@ -15,12 +15,15 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
  */
 class PostCollection extends ResourceCollection
 {
+    public array $data;
+
     /**
      * @param $resource
-     * @param $data
+     * @param array|null $data
      */
-    public function __construct($resource,public $data)
+    public function __construct($resource, ?array $data)
     {
+        $this->data = $data;
         parent::__construct($resource);
     }
 
