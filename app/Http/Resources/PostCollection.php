@@ -7,8 +7,23 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * @method total()
+ * @method perPage()
+ * @method currentPage()
+ * @method lastPage()
+ */
 class PostCollection extends ResourceCollection
 {
+    /**
+     * @param $resource
+     * @param $data
+     */
+    public function __construct($resource,public $data)
+    {
+        parent::__construct($resource);
+    }
+
     /**
      * Transform the resource collection into an array.
      *
@@ -16,7 +31,7 @@ class PostCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        if (!empty($this->paginated)) {
+        if (!empty($this->data['paginated'])) {
             $pagination = [
                 'total' => $this->total(),
                 'count' => $this->count(),

@@ -10,59 +10,59 @@ namespace App\Enums;
 enum LangStrEnum: string
 {
     /**
-     * @var string RU
+     * @const string LANG_HEADER
      */
     case LANG_HEADER = 'Lang';
 
     /**
-     * @var string RU
+     * @const string RU
      */
     case RU = 'ru';
 
     /**
-     * @var string ENG
+     * @const string ENG
      */
     case ENG = 'en';
 
     /**
-     * @var string KZ
+     * @const string KZ
      */
     case KZ = 'kz';
 
     /**
-     * @var string TITLE
+     * @const string TITLE
      */
     case TITLE = 'title';
 
     /**
-     * @var string DESC
+     * @const string DESC
      */
     case DESC = 'description';
 
     /**
-     * @var string POST_DESC post model description
+     * @const string POST_DESC post model description
      */
     case POST_DESC = 'desc';
 
     /**
-     * @var string CONTENT
+     * @const string CONTENT
      */
     case CONTENT = 'content';
 
     //Fields below should fit to name of the model.
 
     /**
-     * @var string CATEGORIES category model name
+     * @const string CATEGORIES category model name
      */
     case CATEGORIES = 'Category';
 
     /**
-     * @var string POSTS post model name
+     * @const string POSTS post model name
      */
     case POSTS = 'Post';
 
     /**
-     * @var string NO_TRANSLATION
+     * @const string NO_TRANSLATION
      */
     case NO_TRANSLATION = 'No translation';
 

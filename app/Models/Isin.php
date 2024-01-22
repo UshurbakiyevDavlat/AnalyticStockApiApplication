@@ -16,6 +16,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  * )
+ *
+ * @property string $code
  */
 class Isin extends Model
 {

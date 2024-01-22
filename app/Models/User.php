@@ -27,6 +27,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  * )
+ *
+ * @property ?string $avatar_url
+ * @property ?string $job_title
+ * @property string $name
+ * @property string $email
  */
 class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 {

@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
 use OpenApi\Annotations as OA;
 
@@ -49,6 +48,9 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="horizon_dataset", type="object", ref="#/components/schemas/HorizonDataset"),
  *     @OA\Property(property="files", type="array", @OA\Items(ref="#/components/schemas/File")),
  * )
+ *
+ * @property string $title
+ * @property bool $is_published
  */
 class Post extends Model
 {

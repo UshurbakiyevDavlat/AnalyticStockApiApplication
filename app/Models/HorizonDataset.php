@@ -19,6 +19,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  *     @OA\Property(property="post", type="object", ref="#/components/schemas/Post"),
  * )
+ *
+ * @property string $potential
  */
 class HorizonDataset extends Model
 {

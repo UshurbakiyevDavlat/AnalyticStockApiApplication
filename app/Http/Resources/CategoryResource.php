@@ -7,6 +7,7 @@ namespace App\Http\Resources;
 use App\Enums\LangStrEnum;
 use App\Models\CategoryTranslation;
 use App\Models\Locale;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -39,6 +40,16 @@ use OpenApi\Annotations as OA;
  *         @OA\Items(ref="#/components/schemas/CategoryResource"),
  *     ),
  * )
+ *
+ * @property Subscription $subscriptions
+ * @property self $children
+ * @property int $id
+ * @property string $slug
+ * @property string $img
+ * @property string $title
+ * @property string $description
+ * @method each(\Closure $param)
+ * @method count()
  */
 class CategoryResource extends JsonResource
 {
@@ -57,18 +68,7 @@ class CategoryResource extends JsonResource
         $amountOfSubscribers = $this->subscriptions->count();
 
         if ($this->children->count() > 0) {
-            $uniqueUserIds = collect();
-
-            $this->children->each(fn($child) => $uniqueUserIds->push(
-                $child->subscriptions->pluck('user_id'),
-            ));
-
-            $uniqueUserIds = $uniqueUserIds->whenNotEmpty(
-                fn($collection) => $collection->flatten(),
-            )
-                ->unique();
-
-            $amountOfSubscribers = $uniqueUserIds->count();
+            $amountOfSubscribers = $this->countSubCategorySubscribers();
         }
 
         $lang = $request->header(
@@ -109,5 +109,26 @@ class CategoryResource extends JsonResource
                 : null,
             'subcategories' => CategoryCollection::make($this->children),
         ];
+    }
+
+    /**
+     * Counting amount of unique subscribers of subcategory
+     *
+     * @return int
+     */
+    private function countSubCategorySubscribers(): int
+    {
+        $uniqueUserIds = collect();
+
+        $this->children->each(fn($child) => $uniqueUserIds->push(
+            $child->subscriptions->pluck('user_id'),
+        ));
+
+        $uniqueUserIds = $uniqueUserIds->whenNotEmpty(
+            fn($collection) => $collection->flatten(),
+        )
+            ->unique();
+
+        return $uniqueUserIds->count();
     }
 }

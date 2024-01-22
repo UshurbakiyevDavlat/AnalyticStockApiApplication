@@ -19,6 +19,9 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  *     @OA\Property(property="posts", type="array", @OA\Items(ref="#/components/schemas/Post")),
  * )
+ *
+ * @property string $short_name
+ * @property string $full_name
  */
 class Ticker extends Model
 {
