@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Enums\AuthStrEnum;
 use App\Enums\StatusCodeEnum;
+use App\Models\User;
 use App\Traits\ApiResponse;
 use Closure;
 use Illuminate\Http\JsonResponse;
@@ -40,8 +41,15 @@ class AuthenticateJwt
         ) {
             $user = JWTAuth::setToken($token)->toUser();
 
-            // Set the authenticated user
-            auth()->setUser($user);
+            if ($user) {
+                // Set the authenticated user
+                auth()->setUser(User::find($user->getJWTIdentifier()));
+            } else {
+                // Handle the case where the user cannot be identified
+                // You might want to log an error, return an unauthorized response, or take other appropriate action.
+                // For example:
+                return response()->json(['error' => 'Unauthorized'], StatusCodeEnum::UNAUTHORIZED->value);
+            }
 
             if (
                 !$token

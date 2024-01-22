@@ -29,6 +29,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  * )
  *
+ * @property int $id
  * @property ?string $avatar_url
  * @property ?string $job_title
  * @property string $name
