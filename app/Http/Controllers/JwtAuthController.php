@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Payload;
 
 class JwtAuthController extends Controller
 {
@@ -63,11 +64,11 @@ class JwtAuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param string $token
+     * @param string|Payload $token
      *
      * @return JsonResponse
      */
-    protected function createNewToken(string $token): JsonResponse
+    protected function createNewToken(string|Payload $token): JsonResponse
     {
         return response()->json([
             'access_token' => $token,
