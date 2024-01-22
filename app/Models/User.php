@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use AllowDynamicProperties;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,6 +34,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $name
  * @property string $email
  */
+#[AllowDynamicProperties]
 class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 {
     use HasApiTokens;
