@@ -1,4 +1,5 @@
 stages:
+  - staticanalysis
   - test
   - build
   - push
@@ -11,6 +12,24 @@ variables:
 
 services:
   - docker:dind
+
+
+phpstan:
+  stage: staticanalysis
+  image: composer
+  before_script:
+    - composer require larastan/larastan:^2.0 --dev --no-plugins --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
+  script:
+    - ./vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline --no-progress --error-format gitlab > phpstan.json
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer-larastan
+    paths:
+      - vendor/
+  artifacts:
+    when: always
+    reports:
+      codequality: phpstan.json
+  allow_failure: true
 
 test:
   stage: test
