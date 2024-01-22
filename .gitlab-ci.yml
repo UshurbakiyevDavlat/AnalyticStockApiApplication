@@ -19,10 +19,6 @@ phpstan:
   before_script:
     - composer require larastan/larastan:^2.0 --dev --no-plugins --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
   script: composer phpstan
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}-composer-larastan
-    paths:
-      - vendor/
   allow_failure: true
 
 test:
