@@ -21,7 +21,7 @@ class PostCollection extends ResourceCollection
      * @param $resource
      * @param array|null $data
      */
-    public function __construct($resource, ?array $data)
+    public function __construct($resource, ?array $data = [])
     {
         $this->data = $data;
         parent::__construct($resource);
