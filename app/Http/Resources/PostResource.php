@@ -120,7 +120,7 @@ class PostResource extends JsonResource
             'expiredAt' => $this->expired_at,
             'likes' => $this->likes->count(),
             'views' => $this->views->count(),
-            'sector' => $this->horizonDataset->sector?->title,
+            'sector' => $this->horizonDataset?->sector?->title,
             'postType' => $this->postType?->title,
             'ticker' => [
                 'fullName' => $this->horizonDataset->ticker?->full_name,
