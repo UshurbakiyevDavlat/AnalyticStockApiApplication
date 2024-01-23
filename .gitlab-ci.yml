@@ -1,6 +1,5 @@
 stages:
-  - codequality
-  - test
+  - prepare
   - compile
   - deploy
 
@@ -13,7 +12,7 @@ services:
   - docker:dind
 
 codestyle:
-  stage: codequality
+  stage: prepare
   before_script:
     - composer require laravel/pint --dev
   cache:
@@ -24,7 +23,7 @@ codestyle:
     - composer pint-test
 
 phpstan:
-  stage: codequality
+  stage: prepare
   before_script:
     - composer require larastan/larastan:^2.0 --dev --no-plugins --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
   cache:
@@ -37,7 +36,7 @@ phpstan:
     - job: codestyle
 
 test:
-  stage: test
+  stage: prepare
   script:
     - composer install --no-interaction
     - echo "$DOT_ENV" > .env
@@ -47,6 +46,8 @@ test:
     key: ${CI_COMMIT_REF_SLUG}-php-unit
     paths:
       - vendor/
+  needs:
+    - job: phpstan
   environment:
     name: 'testing'
 
@@ -63,6 +64,8 @@ build:
 
     # Change permissions for storage and bootstrap directories
     - chmod -R 777 storage bootstrap
+  needs:
+    - job: test
   only:
     - dev
     - stage
@@ -86,6 +89,8 @@ deploy-dev:
     - echo "$DOT_ENV" > "$APP_DIR"/.env
     - cd $APP_DIR && git pull
     - bash deploy.sh # runner the same as dev server
+  needs:
+    - job: push
   only:
     - dev
   environment:
@@ -98,6 +103,8 @@ deploy-stage:
     - scp -r .env $USER@$HOST_STAGE:$APP_DIR
     - ssh $USER@$HOST_STAGE "cd $APP_DIR && git pull"
     - ssh $USER@$HOST_STAGE "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
+  needs:
+    - job: push
   only:
     - stage
   environment:
@@ -111,6 +118,8 @@ deploy-master:
     - scp -r .env $USER@$HOST_PROD:$APP_DIR
     - ssh $USER@$HOST_PROD "cd $APP_DIR && git pull"
     - ssh $USER@$HOST_PROD "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
+  needs:
+    - job: push
   only:
     - main
   when: manual
