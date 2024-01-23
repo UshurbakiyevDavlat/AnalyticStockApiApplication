@@ -18,7 +18,7 @@ trait ApiResponse
             [
                 'success' => true,
                 'message' => $message ?? __('response.success'),
-                'data' => $data ?? [],
+                'data' => $data,
             ],
             $statusCode,
             [
@@ -41,7 +41,7 @@ trait ApiResponse
             [
                 'success' => false,
                 'message' => $message ?? __('response.error'),
-                'data' => $data ?? [],
+                'data' => $data,
             ],
             $statusCode,
             [

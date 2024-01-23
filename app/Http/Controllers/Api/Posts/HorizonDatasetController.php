@@ -48,10 +48,11 @@ class HorizonDatasetController extends Controller
      */
     public function list(Post $post): JsonResponse
     {
+        $postHorizonDataset = $post->horizonDataset()->first();
+
         return self::sendSuccess(
             __('response.success'),
-            $post->horizonDataset()
-                ->first()
+            $postHorizonDataset,
         );
     }
 }
