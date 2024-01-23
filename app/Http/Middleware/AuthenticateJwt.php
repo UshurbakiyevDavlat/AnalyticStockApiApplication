@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Enums\AuthStrEnum;
 use App\Enums\StatusCodeEnum;
+use App\Models\User;
 use App\Traits\ApiResponse;
 use Closure;
 use Illuminate\Http\JsonResponse;
@@ -21,8 +22,6 @@ class AuthenticateJwt
     /**
      * Handle an incoming request.
      *
-     * @param $request
-     * @param Closure $next
      * @return JsonResponse|mixed
      */
     public function handle($request, Closure $next): mixed
@@ -35,30 +34,38 @@ class AuthenticateJwt
         if (
             (
                 config('app.debug')
-                && $request->origin == config('app.url'))
+                && $request->origin == config('app.url')
+            )
             || config('app.env') == 'local'
         ) {
             $user = JWTAuth::setToken($token)->toUser();
 
-            // Set the authenticated user
-            auth()->setUser($user);
+            if ($user) {
+                // Set the authenticated user
+                auth()->setUser(User::find($user->getJWTIdentifier()));
+            } else {
+                // Handle the case where the user cannot be identified
+                // You might want to log an error, return an unauthorized response, or take other appropriate action.
+                // For example:
+                return response()->json(['error' => 'Unauthorized'], StatusCodeEnum::UNAUTHORIZED->value);
+            }
 
             if (
-                !$token
-                || !auth()->user()
+                ! $token
+                || ! auth()->user()
             ) {
                 return response()->json(
                     [
-                        'error' => 'Unauthorized',
+                        'error' => 'Unauthorized'
                     ],
-                    StatusCodeEnum::UNAUTHORIZED->value,
+                    StatusCodeEnum::UNAUTHORIZED->value
                 );
             }
 
             return $next($request);
         }
 
-        if (!$token) {
+        if (! $token) {
             return $this->handleUnauthorized(
                 'Token not found',
                 $link,
@@ -89,10 +96,6 @@ class AuthenticateJwt
 
     /**
      * Handle JWTException
-     *
-     * @param string $message
-     * @param string $link
-     * @return JsonResponse
      */
     protected function handleUnauthorized(string $message, string $link): JsonResponse
     {
@@ -107,10 +110,6 @@ class AuthenticateJwt
 
     /**
      * Handle JWTException
-     *
-     * @param string $message
-     * @param string $trace
-     * @return JsonResponse
      */
     protected function handleJwtError(string $message, string $trace): JsonResponse
     {
@@ -132,7 +131,7 @@ class AuthenticateJwt
     {
         $user = JWTAuth::setToken($token)->authenticate();
 
-        if (!$user) {
+        if (! $user) {
             throw new JWTException('Invalid token.');
         }
 
@@ -143,7 +142,6 @@ class AuthenticateJwt
      * Handle TokenExpiredException
      *
      * @throws JWTException
-     * @return void
      */
     protected function handleTokenExpired(): void
     {
@@ -166,10 +164,6 @@ class AuthenticateJwt
 
     /**
      * Handle JWTException
-     *
-     * @param JWTException $e
-     * @param string $message
-     * @return JsonResponse
      */
     protected function handleJWTException(
         JWTException $e,
@@ -192,9 +186,6 @@ class AuthenticateJwt
 
     /**
      * Get token from header
-     *
-     * @param string|null $authHeader
-     * @return array|string|null
      */
     private function getToken(?string $authHeader): null|array|string
     {

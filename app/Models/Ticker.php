@@ -12,6 +12,7 @@ use OpenApi\Annotations as OA;
  *     schema="Ticker",
  *     type="object",
  *     required={"id", "full_name", "short_name", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="full_name", type="string"),
  *     @OA\Property(property="short_name", type="string"),
@@ -19,6 +20,9 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  *     @OA\Property(property="posts", type="array", @OA\Items(ref="#/components/schemas/Post")),
  * )
+ *
+ * @property string $short_name
+ * @property string $full_name
  */
 class Ticker extends Model
 {
@@ -34,8 +38,6 @@ class Ticker extends Model
 
     /**
      * Post relationship
-     *
-     * @return HasMany
      */
     public function posts(): HasMany
     {

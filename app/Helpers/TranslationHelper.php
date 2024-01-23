@@ -14,11 +14,6 @@ class TranslationHelper
 {
     /**
      * Helper method for getting translation for category
-     *
-     * @param string $lang
-     * @param int $id
-     * @param string $key
-     * @return Application|array|string|Translator|\Illuminate\Contracts\Foundation\Application|null
      */
     public static function getCategoryTranslation(
         string $lang,
@@ -42,11 +37,6 @@ class TranslationHelper
 
     /**
      * Get post translation
-     *
-     * @param string $lang
-     * @param int $id
-     * @param string $key
-     * @return Application|array|string|Translator|\Illuminate\Contracts\Foundation\Application|null
      */
     public static function getPostTranslation(
         string $lang,

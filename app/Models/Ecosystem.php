@@ -13,6 +13,7 @@ use OpenApi\Annotations as OA;
  *     schema="Ecosystem",
  *     type="object",
  *     required={"id", "website", "img", "created_at" ,"updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="website", type="string"),
  *     @OA\Property(property="img", type="string"),
@@ -24,15 +25,15 @@ class Ecosystem extends Model
 {
     use HasFactory;
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $table = 'ecosystem';
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $guarded = [
         'id',
     ];
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $fillable = [
         'website',
         'img',

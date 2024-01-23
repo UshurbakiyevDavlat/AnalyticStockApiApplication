@@ -31,8 +31,6 @@ class IndexSearchRecords extends Command
 
     /**
      *  Index search post-records for Meilisearch.
-     *
-     * @return void
      */
     private function postIndexing(): void
     {

@@ -18,8 +18,6 @@ enum PostStrEnum: string
 
     /**
      * Get all values.
-     *
-     * @return array
      */
     public static function getFilterValues(): array
     {
@@ -35,8 +33,6 @@ enum PostStrEnum: string
 
     /**
      * Get column name for relation filter.
-     *
-     * @return array
      */
     public static function getRelationColumns(): array
     {
@@ -50,8 +46,6 @@ enum PostStrEnum: string
 
     /**
      * Get column name for filter.
-     *
-     * @return array
      */
     public static function getRelationFilterValues(): array
     {
@@ -67,8 +61,6 @@ enum PostStrEnum: string
 
     /**
      * Get values that should not be decoded.
-     *
-     * @return array
      */
     public static function getValuesToNotDecode(): array
     {
@@ -81,8 +73,6 @@ enum PostStrEnum: string
 
     /**
      * Get time periods.
-     *
-     * @return array
      */
     public static function timePeriods(): array
     {
@@ -94,9 +84,6 @@ enum PostStrEnum: string
 
     /**
      * Key is a filter name, value is a column name.
-     *
-     * @param string $key
-     * @return string|null
      */
     public static function getFilterColumn(string $key): ?string
     {

@@ -5,8 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Enums\LangStrEnum;
+use App\Models\HorizonDataset;
+use App\Models\Like;
 use App\Models\Locale;
 use App\Models\PostTranslation;
+use App\Models\PostType;
+use App\Models\PostView;
+use App\Models\TypePaper;
+use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -18,6 +25,7 @@ use OpenApi\Annotations as OA;
  *     type="object",
  *     required={"id", "title", "typeId", "categoryId", "subcategoriesId", "createdAt", "content", "likes", "views",
  *     "ticker", "country", "author"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="title", type="string"),
  *     @OA\Property(property="typeId", type="string"),
@@ -42,6 +50,22 @@ use OpenApi\Annotations as OA;
  *         @OA\Property(property="avatar", type="string"),
  *     ),
  * )
+ *
+ * @property ?User $author
+ * @property ?HorizonDataset $horizonDataset
+ * @property ?PostType $postType
+ * @property ?Like $likes
+ * @property ?PostView $views
+ * @property ?int $id
+ * @property ?TypePaper $typePaper
+ * @property int $category_id
+ * @property int $subcategory_id
+ * @property DateTime $created_at
+ * @property DateTime $published_at
+ * @property ?DateTime $expired_at
+ * @property string $title
+ * @property string $desc
+ * @property string $content
  */
 class PostResource extends JsonResource
 {
@@ -109,7 +133,7 @@ class PostResource extends JsonResource
                 'id' => $this->author?->id,
                 'name' => $this->author?->name,
                 'avatar' => $this->author?->avatar_url
-                    ? Storage::disk('admin')->url($this->author?->avatar_url)
+                    ? Storage::disk('admin')->url($this->author->avatar_url ?? null)
                     : null,
                 'job_title' => $this->author?->job_title,
             ],

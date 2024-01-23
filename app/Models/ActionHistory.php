@@ -30,8 +30,6 @@ class ActionHistory extends Model
 
     /**
      * Get the action that owns the ActionHistory
-     *
-     * @return BelongsTo
      */
     public function action(): BelongsTo
     {
@@ -40,8 +38,6 @@ class ActionHistory extends Model
 
     /**
      * Get the user that owns the ActionHistory
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {
@@ -50,8 +46,6 @@ class ActionHistory extends Model
 
     /**
      * Get all the owning actionable models.
-     *
-     * @return MorphTo
      */
     public function actionable(): MorphTo
     {

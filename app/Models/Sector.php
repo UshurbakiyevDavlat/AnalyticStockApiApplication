@@ -11,19 +11,22 @@ use OpenApi\Annotations as OA;
  *     schema="Sector",
  *     type="object",
  *     required={"id", "title", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="title", type="string"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  * )
+ *
+ * @property string $title
  */
 class Sector extends Model
 {
     use HasFactory;
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $table = 'sectors';
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $fillable = ['title'];
 }

@@ -14,6 +14,7 @@ use OpenApi\Annotations as OA;
  *     schema="Like",
  *     type="object",
  *     required={"id", "user_id", "likeable_id", "likeable_type", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="user_id", type="integer"),
  *     @OA\Property(property="likeable_id", type="integer"),
@@ -54,8 +55,6 @@ class Like extends Model
 
     /**
      * Get all the owning likeable models.
-     *
-     * @return MorphTo
      */
     public function likeable(): MorphTo
     {
@@ -64,8 +63,6 @@ class Like extends Model
 
     /**
      * Get the user that owns the Like
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {

@@ -25,31 +25,35 @@ class CategoryController extends Controller
      *     operationId="getCategories",
      *     tags={"Posts"},
      *     security={{ "jwt": {} }},
+     *
      *     @OA\Parameter(
      *           name="Lang",
      *           in="header",
      *           description="Language for the response",
      *           required=false,
+     *
      *           @OA\Schema(type="string", default="en"),
      *  ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="categories",
      *                 type="array",
+     *
      *                 @OA\Items(ref="#/components/schemas/CategoryResource")
      *             ),
      *         ),
      *     ),
+     *
      *     @OA\Response(response=400, description="Bad request"),
      * )
-     *
-     * @return JsonResponse
      */
-
     public function getCategories(): JsonResponse
     {
         $cacheKey = 'categories_list';
@@ -80,33 +84,38 @@ class CategoryController extends Controller
      *      operationId="getCategoryInfo",
      *      tags={"Posts"},
      *      security={{ "jwt": {} }},
+     *
      *      @OA\Parameter(
      *           name="category",
      *           in="path",
      *           required=true,
      *           description="ID of the category",
+     *
      *           @OA\Schema(type="integer"),
      *       ),
+     *
      *     @OA\Parameter(
      *           name="Lang",
      *           in="header",
      *           description="Language for the response",
      *           required=false,
+     *
      *           @OA\Schema(type="string", default="en"),
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(property="category", ref="#/components/schemas/CategoryResource"),
      *          ),
      *      ),
+     *
      *      @OA\Response(response=400, description="Bad request"),
      * )
-     *
-     * @param Category $category
-     * @return JsonResponse
      */
     public function getCategory(Category $category): JsonResponse
     {

@@ -15,6 +15,7 @@ use OpenApi\Annotations as OA;
  *     type="object",
  *     title="Locale",
  *     description="Locale model",
+ *
  *     @OA\Property(property="id", type="integer", example="1"),
  *     @OA\Property(property="locale", type="string", example="en"),
  *     @OA\Property(property="created_at", type="string", example="2021-09-01 00:00:00"),
@@ -35,8 +36,6 @@ class Locale extends Model
 
     /**
      * Get all the posts for the Locale
-     *
-     * @return HasMany
      */
     public function posts(): HasMany
     {
@@ -45,8 +44,6 @@ class Locale extends Model
 
     /**
      * Get all the categories for the Locale
-     *
-     * @return HasMany
      */
     public function categories(): HasMany
     {

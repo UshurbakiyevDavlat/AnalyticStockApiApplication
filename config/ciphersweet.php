@@ -49,5 +49,5 @@ return [
      * the field to have a value and alerts the user if it is empty or undefined.
      * Supported: "true", "false"
      */
-    'permit_empty' => false
+    'permit_empty' => false,
 ];

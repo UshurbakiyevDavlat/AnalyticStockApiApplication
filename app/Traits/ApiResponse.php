@@ -8,15 +8,10 @@ trait ApiResponse
 {
     /**
      * Успешный ответ API
-     *
-     * @param string|null $message
-     * @param array|object|null $data
-     * @param int $statusCode
-     * @return JsonResponse
      */
     public static function sendSuccess(
         ?string $message = null,
-        array | object|null $data = [],
+        array|object|null $data = [],
         int $statusCode = 200,
     ): JsonResponse {
         return response()->json(
@@ -36,18 +31,12 @@ trait ApiResponse
 
     /**
      * Ответ API с ошибкой
-     *
-     * @param string|null $message
-     * @param array|null $data
-     * @param int $statusCode
-     * @return JsonResponse
      */
     public static function sendError(
         ?string $message = null,
         ?array $data = [],
         int $statusCode = 400,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return response()->json(
             [
                 'success' => false,

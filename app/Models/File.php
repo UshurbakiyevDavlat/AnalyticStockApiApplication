@@ -13,6 +13,7 @@ use OpenApi\Annotations as OA;
  *     schema="File",
  *     type="object",
  *     required={"id", "title", "path", "order", "file_type_id", "post_id", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="title", type="string"),
  *     @OA\Property(property="path", type="string"),
@@ -54,8 +55,6 @@ class File extends Model
 
     /**
      * Get the file type that owns the file.
-     *
-     * @return BelongsTo
      */
     public function fileType(): BelongsTo
     {
@@ -64,8 +63,6 @@ class File extends Model
 
     /**
      * Get the post that owns the File
-     *
-     * @return BelongsTo
      */
     public function post(): BelongsTo
     {
