@@ -52,6 +52,8 @@ use OpenApi\Annotations as OA;
  *
  * @property string $title
  * @property bool $is_published
+ * @property mixed $id
+ * @property mixed $horizonDataset
  */
 class Post extends Model
 {
@@ -256,8 +258,8 @@ class Post extends Model
         return [
             'id' => $this->getKey(),
             'title' => $this->title,
-            'ticker' => $this->horizonDataset->ticker?->short_name,
-            'isin' => $this->horizonDataset->isin?->code,
+            'ticker' => $this->horizonDataset?->ticker?->short_name,
+            'isin' => $this->horizonDataset?->isin?->code,
         ];
     }
 
@@ -272,7 +274,7 @@ class Post extends Model
     /**
      * Get the key name used to index the model.
      */
-    public function getScoutKeyName(): mixed
+    public function getScoutKeyName(): string
     {
         return 'id';
     }
