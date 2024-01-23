@@ -16,6 +16,7 @@ use OpenApi\Annotations as OA;
  *     schema="Category",
  *     title="Category",
  *     description="Category model",
+ *
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="title", type="string", example="Category Title"),
  *     @OA\Property(property="order", type="integer", example=1),
@@ -38,6 +39,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(
  *         property="children",
  *         type="array",
+ *
  *         @OA\Items(ref="#/components/schemas/Category")
  *     ),
  * )
@@ -67,8 +69,6 @@ class Category extends Model
 
     /**
      * Get the status that owns the category.
-     *
-     * @return BelongsTo
      */
     public function status(): BelongsTo
     {
@@ -77,8 +77,6 @@ class Category extends Model
 
     /**
      * Get the parent that owns the category.
-     *
-     * @return BelongsTo
      */
     public function parent(): BelongsTo
     {
@@ -87,8 +85,6 @@ class Category extends Model
 
     /**
      * Get all the children for the Category
-     *
-     * @return HasMany
      */
     public function children(): HasMany
     {
@@ -97,8 +93,6 @@ class Category extends Model
 
     /**
      * Get all the subscriptions for the Category
-     *
-     * @return HasMany
      */
     public function subscriptions(): HasMany
     {
@@ -107,8 +101,6 @@ class Category extends Model
 
     /**
      * Translation relationship.
-     *
-     * @return HasMany
      */
     public function translations(): HasMany
     {

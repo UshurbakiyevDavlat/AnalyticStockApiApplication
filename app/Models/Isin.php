@@ -11,19 +11,22 @@ use OpenApi\Annotations as OA;
  *     schema="Isin",
  *     type="object",
  *     required={"id", "code", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="code", type="string"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  * )
+ *
+ * @property string $code
  */
 class Isin extends Model
 {
     use HasFactory;
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $table = 'isins';
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $fillable = ['code'];
 }

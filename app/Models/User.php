@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use AllowDynamicProperties;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,19 +22,27 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  *     schema="User",
  *     title="User",
  *     description="User model",
+ *
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="name", type="string", example="John Doe"),
  *     @OA\Property(property="email", type="string", format="email", example="john@example.com"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  * )
+ *
+ * @property int $id
+ * @property ?string $avatar_url
+ * @property ?string $job_title
+ * @property string $name
+ * @property string $email
  */
-class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
+#[AllowDynamicProperties]
+class User extends Authenticatable implements CipherSweetEncrypted, JWTSubject
 {
     use HasApiTokens;
     use HasFactory;
-    use Notifiable;
     use HasRoles;
+    use Notifiable;
     use UsesCipherSweet;
 
     /**
@@ -63,8 +72,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
      */
     public function getJWTIdentifier(): mixed
     {
@@ -73,8 +80,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 
     /**
      * Get the custom claims array to be added to the JWT.
-     *
-     * @return array
      */
     public function getJWTCustomClaims(): array
     {
@@ -83,9 +88,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 
     /**
      * Configuration of Cipher sweet package encryption
-     *
-     * @param EncryptedRow $encryptedRow
-     * @return void
      */
     public static function configureCipherSweet(EncryptedRow $encryptedRow): void
     {
@@ -104,8 +106,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 
     /**
      * Posts relationship
-     *
-     * @return BelongsToMany
      */
     public function posts(): BelongsToMany
     {
@@ -119,8 +119,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 
     /**
      * Bookmarks relationship
-     *
-     * @return BelongsToMany
      */
     public function bookmarks(): BelongsToMany
     {
@@ -137,8 +135,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 
     /**
      * Likes relationship
-     *
-     * @return BelongsToMany
      */
     public function likes(): BelongsToMany
     {
@@ -155,8 +151,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 
     /**
      * View relationship
-     *
-     * @return BelongsToMany
      */
     public function views(): BelongsToMany
     {
@@ -172,8 +166,6 @@ class User extends Authenticatable implements JWTSubject, CipherSweetEncrypted
 
     /**
      * Subscriptions relationship
-     *
-     * @return BelongsToMany
      */
     public function subscriptions(): BelongsToMany
     {

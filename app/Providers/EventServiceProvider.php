@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         SocialiteWasCalled::class => [
-            AzureExtendSocialite::class.'@handle',
+            AzureExtendSocialite::class . '@handle',
         ],
     ];
 

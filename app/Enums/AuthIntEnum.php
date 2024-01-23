@@ -7,7 +7,7 @@ enum AuthIntEnum: int
     /**
      * min depends on the token expiration time
      *
-     * @var int
+     * @const int EXPIRED
      */
     case EXPIRED = 3600; // minutes jwt token expiration time
 }

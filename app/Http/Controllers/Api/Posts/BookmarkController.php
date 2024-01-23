@@ -22,19 +22,21 @@ class BookmarkController extends Controller
      *       operationId="getBookmarks",
      *       tags={"Posts"},
      *       security={{ "jwt": {} }},
+     *
      *       @OA\Response(
      *           response=200,
      *           description="Successful operation",
+     *
      *           @OA\JsonContent(
      *               type="object",
+     *
      *               @OA\Property(property="message", type="string", example="Success message"),
      *               @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PostResource")),
      *           ),
      *       ),
+     *
      *       @OA\Response(response=400, description="Bad request"),
      *  )
-     *
-     * @return JsonResponse
      */
     public function getBookmarks(): JsonResponse
     {
@@ -56,25 +58,29 @@ class BookmarkController extends Controller
      *        operationId="bookmarkPost",
      *        tags={"Posts"},
      *        security={{ "jwt": {} }},
+     *
      *       @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="favouriteable_id", type="integer", example="1"),
      *         ),
      *     ),
+     *
      *        @OA\Response(
      *            response=200,
      *            description="Successful operation",
+     *
      *            @OA\JsonContent(
      *                type="object",
+     *
      *                @OA\Property(property="message", type="string", example="Success message"),
      *            ),
      *        ),
+     *
      *        @OA\Response(response=400, description="Bad request"),
      *   )
-     *
-     * @param BookmarkRequest $request
-     * @return JsonResponse
      */
     public function bookmarkPost(BookmarkRequest $request): JsonResponse
     {

@@ -4,19 +4,10 @@ namespace App\Models;
 
 class SocialiteUser
 {
-    /**
-     * @var string $email
-     */
     public string $email;
 
-    /**
-     * @var string $token
-     */
     public string $token;
 
-    /**
-     * @var string $name
-     */
     public string $name;
 
     /**
@@ -51,8 +42,6 @@ class SocialiteUser
 
     /**
      * Get the name of the user.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -61,8 +50,6 @@ class SocialiteUser
 
     /**
      * Get the e-mail address of the user.
-     *
-     * @return string
      */
     public function getEmail(): string
     {
@@ -81,8 +68,6 @@ class SocialiteUser
 
     /**
      * Get the token value.
-     *
-     * @return string
      */
     public function getToken(): string
     {

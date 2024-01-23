@@ -14,6 +14,7 @@ use OpenApi\Annotations as OA;
  *     schema="Favourite",
  *     type="object",
  *     required={"id", "user_id", "favouriteable_id", "favouriteable_type", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="user_id", type="integer"),
  *     @OA\Property(property="favouriteable_id", type="integer"),
@@ -44,8 +45,6 @@ class Favourite extends Model
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {
@@ -54,8 +53,6 @@ class Favourite extends Model
 
     /**
      * Get all the owning favouriteable models.
-     *
-     * @return MorphTo
      */
     public function favouriteable(): MorphTo
     {

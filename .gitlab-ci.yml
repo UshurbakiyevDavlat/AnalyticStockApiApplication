@@ -1,7 +1,6 @@
 stages:
-  - test
-  - build
-  - push
+  - prepare
+  - compile
   - deploy
 
 variables:
@@ -12,18 +11,48 @@ variables:
 services:
   - docker:dind
 
+codestyle:
+  stage: prepare
+  before_script:
+    - composer require laravel/pint --dev
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer-pint
+    paths:
+      - vendor/
+  script:
+    - composer pint-test
+
+phpstan:
+  stage: prepare
+  before_script:
+    - composer require larastan/larastan:^2.0 --dev --no-plugins --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer-larastan
+    paths:
+      - vendor/
+  script: composer phpstan
+  allow_failure: true
+  needs:
+    - job: codestyle
+
 test:
-  stage: test
+  stage: prepare
   script:
     - composer install --no-interaction
     - echo "$DOT_ENV" > .env
     - php artisan ciphersweet:encrypt App\\Models\\User d13164961cbcd1d75b102e54d8b751881bba4e57d32c13225f5ccd02d91068af
     - php artisan test --coverage
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-php-unit
+    paths:
+      - vendor/
+  needs:
+    - job: phpstan
   environment:
     name: 'testing'
 
 build:
-  stage: build
+  stage: compile
   script:
     # Pull the latest code from the repository
     - git checkout "$ENVIRONMENT"
@@ -35,16 +64,20 @@ build:
 
     # Change permissions for storage and bootstrap directories
     - chmod -R 777 storage bootstrap
+  needs:
+    - job: test
   only:
     - dev
     - stage
     - main
 
 push:
-  stage: push
+  stage: compile
   script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
     - docker push $DOCKER_IMAGE
+  needs:
+    - job: build
   only:
     - dev
     - stage
@@ -56,6 +89,8 @@ deploy-dev:
     - echo "$DOT_ENV" > "$APP_DIR"/.env
     - cd $APP_DIR && git pull
     - bash deploy.sh # runner the same as dev server
+  needs:
+    - job: push
   only:
     - dev
   environment:
@@ -68,6 +103,8 @@ deploy-stage:
     - scp -r .env $USER@$HOST_STAGE:$APP_DIR
     - ssh $USER@$HOST_STAGE "cd $APP_DIR && git pull"
     - ssh $USER@$HOST_STAGE "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
+  needs:
+    - job: push
   only:
     - stage
   environment:
@@ -81,6 +118,8 @@ deploy-master:
     - scp -r .env $USER@$HOST_PROD:$APP_DIR
     - ssh $USER@$HOST_PROD "cd $APP_DIR && git pull"
     - ssh $USER@$HOST_PROD "bash -s" < deploy.sh "$REGISTRY_USER" "$REPOSITORY_NAME" "$APP_DIR" "$REGISTRY_PASSWORD" "$ENVIRONMENT"
+  needs:
+    - job: push
   only:
     - main
   when: manual
