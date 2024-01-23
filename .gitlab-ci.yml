@@ -1,8 +1,7 @@
 stages:
   - codequality
   - test
-  - build
-  - push
+  - compile
   - deploy
 
 variables:
@@ -52,7 +51,7 @@ test:
     name: 'testing'
 
 build:
-  stage: build
+  stage: compile
   script:
     # Pull the latest code from the repository
     - git checkout "$ENVIRONMENT"
@@ -70,10 +69,12 @@ build:
     - main
 
 push:
-  stage: push
+  stage: compile
   script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
     - docker push $DOCKER_IMAGE
+  needs:
+    - job: build
   only:
     - dev
     - stage
