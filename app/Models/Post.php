@@ -20,6 +20,7 @@ use OpenApi\Annotations as OA;
  *     type="object",
  *     required={"id", "title", "desc", "content", "order", "ticker", "author_id", "type_paper_id", "status_id",
  *     "category_id", "country_id", "published_at", "expired_at", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="title", type="string"),
  *     @OA\Property(property="desc", type="string"),
@@ -55,17 +56,19 @@ use OpenApi\Annotations as OA;
 class Post extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     use Searchable;
+    use SoftDeletes;
 
     /**
      * @const post view post id field name
      */
     private const POST_VIEW_POST_ID_FIELD = 'post_id';
+
     /**
      * @const subscription post id field name
      */
     private const SUBS_VIEW_POST_ID_FIELD = 'post_id';
+
     /**
      * @const user id field name
      */
@@ -94,8 +97,6 @@ class Post extends Model
 
     /**
      * Get the author that owns the Post.
-     *
-     * @return BelongsTo
      */
     public function author(): BelongsTo
     {
@@ -107,8 +108,6 @@ class Post extends Model
 
     /**
      * Get the typePaper that owns the Post.
-     *
-     * @return BelongsTo
      */
     public function typePaper(): BelongsTo
     {
@@ -117,8 +116,6 @@ class Post extends Model
 
     /**
      * Get the status that owns the Post.
-     *
-     * @return BelongsTo
      */
     public function status(): BelongsTo
     {
@@ -127,8 +124,6 @@ class Post extends Model
 
     /**
      * Get the category that owns the Post.
-     *
-     * @return BelongsTo
      */
     public function category(): BelongsTo
     {
@@ -137,8 +132,6 @@ class Post extends Model
 
     /**
      * The tags that belong to the Post
-     *
-     * @return BelongsToMany
      */
     public function tags(): BelongsToMany
     {
@@ -147,8 +140,6 @@ class Post extends Model
 
     /**
      * Likes that belong to the Post
-     *
-     * @return HasManyThrough
      */
     public function likes(): HasManyThrough
     {
@@ -168,8 +159,6 @@ class Post extends Model
 
     /**
      * Views that belong to the Post
-     *
-     * @return HasManyThrough
      */
     public function views(): HasManyThrough
     {
@@ -185,8 +174,6 @@ class Post extends Model
 
     /**
      * Subscriptions that belong to the Post
-     *
-     * @return HasManyThrough
      */
     public function subscriptions(): HasManyThrough
     {
@@ -202,8 +189,6 @@ class Post extends Model
 
     /**
      * Bookmarks that belong to the Post
-     *
-     * @return HasManyThrough
      */
     public function bookmarks(): HasManyThrough
     {
@@ -223,8 +208,6 @@ class Post extends Model
 
     /**
      * Horizon dataset that belong to the Post
-     *
-     * @return BelongsTo
      */
     public function horizonDataset(): BelongsTo
     {
@@ -233,8 +216,6 @@ class Post extends Model
 
     /**
      * Files that belong to the Post
-     *
-     * @return HasMany
      */
     public function files(): HasMany
     {
@@ -243,8 +224,6 @@ class Post extends Model
 
     /**
      * Post type that belong to the Post
-     *
-     * @return BelongsTo
      */
     public function postType(): BelongsTo
     {
@@ -253,8 +232,6 @@ class Post extends Model
 
     /**
      * Post translations that belong to the Post
-     *
-     * @return HasMany
      */
     public function translations(): HasMany
     {
@@ -263,8 +240,6 @@ class Post extends Model
 
     /**
      * Get the name of the index associated with the model.
-     *
-     * @return string
      */
     public function searchableAs(): string
     {

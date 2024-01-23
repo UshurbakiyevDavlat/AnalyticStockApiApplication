@@ -22,19 +22,21 @@ class LikeController extends Controller
      *       operationId="getLikes",
      *       tags={"Posts"},
      *       security={{ "jwt": {} }},
+     *
      *       @OA\Response(
      *           response=200,
      *           description="Successful operation",
+     *
      *           @OA\JsonContent(
      *               type="object",
+     *
      *               @OA\Property(property="message", type="string", example="Success message"),
      *               @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PostResource")),
      *           ),
      *       ),
+     *
      *       @OA\Response(response=400, description="Bad request"),
      *  )
-     *
-     * @return JsonResponse
      */
     public function getLikes(): JsonResponse
     {
@@ -56,25 +58,29 @@ class LikeController extends Controller
      *        operationId="likePost",
      *        tags={"Posts"},
      *        security={{ "jwt": {} }},
+     *
      *       @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="likeable_id", type="integer", example="1"),
      *         ),
      *     ),
+     *
      *        @OA\Response(
      *            response=200,
      *            description="Successful operation",
+     *
      *            @OA\JsonContent(
      *                type="object",
+     *
      *                @OA\Property(property="message", type="string", example="Success message"),
      *            ),
      *        ),
+     *
      *        @OA\Response(response=400, description="Bad request"),
      *   )
-     *
-     * @param LikeRequest $request
-     * @return JsonResponse
      */
     public function likePost(LikeRequest $request): JsonResponse
     {
@@ -101,7 +107,7 @@ class LikeController extends Controller
         }
 
         return self::sendSuccess(
-            __('response.post.' . $liked),
+            __('response.post.'.$liked),
         );
     }
 }

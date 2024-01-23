@@ -13,6 +13,7 @@ use OpenApi\Annotations as OA;
  *     title="VPA API",
  *     version="1.0",
  *     description="Documentation for VPA API",
+ *
  *     @OA\Contact(
  *         email="davlatbek.ushurbakiyev@ffin.kz"
  *     )
@@ -20,7 +21,7 @@ use OpenApi\Annotations as OA;
  */
 class Controller extends BaseController
 {
+    use ApiResponse;
     use AuthorizesRequests;
     use ValidatesRequests;
-    use ApiResponse;
 }

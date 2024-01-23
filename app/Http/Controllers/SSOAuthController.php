@@ -26,16 +26,14 @@ class SSOAuthController extends Controller implements AuthInterface
 
     /**
      * @constructor SSOAuthController
-     * @param AuthService $authService
      */
     public function __construct(
         private readonly AuthService $authService,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the authenticated User info for SSO auth flow.
-     *
-     * @return JsonResponse
      */
     public function user(): JsonResponse
     {
@@ -58,8 +56,6 @@ class SSOAuthController extends Controller implements AuthInterface
 
     /**
      * Redirect the user to the Azure authentication page.
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
      */
     public function redirectToProvider(): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
     {
@@ -68,12 +64,9 @@ class SSOAuthController extends Controller implements AuthInterface
 
     /**
      * Obtain the user information from Azure.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|Application|JsonResponse|RedirectResponse|Redirector
      */
     public function handleProviderCallback(
-    ): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
-    {
+    ): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application {
         $driver = AuthStrEnum::DRIVER->value;
         $user = Socialite::driver($driver)->user();
 
@@ -89,8 +82,8 @@ class SSOAuthController extends Controller implements AuthInterface
 
         $source = Cookie::get(
             config('app.env')
-            . '_'
-            . AuthStrEnum::SOURCE_COOKIE->value,
+            .'_'
+            .AuthStrEnum::SOURCE_COOKIE->value,
         );
 
         $adminUrl = config('app.admin_url');
@@ -110,8 +103,6 @@ class SSOAuthController extends Controller implements AuthInterface
 
     /**
      * Log the user out of the application.
-     *
-     * @return JsonResponse
      */
     public function logout(): JsonResponse
     {

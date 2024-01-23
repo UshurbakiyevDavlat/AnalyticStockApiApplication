@@ -29,18 +29,21 @@ class FilterDataListController extends Controller
      *  operationId="getCountries",
      *  tags={"Posts"},
      *  security={{ "jwt": {} }},
+     *
      * @OA\Response(
      *     response=200,
      *     description="Successful operation",
+     *
      *     @OA\JsonContent(
      *     type="object",
+     *
      *     @OA\Property(property="message", type="string", example="Success message"),
      *     @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Country")),
      *     ),
      *     ),
+     *
      * @OA\Response(response=400, description="Bad request"),
      *     )
-     * @return JsonResponse
      */
     public function getCountries(): JsonResponse
     {
@@ -67,19 +70,21 @@ class FilterDataListController extends Controller
      *   operationId="getSectors",
      *   tags={"Posts"},
      *   security={{ "jwt": {} }},
+     *
      *  @OA\Response(
      *      response=200,
      *      description="Successful operation",
+     *
      *      @OA\JsonContent(
      *      type="object",
+     *
      *      @OA\Property(property="message", type="string", example="Success message"),
      *      @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Sector")),
      *      ),
      *      ),
+     *
      *  @OA\Response(response=400, description="Bad request"),
      *      )
-     *
-     * @return JsonResponse
      */
     public function getSectors(): JsonResponse
     {
@@ -99,19 +104,21 @@ class FilterDataListController extends Controller
      *   operationId="getAuthors",
      *   tags={"Posts"},
      *   security={{ "jwt": {} }},
+     *
      *  @OA\Response(
      *      response=200,
      *      description="Successful operation",
+     *
      *      @OA\JsonContent(
      *      type="object",
+     *
      *      @OA\Property(property="message", type="string", example="Success message"),
      *      @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/User")),
      *      ),
      *      ),
+     *
      *  @OA\Response(response=400, description="Bad request"),
      *      )
-     *
-     * @return JsonResponse
      */
     public function getAuthors(): JsonResponse
     {
@@ -131,19 +138,21 @@ class FilterDataListController extends Controller
      *   operationId="getTickers",
      *   tags={"Posts"},
      *   security={{ "jwt": {} }},
+     *
      *  @OA\Response(
      *      response=200,
      *      description="Successful operation",
+     *
      *      @OA\JsonContent(
      *      type="object",
+     *
      *      @OA\Property(property="message", type="string", example="Success message"),
      *      @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Ticker")),
      *      ),
      *      ),
+     *
      *  @OA\Response(response=400, description="Bad request"),
      *      )
-     *
-     * @return JsonResponse
      */
     public function getTickers(): JsonResponse
     {
@@ -163,19 +172,21 @@ class FilterDataListController extends Controller
      *   operationId="getIsins",
      *   tags={"Posts"},
      *   security={{ "jwt": {} }},
+     *
      *  @OA\Response(
      *      response=200,
      *      description="Successful operation",
+     *
      *      @OA\JsonContent(
      *      type="object",
+     *
      *      @OA\Property(property="message", type="string", example="Success message"),
      *      @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Isin")),
      *      ),
      *      ),
+     *
      *  @OA\Response(response=400, description="Bad request"),
      *      )
-     *
-     * @return JsonResponse
      */
     public function getIsins(): JsonResponse
     {

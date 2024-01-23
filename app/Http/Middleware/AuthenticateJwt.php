@@ -22,8 +22,6 @@ class AuthenticateJwt
     /**
      * Handle an incoming request.
      *
-     * @param $request
-     * @param Closure $next
      * @return JsonResponse|mixed
      */
     public function handle($request, Closure $next): mixed
@@ -31,12 +29,13 @@ class AuthenticateJwt
         // Get the entire request URL
         $authHeader = $request->headers->get('Authorization');
         $token = $this->getToken($authHeader);
-        $link = config('app.url') . '/auth';
+        $link = config('app.url').'/auth';
 
         if (
             (
                 config('app.debug')
-                && $request->origin == config('app.url'))
+                && $request->origin == config('app.url')
+            )
             || config('app.env') == 'local'
         ) {
             $user = JWTAuth::setToken($token)->toUser();
@@ -52,21 +51,21 @@ class AuthenticateJwt
             }
 
             if (
-                !$token
-                || !auth()->user()
+                ! $token
+                || ! auth()->user()
             ) {
                 return response()->json(
                     [
-                        'error' => 'Unauthorized',
+                        'error' => 'Unauthorized'
                     ],
-                    StatusCodeEnum::UNAUTHORIZED->value,
+                    StatusCodeEnum::UNAUTHORIZED->value
                 );
             }
 
             return $next($request);
         }
 
-        if (!$token) {
+        if (! $token) {
             return $this->handleUnauthorized(
                 'Token not found',
                 $link,
@@ -97,15 +96,11 @@ class AuthenticateJwt
 
     /**
      * Handle JWTException
-     *
-     * @param string $message
-     * @param string $link
-     * @return JsonResponse
      */
     protected function handleUnauthorized(string $message, string $link): JsonResponse
     {
         return self::sendSuccess(
-            'Unauthorized. ' . $message,
+            'Unauthorized. '.$message,
             [
                 'link' => $link,
                 'status' => false,
@@ -115,15 +110,11 @@ class AuthenticateJwt
 
     /**
      * Handle JWTException
-     *
-     * @param string $message
-     * @param string $trace
-     * @return JsonResponse
      */
     protected function handleJwtError(string $message, string $trace): JsonResponse
     {
         return self::sendError(
-            'JwtError. ' . $message,
+            'JwtError. '.$message,
             [
                 'trace' => $trace,
                 'status' => false,
@@ -140,7 +131,7 @@ class AuthenticateJwt
     {
         $user = JWTAuth::setToken($token)->authenticate();
 
-        if (!$user) {
+        if (! $user) {
             throw new JWTException('Invalid token.');
         }
 
@@ -151,40 +142,35 @@ class AuthenticateJwt
      * Handle TokenExpiredException
      *
      * @throws JWTException
-     * @return void
      */
     protected function handleTokenExpired(): void
     {
         try {
             $refreshedToken = JWTAuth::refresh();
         } catch (\Exception $e) {
-            Log::error('Token Refresh Error: ' . $e->getMessage());
-            Log::error('Token Refresh Stack Trace: ' . $e->getTraceAsString());
+            Log::error('Token Refresh Error: '.$e->getMessage());
+            Log::error('Token Refresh Stack Trace: '.$e->getTraceAsString());
             throw new JWTException('Something went wrong while refreshing token');
         }
 
         try {
             JWTAuth::setToken($refreshedToken)->toUser();
         } catch (\Exception $e) {
-            Log::error('Token Set Error: ' . $e->getMessage());
-            Log::error('Token Set Stack Trace: ' . $e->getTraceAsString());
+            Log::error('Token Set Error: '.$e->getMessage());
+            Log::error('Token Set Stack Trace: '.$e->getTraceAsString());
             throw new JWTException('Something went wrong while setting token');
         }
     }
 
     /**
      * Handle JWTException
-     *
-     * @param JWTException $e
-     * @param string $message
-     * @return JsonResponse
      */
     protected function handleJWTException(
         JWTException $e,
         string $message,
     ): JsonResponse {
         Log::error(
-            'Error while validating token: ' . $e->getMessage(),
+            'Error while validating token: '.$e->getMessage(),
             [
                 'data' => [
                     $e->getTraceAsString(),
@@ -200,17 +186,14 @@ class AuthenticateJwt
 
     /**
      * Get token from header
-     *
-     * @param string|null $authHeader
-     * @return array|string|null
      */
     private function getToken(?string $authHeader): null|array|string
     {
         return $authHeader
             ?: Cookie::get(
                 config('app.env')
-                . '_'
-                . AuthStrEnum::JWT_NAME->value,
+                .'_'
+                .AuthStrEnum::JWT_NAME->value,
             );
     }
 }

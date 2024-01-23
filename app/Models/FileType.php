@@ -13,6 +13,7 @@ use OpenApi\Annotations as OA;
  *     schema="FileType",
  *     type="object",
  *     required={"id", "title", "extension", "mime_type", "icon", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="title", type="string"),
  *     @OA\Property(property="extension", type="string"),
@@ -23,7 +24,6 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="files", type="array", @OA\Items(ref="#/components/schemas/File")),
  * )
  */
-
 class FileType extends Model
 {
     use HasFactory;
@@ -48,8 +48,6 @@ class FileType extends Model
 
     /**
      * Files relationship
-     *
-     * @return HasMany
      */
     public function files(): HasMany
     {

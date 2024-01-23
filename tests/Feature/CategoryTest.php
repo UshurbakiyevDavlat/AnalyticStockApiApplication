@@ -38,7 +38,7 @@ it('can get category by ID', function () {
         ->withHeaders([
             'Authorization' => $token,
         ])
-        ->get('/api/v1/posts/categories/' . $categoryId);
+        ->get('/api/v1/posts/categories/'.$categoryId);
 
     // Assertions
     expect($response)

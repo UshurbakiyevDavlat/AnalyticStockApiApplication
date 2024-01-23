@@ -20,8 +20,9 @@ class PostFileResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @throws Exception
      * @return array<string, mixed>
+     *
+     * @throws Exception
      */
     public function toArray(Request $request): array
     {

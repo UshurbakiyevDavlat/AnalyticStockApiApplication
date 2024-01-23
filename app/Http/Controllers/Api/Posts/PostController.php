@@ -18,7 +18,9 @@ use OpenApi\Annotations as OA;
 
 class PostController extends Controller
 {
-    public function __construct(private readonly PostService $postService) {}
+    public function __construct(private readonly PostService $postService)
+    {
+    }
 
     /**
      * Get all posts.
@@ -36,22 +38,26 @@ class PostController extends Controller
      *           in="header",
      *           description="Language for the response",
      *           required=false,
+     *
      *           @OA\Schema(type="string", default="en"),
      *  ),
+     *
      *        @OA\Response(
      *            response=200,
      *            description="Successful operation",
+     *
      *            @OA\JsonContent(
      *                type="object",
+     *
      *                @OA\Property(property="message", type="string", example="Success message"),
      *                @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PostResource")),
      *            ),
      *        ),
+     *
      *        @OA\Response(response=400, description="Bad request"),
      *   )
      *
-     * @param GetPostsRequest $request Request object
-     * @return JsonResponse
+     * @param  GetPostsRequest  $request  Request object
      */
     public function getPosts(GetPostsRequest $request): JsonResponse
     {
@@ -86,35 +92,38 @@ class PostController extends Controller
      *           in="header",
      *           description="Language for the response",
      *           required=false,
+     *
      *           @OA\Schema(type="string", default="en"),
      *  ),
+     *
      *       @OA\Parameter(
      *           name="post",
      *           in="path",
      *           description="ID of the post",
      *           required=true,
+     *
      *           @OA\Schema(type="integer"),
      *       ),
      *
      *       @OA\Response(
      *           response=200,
      *           description="Successful operation",
+     *
      *           @OA\JsonContent(
      *               type="object",
+     *
      *               @OA\Property(property="message", type="string", example="Success message"),
      *               @OA\Property(property="data", type="object", ref="#/components/schemas/PostResource"),
      *           ),
      *       ),
+     *
      *       @OA\Response(response=400, description="Bad request"),
      *       @OA\Response(response=404, description="Post not found"),
      *  )
-     *
-     * @param Post $post
-     * @return JsonResponse
      */
     public function getPost(Post $post): JsonResponse
     {
-        $cacheKey = 'post_' . $post->id;
+        $cacheKey = 'post_'.$post->id;
 
         $cachedPost = Cache::remember(
             $cacheKey,
@@ -129,6 +138,7 @@ class PostController extends Controller
 
     /**
      * Search posts by query. It can be by title or Ticker/ISIN.
+     *
      * @OA\Get(
      *     path="/api/v1/posts/search",
      *     summary="Search posts",
@@ -136,34 +146,39 @@ class PostController extends Controller
      *     operationId="searchPosts",
      *     tags={"Posts"},
      *     security={{ "jwt": {} }},
+     *
      *     @OA\Parameter(
      *      name="Lang",
      *     in="header",
      *     description="Language for the response",
      *     required=false,
+     *
      *     @OA\Schema(type="string", default="en"),
      *     ),
+     *
      *     @OA\Parameter(
      *     name="query",
      *     in="query",
      *     description="Query for search",
      *     required=true,
+     *
      *     @OA\Schema(type="string"),
      *     ),
+     *
      *     @OA\Response(
      *     response=200,
      *     description="Successful operation",
+     *
      *     @OA\JsonContent(
      *     type="object",
+     *
      *     @OA\Property(property="message", type="string", example="Success message"),
      *     @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PostResource")),
      *     ),
      *     ),
+     *
      *     @OA\Response(response=400, description="Bad request"),
      *     )
-     *
-     * @param SearchRequest $request
-     * @return JsonResponse
      */
     public function searchPosts(SearchRequest $request): JsonResponse
     {

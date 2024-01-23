@@ -46,8 +46,8 @@ class AuthService
             ? AuthStrEnum::JWT_DOMAIN->value
             : '';
         $this->name = config('app.env')
-            . '_'
-            . AuthStrEnum::JWT_NAME->value;
+            .'_'
+            .AuthStrEnum::JWT_NAME->value;
         $this->path = AuthStrEnum::JWT_PATH->value;
         $this->expired = AuthIntEnum::EXPIRED->value;
         $this->sameSite = AuthStrEnum::SAME_SITE->value;
@@ -56,8 +56,7 @@ class AuthService
     /**
      * Login the user and create a JWT token
      *
-     * @param User $user User
-     * @return void
+     * @param  User  $user  User
      */
     public function login(User $user): void
     {
@@ -82,9 +81,8 @@ class AuthService
     /**
      * Create or update the user according to the Azure response and return it
      *
-     * @param mixed $azureUser Azure user
-     * @param User|null $user User
-     * @return User
+     * @param  mixed  $azureUser  Azure user
+     * @param  User|null  $user  User
      */
     public function handleUser(mixed $azureUser, ?User $user): User
     {

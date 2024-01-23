@@ -4,8 +4,6 @@ namespace App\Enums;
 
 /**
  * Class LangStrEnum
- *
- * @package App\Enums
  */
 enum LangStrEnum: string
 {
@@ -68,8 +66,6 @@ enum LangStrEnum: string
 
     /**
      * Get supported languages for translation. TODO need to move to the database
-     *
-     * @return array
      */
     public static function getSupportedLangs(): array
     {
@@ -81,8 +77,6 @@ enum LangStrEnum: string
 
     /**
      * Get groups for translation.
-     *
-     * @return array
      */
     public static function getGroupsForTranslation(): array
     {
@@ -94,9 +88,6 @@ enum LangStrEnum: string
 
     /**
      * Get params for translation of the given group.
-     *
-     * @param string $group
-     * @return array
      */
     public static function getParamsForTranslation(string $group): array
     {

@@ -12,6 +12,7 @@ use OpenApi\Annotations as OA;
  *     schema="HorizonDataset",
  *     type="object",
  *     required={"id", "column1", "column2", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="column1", type="string"),
  *     @OA\Property(property="column2", type="string"),
@@ -48,8 +49,6 @@ class HorizonDataset extends Model
 
     /**
      * Ticker`s relation.
-     *
-     * @return BelongsTo
      */
     public function ticker(): BelongsTo
     {
@@ -58,8 +57,6 @@ class HorizonDataset extends Model
 
     /**
      * Country's relation.
-     *
-     * @return BelongsTo
      */
     public function country(): BelongsTo
     {
@@ -68,8 +65,6 @@ class HorizonDataset extends Model
 
     /**
      * Isin's relation.
-     *
-     * @return BelongsTo
      */
     public function isin(): BelongsTo
     {
@@ -78,8 +73,6 @@ class HorizonDataset extends Model
 
     /**
      * Sector's relation.
-     *
-     * @return BelongsTo
      */
     public function sector(): BelongsTo
     {
@@ -88,8 +81,6 @@ class HorizonDataset extends Model
 
     /**
      * Post's relation.
-     *
-     * @return BelongsTo
      */
     public function post(): BelongsTo
     {

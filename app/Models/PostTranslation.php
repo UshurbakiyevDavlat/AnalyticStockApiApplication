@@ -15,6 +15,7 @@ use OpenApi\Annotations as OA;
  *    type="object",
  *    title="PostTranslation",
  *    description="PostTranslation model",
+ *
  *  @OA\Property(property="id", type="integer", example="1"),
  *  @OA\Property(property="title", type="string", example="Post title"),
  *  @OA\Property(property="content", type="string", example="Post content"),
@@ -43,8 +44,6 @@ class PostTranslation extends Model
 
     /**
      * Get the post that owns the PostTranslation.
-     *
-     * @return BelongsTo
      */
     public function post(): BelongsTo
     {
@@ -53,8 +52,6 @@ class PostTranslation extends Model
 
     /**
      * Get the locale that owns the PostTranslation.
-     *
-     * @return BelongsTo
      */
     public function locale(): BelongsTo
     {

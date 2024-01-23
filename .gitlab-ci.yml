@@ -1,5 +1,5 @@
 stages:
-  - staticanalysis
+  - codequality
   - test
   - build
   - push
@@ -13,13 +13,29 @@ variables:
 services:
   - docker:dind
 
+codestyle:
+  stage: codequality
+  before_script:
+    - composer require laravel/pint --dev
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer-pint
+    paths:
+      - vendor/
+  script:
+    - composer pint-test
+
 phpstan:
-  stage: staticanalysis
-  image: composer
+  stage: codequality
   before_script:
     - composer require larastan/larastan:^2.0 --dev --no-plugins --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer-larastan
+    paths:
+      - vendor/
   script: composer phpstan
   allow_failure: true
+  needs:
+    - job: codestyle
 
 test:
   stage: test
@@ -28,6 +44,10 @@ test:
     - echo "$DOT_ENV" > .env
     - php artisan ciphersweet:encrypt App\\Models\\User d13164961cbcd1d75b102e54d8b751881bba4e57d32c13225f5ccd02d91068af
     - php artisan test --coverage
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-php-unit
+    paths:
+      - vendor/
   environment:
     name: 'testing'
 

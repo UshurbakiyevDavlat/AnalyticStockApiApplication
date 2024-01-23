@@ -13,7 +13,7 @@ class PostType extends Model
 {
     use HasFactory;
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $table = 'post_types';
 
     public function posts(): HasMany

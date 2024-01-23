@@ -17,10 +17,6 @@ class PostCollection extends ResourceCollection
 {
     public array $data;
 
-    /**
-     * @param $resource
-     * @param array|null $data
-     */
     public function __construct($resource, ?array $data = [])
     {
         $this->data = $data;
@@ -34,7 +30,7 @@ class PostCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        if (!empty($this->data['paginated'])) {
+        if (! empty($this->data['paginated'])) {
             $pagination = [
                 'total' => $this->total(),
                 'count' => $this->count(),

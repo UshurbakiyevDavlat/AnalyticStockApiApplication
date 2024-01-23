@@ -19,18 +19,22 @@ class PostService
      * @var string TIME_FORMAT
      */
     private const DATE_FORMAT = 'Y-m-d H:i:s';
+
     /**
      * @var int TIME_COEFFICIENT
      */
     private const TIME_COEFFICIENT = 1000;
+
     /**
      * @var string TIME_ZONE
      */
     private const TIME_ZONE = 'Asia/Almaty';
+
     /**
      * @var int PAGINATE_LIMIT
      */
     private const PAGINATE_LIMIT = 10;
+
     /**
      * @var string SORT_TYPE
      */
@@ -38,22 +42,19 @@ class PostService
 
     /**
      * Get posts with filter or not.
-     *
-     * @param array $data
-     * @return LengthAwarePaginator
      */
     public function getPosts(array $data): LengthAwarePaginator
     {
         $query = Post::query()->with('horizonDataset')
             ->where('is_published', true);
 
-        if (!empty($data)) {
+        if (! empty($data)) {
             $data = $this->prepareDataForFilter($data);
 
             foreach ($data as $key => $value) {
                 if ($key === self::SORT_TYPE) {
                     $query = $this->applySort($query, $value);
-                } elseif (!in_array($key, PostStrEnum::timePeriods(), true)) {
+                } elseif (! in_array($key, PostStrEnum::timePeriods(), true)) {
                     if (in_array($key, PostStrEnum::getRelationColumns(), true)) {
                         $relations = PostStrEnum::getRelationFilterValues();
                         foreach ($relations as $relation => $item) {
@@ -61,7 +62,7 @@ class PostService
                         }
                     } else {
                         $column = PostStrEnum::getFilterColumn($key);
-                        if (!$column) {
+                        if (! $column) {
                             continue;
                         }
                         $query = $this->applyFilter($query, $value, $column);
@@ -98,14 +99,11 @@ class PostService
 
     /**
      * Prepare data for filter.
-     *
-     * @param array $data
-     * @return array
      */
     private function prepareDataForFilter(array $data): array
     {
         foreach ($data as $key => $value) {
-            if (!in_array($key, PostStrEnum::getValuesToNotDecode(), true)) {
+            if (! in_array($key, PostStrEnum::getValuesToNotDecode(), true)) {
                 $data[$key] = array_map('intval', explode(',', $value));
             }
         }
@@ -115,9 +113,6 @@ class PostService
 
     /**
      * Search posts by query. It can be by title or Ticker/ISIN.
-     *
-     * @param string $query
-     * @return Collection
      */
     public function searchPost(string $query): Collection
     {

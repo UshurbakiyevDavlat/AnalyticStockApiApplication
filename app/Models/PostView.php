@@ -12,6 +12,7 @@ use OpenApi\Annotations as OA;
  *     schema="PostView",
  *     type="object",
  *     required={"id", "post_id", "user_id", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="post_id", type="integer"),
  *     @OA\Property(property="user_id", type="integer"),
@@ -40,8 +41,6 @@ class PostView extends Model
 
     /**
      * Post relationship
-     *
-     * @return BelongsTo
      */
     public function post(): BelongsTo
     {
@@ -50,8 +49,6 @@ class PostView extends Model
 
     /**
      * User relationship
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {

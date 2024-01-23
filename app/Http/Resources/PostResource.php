@@ -25,6 +25,7 @@ use OpenApi\Annotations as OA;
  *     type="object",
  *     required={"id", "title", "typeId", "categoryId", "subcategoriesId", "createdAt", "content", "likes", "views",
  *     "ticker", "country", "author"},
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="title", type="string"),
  *     @OA\Property(property="typeId", type="string"),

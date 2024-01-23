@@ -17,6 +17,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="CategoryResource",
  *     type="object",
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(
  *         property="title",
@@ -37,6 +38,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(
  *         property="subcategories",
  *         type="array",
+ *
  *         @OA\Items(ref="#/components/schemas/CategoryResource"),
  *     ),
  * )
@@ -48,6 +50,7 @@ use OpenApi\Annotations as OA;
  * @property string $img
  * @property string $title
  * @property string $description
+ *
  * @method each(\Closure $param)
  * @method count()
  */
@@ -113,19 +116,17 @@ class CategoryResource extends JsonResource
 
     /**
      * Counting amount of unique subscribers of subcategory
-     *
-     * @return int
      */
     private function countSubCategorySubscribers(): int
     {
         $uniqueUserIds = collect();
 
-        $this->children->each(fn($child) => $uniqueUserIds->push(
+        $this->children->each(fn ($child) => $uniqueUserIds->push(
             $child->subscriptions->pluck('user_id'),
         ));
 
         $uniqueUserIds = $uniqueUserIds->whenNotEmpty(
-            fn($collection) => $collection->flatten(),
+            fn ($collection) => $collection->flatten(),
         )
             ->unique();
 

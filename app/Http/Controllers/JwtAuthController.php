@@ -22,31 +22,37 @@ class JwtAuthController extends Controller
      *     path="/api/jwt",
      *     summary="Authenticate a user and return a JWT token",
      *     tags={"Authentication"},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             required={"email"},
+     *
      *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful authentication",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="token", type="string", description="JWT token")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Invalid credentials",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="error", type="string", description="Error message")
      *         )
      *     )
      * )
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function login(Request $request): JsonResponse
     {
@@ -63,10 +69,6 @@ class JwtAuthController extends Controller
 
     /**
      * Get the token array structure.
-     *
-     * @param string|Payload $token
-     *
-     * @return JsonResponse
      */
     protected function createNewToken(string|Payload $token): JsonResponse
     {
@@ -88,18 +90,20 @@ class JwtAuthController extends Controller
      *     operationId="getUser",
      *     tags={"Authentication"},
      *     security={{"jwt": {}}},
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="user", type="object", ref="#/components/schemas/User"),
      *         ),
      *     ),
+     *
      *     @OA\Response(response=401, description="Unauthorized"),
      * )
-     *
-     * @return Authenticatable
      */
     public function userProfile(): Authenticatable
     {

@@ -15,6 +15,7 @@ use OpenApi\Annotations as OA;
  *     type="object",
  *     title="CategoryTranslation",
  *     description="CategoryTranslation model",
+ *
  *     @OA\Property(property="id", type="integer", example="1"),
  *     @OA\Property(property="title", type="string", example="Category title"),
  *     @OA\Property(property="description", type="string", example="Category description"),
@@ -39,9 +40,6 @@ class CategoryTranslation extends Model
         'locale_id',
     ];
 
-    /**
-     * @return BelongsTo
-     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -49,8 +47,6 @@ class CategoryTranslation extends Model
 
     /**
      * Get the status that owns the CategoryTranslation.
-     *
-     * @return BelongsTo
      */
     public function locale(): BelongsTo
     {

@@ -12,6 +12,7 @@ use OpenApi\Annotations as OA;
  *     schema="Status",
  *     title="Status",
  *     description="Status model",
+ *
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="title", type="string", example="Active"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
