@@ -14,6 +14,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static authenticate()
  *
  * @see JWT
+ * @see Payload
+ * @see JWTAuth
  */
 class JWTAuth
 {
