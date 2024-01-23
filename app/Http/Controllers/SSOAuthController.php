@@ -29,8 +29,7 @@ class SSOAuthController extends Controller implements AuthInterface
      */
     public function __construct(
         private readonly AuthService $authService,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the authenticated User info for SSO auth flow.
@@ -82,8 +81,8 @@ class SSOAuthController extends Controller implements AuthInterface
 
         $source = Cookie::get(
             config('app.env')
-            .'_'
-            .AuthStrEnum::SOURCE_COOKIE->value,
+            . '_'
+            . AuthStrEnum::SOURCE_COOKIE->value,
         );
 
         $adminUrl = config('app.admin_url');

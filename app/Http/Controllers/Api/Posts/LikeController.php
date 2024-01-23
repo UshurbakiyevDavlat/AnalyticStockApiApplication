@@ -107,7 +107,7 @@ class LikeController extends Controller
         }
 
         return self::sendSuccess(
-            __('response.post.'.$liked),
+            __('response.post.' . $liked),
         );
     }
 }

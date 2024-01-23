@@ -19,6 +19,4 @@ use Tymon\JWTAuth\Payload;
  * @see Payload
  * @see JWTAuth
  */
-class JWTAuth
-{
-}
+class JWTAuth {}

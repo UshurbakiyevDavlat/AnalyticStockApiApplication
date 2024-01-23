@@ -106,7 +106,7 @@ class BookmarkController extends Controller
         }
 
         return self::sendSuccess(
-            __('response.post.'.$bookmarked),
+            __('response.post.' . $bookmarked),
         );
     }
 }

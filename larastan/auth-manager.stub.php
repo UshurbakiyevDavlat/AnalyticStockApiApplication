@@ -14,6 +14,4 @@ use Illuminate\Contracts\Auth\Authenticatable;
  * @method bool check()
  * @method bool guest()
  */
-class AuthManager
-{
-}
+class AuthManager {}

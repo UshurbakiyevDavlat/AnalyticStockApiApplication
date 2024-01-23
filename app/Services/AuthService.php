@@ -46,8 +46,8 @@ class AuthService
             ? AuthStrEnum::JWT_DOMAIN->value
             : '';
         $this->name = config('app.env')
-            .'_'
-            .AuthStrEnum::JWT_NAME->value;
+            . '_'
+            . AuthStrEnum::JWT_NAME->value;
         $this->path = AuthStrEnum::JWT_PATH->value;
         $this->expired = AuthIntEnum::EXPIRED->value;
         $this->sameSite = AuthStrEnum::SAME_SITE->value;

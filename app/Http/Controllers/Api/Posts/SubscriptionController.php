@@ -107,7 +107,7 @@ class SubscriptionController extends Controller
         }
 
         return self::sendSuccess(
-            __('response.post.category.'.$subscribed),
+            __('response.post.category.' . $subscribed),
         );
     }
 }

@@ -119,7 +119,7 @@ class CategoryController extends Controller
      */
     public function getCategory(Category $category): JsonResponse
     {
-        $cacheKey = 'category_'.$category->id;
+        $cacheKey = 'category_' . $category->id;
 
         $category = Cache::remember(
             $cacheKey,

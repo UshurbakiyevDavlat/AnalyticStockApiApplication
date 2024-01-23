@@ -18,9 +18,7 @@ use OpenApi\Annotations as OA;
 
 class PostController extends Controller
 {
-    public function __construct(private readonly PostService $postService)
-    {
-    }
+    public function __construct(private readonly PostService $postService) {}
 
     /**
      * Get all posts.
@@ -123,7 +121,7 @@ class PostController extends Controller
      */
     public function getPost(Post $post): JsonResponse
     {
-        $cacheKey = 'post_'.$post->id;
+        $cacheKey = 'post_' . $post->id;
 
         $cachedPost = Cache::remember(
             $cacheKey,

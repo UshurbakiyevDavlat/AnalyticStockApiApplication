@@ -121,12 +121,12 @@ class CategoryResource extends JsonResource
     {
         $uniqueUserIds = collect();
 
-        $this->children->each(fn ($child) => $uniqueUserIds->push(
+        $this->children->each(fn($child) => $uniqueUserIds->push(
             $child->subscriptions->pluck('user_id'),
         ));
 
         $uniqueUserIds = $uniqueUserIds->whenNotEmpty(
-            fn ($collection) => $collection->flatten(),
+            fn($collection) => $collection->flatten(),
         )
             ->unique();
 
