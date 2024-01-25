@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         if (config('app.env') !== 'local') {
             Gate::define('viewPulse', function ($user) {
-                return $user->hasRole('super-admin');
+                return true;
             });
         }
     }
