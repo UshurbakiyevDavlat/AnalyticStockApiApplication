@@ -41,7 +41,7 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
         ], static function () {
             Route::get('/', [FastLineController::class, 'list'])
                 ->name('fastLine.list');
-        },);
+        }, );
 
         Route::group(['prefix' => 'ecosystem'], static function () {
             Route::get('/', [EcosystemController::class, 'getEcosystem'])
