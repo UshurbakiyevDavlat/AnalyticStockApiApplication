@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Posts\LikeController;
 use App\Http\Controllers\Api\Posts\PostController;
 use App\Http\Controllers\Api\Posts\SubscriptionController;
 use App\Http\Controllers\Api\Posts\ViewController;
+use App\Http\Controllers\FastLineController;
 use App\Http\Controllers\JwtAuthController;
 use App\Http\Controllers\SSOAuthController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,13 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
         ->name('user.profile');
 
     Route::group(['prefix' => 'v1'], static function () {
+        Route::group([
+            'prefix' => 'fastLine',
+        ], static function () {
+            Route::get('/', [FastLineController::class, 'list'])
+                ->name('fastLine.list');
+        },);
+
         Route::group(['prefix' => 'ecosystem'], static function () {
             Route::get('/', [EcosystemController::class, 'getEcosystem'])
                 ->name('getEcosystem');
