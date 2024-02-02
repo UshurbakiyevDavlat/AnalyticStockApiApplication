@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\StatusActivityEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -88,7 +89,8 @@ class Category extends Model
      */
     public function children(): HasMany
     {
-        return $this->hasMany(__CLASS__, 'parent_id');
+        return $this->hasMany(__CLASS__, 'parent_id')
+            ->where('status_id', StatusActivityEnum::ACTIVE->value);
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Posts;
 
 use App\Enums\CacheIntEnum;
+use App\Enums\StatusActivityEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
@@ -66,6 +67,7 @@ class CategoryController extends Controller
                 // Cache miss, fetch the categories from the database
                 return CategoryCollection::make(
                     Category::whereNull('parent_id')
+                        ->where('status_id', StatusActivityEnum::ACTIVE->value)
                         ->get(),
                 )->jsonSerialize();
             },
