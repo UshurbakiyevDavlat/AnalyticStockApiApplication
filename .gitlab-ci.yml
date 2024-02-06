@@ -109,7 +109,6 @@ deploy-stage:
     - stage
   environment:
     name: $CI_COMMIT_REF_SLUG
-  when: manual
 
 deploy-master:
   stage: deploy
@@ -122,6 +121,5 @@ deploy-master:
     - job: push
   only:
     - main
-  when: manual
   environment:
     name: $CI_COMMIT_REF_SLUG
