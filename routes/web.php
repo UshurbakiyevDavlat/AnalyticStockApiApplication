@@ -20,7 +20,7 @@ Route::get('/', static function () {
 });
 
 Route::group(['prefix' => 'auth'], static function () {
-    Route::get('/', [SSOAuthController::class, 'redirectToProvider']);
+    Route::get('/', [SSOAuthController::class, 'redirectToProvider'])->name('sso.login');
     Route::get('/callback', [SSOAuthController::class, 'handleProviderCallback']);
 });
 
