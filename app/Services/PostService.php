@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enums\PostStrEnum;
+use App\Enums\StatusActivityEnum;
 use App\Models\Post;
 use App\Traits\FilterTrait;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -46,6 +47,7 @@ class PostService
     public function getPosts(array $data): LengthAwarePaginator
     {
         $query = Post::query()->with('horizonDataset')
+            ->where('status_id', StatusActivityEnum::ACTIVE->value)
             ->where('is_published', true);
 
         if (! empty($data)) {
