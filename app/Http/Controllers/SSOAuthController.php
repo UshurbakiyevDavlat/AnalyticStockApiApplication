@@ -97,7 +97,6 @@ class SSOAuthController extends Controller implements AuthInterface
     /** @inheritDoc */
     public function logout(Request $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        Auth::guard()->logout();
         $request->session()->flush();
         $azureLogoutUrl = Socialite::driver(AuthStrEnum::DRIVER->value)->getLogoutUrl(route('login'));
         return redirect($azureLogoutUrl);
