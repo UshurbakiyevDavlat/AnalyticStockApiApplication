@@ -5,6 +5,7 @@ parameters:
     stubFiles:
         - larastan/auth-manager.stub.php
         - larastan/tymon-jwt-auth.stub.php
+        - larastan/socialite.stub.php
 
     paths:
         - app/

@@ -72,11 +72,3 @@ it('returns JsonResponse from user method', function () {
 
     expect($response)->toBeInstanceOf(JsonResponse::class);
 });
-
-it('returns JsonResponse from logout method', function () {
-    $authController = new SSOAuthController(new AuthService());
-
-    $response = $authController->logout();
-
-    expect($response)->toBeInstanceOf(JsonResponse::class);
-});

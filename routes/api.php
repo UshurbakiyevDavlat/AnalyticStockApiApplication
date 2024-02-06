@@ -32,6 +32,10 @@ Route::post('jwt', [JwtAuthController::class, 'login'])
 Route::middleware(['auth.jwt.cookie'])->group(function () {
     Route::get('auth', [SSOAuthController::class, 'user'])
         ->name('sso.auth');
+
+    Route::get('logout', [SSOAuthController::class, 'logout'])
+        ->name('sso.logout');
+
     Route::get('profile', [JwtAuthController::class, 'userProfile'])
         ->name('user.profile');
 

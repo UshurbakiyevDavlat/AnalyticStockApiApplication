@@ -11,7 +11,9 @@ use App\Services\AuthService;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
@@ -31,9 +33,7 @@ class SSOAuthController extends Controller implements AuthInterface
         private readonly AuthService $authService,
     ) {}
 
-    /**
-     * Get the authenticated User info for SSO auth flow.
-     */
+    /** @inheritDoc */
     public function user(): JsonResponse
     {
         $user = auth()->user();
@@ -53,17 +53,13 @@ class SSOAuthController extends Controller implements AuthInterface
         );
     }
 
-    /**
-     * Redirect the user to the Azure authentication page.
-     */
+    /** @inheritDoc */
     public function redirectToProvider(): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
     {
         return Socialite::driver(AuthStrEnum::DRIVER->value)->redirect();
     }
 
-    /**
-     * Obtain the user information from Azure.
-     */
+    /** @inheritDoc */
     public function handleProviderCallback(
     ): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application {
         $driver = AuthStrEnum::DRIVER->value;
@@ -98,15 +94,12 @@ class SSOAuthController extends Controller implements AuthInterface
         return redirect($frontendUrl);
     }
 
-    // TODO Implement logout for sso and jwt
-
-    /**
-     * Log the user out of the application.
-     */
-    public function logout(): JsonResponse
+    /** @inheritDoc */
+    public function logout(Request $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        return self::sendSuccess(
-            'Logout',
-        );
+        Auth::guard()->logout();
+        $request->session()->flush();
+        $azureLogoutUrl = Socialite::driver(AuthStrEnum::DRIVER->value)->getLogoutUrl(route('login'));
+        return redirect($azureLogoutUrl);
     }
 }
