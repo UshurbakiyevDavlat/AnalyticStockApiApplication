@@ -61,8 +61,7 @@ class SSOAuthController extends Controller implements AuthInterface
 
     /** @inheritDoc */
     public function handleProviderCallback(
-    ): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
-    {
+    ): Application|JsonResponse|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application {
         $driver = AuthStrEnum::DRIVER->value;
         $user = Socialite::driver($driver)->user();
 
