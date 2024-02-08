@@ -16,7 +16,6 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
-use Session;
 
 class SSOAuthController extends Controller implements AuthInterface
 {
@@ -99,7 +98,6 @@ class SSOAuthController extends Controller implements AuthInterface
         Request $request,
     ): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application {
         $azureLogoutUrl = Socialite::driver(AuthStrEnum::DRIVER->value)->getLogoutUrl(route('sso.login'));
-        Session::flush();
 
         return redirect($azureLogoutUrl)->withCookie(
             Cookie::forget(
