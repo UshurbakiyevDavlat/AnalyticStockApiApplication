@@ -60,20 +60,27 @@ class CategoryController extends Controller
         $cacheKey = 'categories_list';
 
         // // Attempt to retrieve categories from the cache
-        $categories = Cache::remember(
-            $cacheKey,
-            now()->addMinutes(CacheIntEnum::EXPIRED->value),
-            static function () {
-                // Cache miss, fetch the categories from the database
-                return CategoryCollection::make(
-                    Category::whereNull('parent_id')
-                        ->where('status_id', StatusActivityEnum::ACTIVE->value)
-                        ->get(),
-                )->jsonSerialize();
-            },
-        );
+        // $categories = Cache::remember(
+        //     $cacheKey,
+        //     now()->addMinutes(CacheIntEnum::EXPIRED->value),
+        //     static function () {
+        //         // Cache miss, fetch the categories from the database
+        //         return CategoryCollection::make(
+        //             Category::whereNull('parent_id')
+        //                 ->where('status_id', StatusActivityEnum::ACTIVE->value)
+        //                 ->get(),
+        //         )->jsonSerialize();
+        //     },
+        // );
 
-        return self::sendSuccess('Categories list', $categories);
+        return self::sendSuccess(
+            'Categories list',
+            CategoryCollection::make(
+                Category::whereNull('parent_id')
+                    ->where('status_id', StatusActivityEnum::ACTIVE->value)
+                    ->get(),
+            )->jsonSerialize(),
+        );
     }
 
     /**
