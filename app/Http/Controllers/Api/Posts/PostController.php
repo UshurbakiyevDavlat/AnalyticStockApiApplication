@@ -63,15 +63,15 @@ class PostController extends Controller
         $cacheKey = 'posts_list';
         $posts = $this->postService->getPosts($data);
 
-        $cachedPosts = Cache::remember(
-            $cacheKey,
-            now()->addMinutes(CacheIntEnum::EXPIRED->value),
-            static function () use ($posts) {
-                return PostCollection::make($posts, ['paginated' => true])->jsonSerialize();
-            },
-        );
+        // $cachedPosts = Cache::remember(
+        //     $cacheKey,
+        //     now()->addMinutes(CacheIntEnum::EXPIRED->value),
+        //     static function () use ($posts) {
+        //         return PostCollection::make($posts, ['paginated' => true])->jsonSerialize();
+        //     },
+        // );
 
-        return self::sendSuccess(__('response.success'), $cachedPosts);
+        return self::sendSuccess(__('response.success'), PostCollection::make($posts, ['paginated' => true])->jsonSerialize());
     }
 
     /**
