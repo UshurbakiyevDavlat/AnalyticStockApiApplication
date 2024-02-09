@@ -10,8 +10,10 @@ trait FilterTrait
     /**
      * Apply sorting for the query.
      *
-     * @param  Builder  $query  $query
-     * @param  string  $sort  sorting
+     * @param Builder $query $query
+     * @param string $sort sorting
+     *
+     * @return Builder
      */
     public function applySort(Builder $query, string $sort): Builder
     {
@@ -39,9 +41,11 @@ trait FilterTrait
     /**
      * Apply filters to query.
      *
-     * @param  Builder  $query  query
-     * @param  array  $value  value
-     * @param  string  $column  column
+     * @param Builder $query query
+     * @param array $value value
+     * @param string $column column
+     *
+     * @return Builder
      */
     public function applyFilter(
         Builder $query,
@@ -56,9 +60,13 @@ trait FilterTrait
     /**
      * Apply filters to query.
      *
-     * @param  Builder  $query  query
-     * @param  array  $value  value
-     * @param  array  $column  column
+     * @param Builder $query query
+     * @param array $value value
+     * @param string $relation
+     * @param array $column column
+     * @param string $key key
+     *
+     * @return Builder
      */
     public function applyRelationFilter(
         Builder $query,
@@ -81,6 +89,11 @@ trait FilterTrait
 
     /**
      * Apply time period filter.
+     *
+     * @param Builder $query query
+     * @param array $value value
+     *
+     * @return Builder
      */
     public function applyTimePeriodFilter(
         Builder $query,

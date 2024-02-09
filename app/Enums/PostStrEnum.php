@@ -53,7 +53,7 @@ enum PostStrEnum: string
     /**
      * Get column name for filter.
      *
-     * @return array<string>
+     * @return array
      */
     public static function getRelationFilterValues(): array
     {
