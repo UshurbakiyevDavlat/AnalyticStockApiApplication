@@ -43,7 +43,7 @@ class PostController extends Controller
      *   @OA\Parameter(
      *         name="sort",
      *         in="query",
-     *         description="Sorting criteria for posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         description="Sorting criteria for posts, should be one of the following: date, popularity, likes",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
