@@ -9,6 +9,11 @@ use OpenApi\Annotations as OA;
 /**
  * Class PostUserDataResource
  *
+ * @property mixed $bookmarks
+ * @property mixed $likes
+ * @property mixed $subscriptions
+ * @property mixed $views
+ *
  * @package App\Http\Resources
  *
  * @OA\Schema(
