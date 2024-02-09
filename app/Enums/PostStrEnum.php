@@ -15,9 +15,12 @@ enum PostStrEnum: string
     case isin = 'isin';
     case start_date = 'start_date';
     case end_date = 'end_date';
+    case tags = 'tags';
 
     /**
      * Get all values.
+     *
+     * @return array<string>
      */
     public static function getFilterValues(): array
     {
@@ -33,6 +36,8 @@ enum PostStrEnum: string
 
     /**
      * Get column name for relation filter.
+     *
+     * @return array<string>
      */
     public static function getRelationColumns(): array
     {
@@ -41,11 +46,14 @@ enum PostStrEnum: string
             self::sector->value,
             self::ticker->value,
             self::isin->value,
+            self::tags->value,
         ];
     }
 
     /**
      * Get column name for filter.
+     *
+     * @return array<string>
      */
     public static function getRelationFilterValues(): array
     {
@@ -56,11 +64,16 @@ enum PostStrEnum: string
                 self::ticker->value => 'ticker_id',
                 self::isin->value => 'isin_id',
             ],
+            'tags' => [
+                self::tags->value => 'tag_id',
+            ],
         ];
     }
 
     /**
      * Get values that should not be decoded.
+     *
+     * @return array<string>
      */
     public static function getValuesToNotDecode(): array
     {
@@ -73,6 +86,8 @@ enum PostStrEnum: string
 
     /**
      * Get time periods.
+     *
+     * @return array<string>
      */
     public static function timePeriods(): array
     {
@@ -84,6 +99,9 @@ enum PostStrEnum: string
 
     /**
      * Key is a filter name, value is a column name.
+     *
+     * @param string $key Filter name.
+     * @return string|null
      */
     public static function getFilterColumn(string $key): ?string
     {
