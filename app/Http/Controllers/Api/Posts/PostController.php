@@ -38,8 +38,99 @@ class PostController extends Controller
      *           description="Language for the response",
      *           required=false,
      *
-     *           @OA\Schema(type="string", default="en"),
+     *           @OA\Schema(type="string", default="ru"),
      *  ),
+     *   @OA\Parameter(
+     *         name="sort",
+     *         in="query",
+     *         description="Sorting criteria for posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="category",
+     *         in="query",
+     *         description="Categories to filter posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="subCategory",
+     *         in="query",
+     *         description="Subcategories to filter posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sector",
+     *         in="query",
+     *         description="Sectors to filter posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="author",
+     *         in="query",
+     *         description="Authors to filter posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="ticker",
+     *         in="query",
+     *         description="Tickers to filter posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="country",
+     *         in="query",
+     *         description="Countries to filter posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="isin",
+     *         in="query",
+     *         description="ISINs to filter posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="start_date",
+     *         in="query",
+     *         description="Start date for posts, should be a timestamp like this 1704564000000",
+     *         required=false,
+     *         @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Parameter(
+     *         name="end_date",
+     *         in="query",
+     *         description="End date for posts, should be a timestamp like this 1704564000000",
+     *         required=false,
+     *         @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number for pagination",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="ID of the post, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="tags",
+     *         in="query",
+     *         description="Tags to filter posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *
      *        @OA\Response(
      *            response=200,
