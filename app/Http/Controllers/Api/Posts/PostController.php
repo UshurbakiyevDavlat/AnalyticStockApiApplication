@@ -120,7 +120,7 @@ class PostController extends Controller
      *     @OA\Parameter(
      *         name="id",
      *         in="query",
-     *         description="ID of the post, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
+     *         description="ID of the post",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
