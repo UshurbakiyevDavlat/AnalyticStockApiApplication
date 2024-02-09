@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Isin;
 use App\Models\Sector;
+use App\Models\Tag;
 use App\Models\Ticker;
 use App\Models\User;
 use App\Traits\ApiResponse;
@@ -193,6 +194,84 @@ class FilterDataListController extends Controller
         return self::sendSuccess(
             __('response.success'),
             Isin::all()->jsonSerialize(),
+        );
+    }
+
+    /**
+     * Get all tags for filter.
+     *
+     * @OA\Get(
+     *     path="/api/v1/posts/tags",
+     *     summary="List tags",
+     *     description="Retrieve the list of tags.",
+     *     operationId="getTags",
+     *     tags={"Posts"},
+     *     security={{ "jwt": {} }},
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(
+     *     type="object",
+     *     @OA\Property(property="message", type="string", example="Success message"),
+     *     @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Tag")),
+     *     ),
+     *     ),
+     *     @OA\Response(response=400, description="Bad request"),
+     *     )
+     *
+     * @return JsonResponse
+     */
+    public function getTags(): JsonResponse
+    {
+        return self::sendSuccess(
+            __('response.success'),
+            Tag::all()->jsonSerialize(),
+        );
+    }
+
+    /**
+     * Get all common filter data.
+     *
+     * @OA\Get(
+     *     path="/api/v1/posts/commonFilterData",
+     *     summary="List common filter data",
+     *     description="Retrieve the list of common filter data.",
+     *     operationId="getCommonFilterData",
+     *     tags={"Posts"},
+     *     security={{ "jwt": {} }},
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(
+     *     type="object",
+     *     @OA\Property(property="message", type="string", example="Success message"),
+     *     @OA\Property(property="data", type="object",
+     *     @OA\Property(property="countries", type="array", @OA\Items(ref="#/components/schemas/Country")),
+     *     @OA\Property(property="sectors", type="array", @OA\Items(ref="#/components/schemas/Sector")),
+     *     @OA\Property(property="authors", type="array", @OA\Items(ref="#/components/schemas/User")),
+     *     @OA\Property(property="tickers", type="array", @OA\Items(ref="#/components/schemas/Ticker")),
+     *     @OA\Property(property="isins", type="array", @OA\Items(ref="#/components/schemas/Isin")),
+     *     @OA\Property(property="tags", type="array", @OA\Items(ref="#/components/schemas/Tag")),
+     *     ),
+     *     ),
+     *     ),
+     *     @OA\Response(response=400, description="Bad request"),
+     *     )
+     *
+     * @return JsonResponse
+     */
+    public function getCommonFilterData(): JsonResponse
+    {
+        return self::sendSuccess(
+            __('response.success'),
+            [
+                'countries' => Country::all()->jsonSerialize(),
+                'sectors' => Sector::all()->jsonSerialize(),
+                'authors' => User::all()->jsonSerialize(),
+                'tickers' => Ticker::all()->jsonSerialize(),
+                'isins' => Isin::all()->jsonSerialize(),
+                'tags' => Tag::all()->jsonSerialize(),
+            ],
         );
     }
 }

@@ -6,8 +6,10 @@ namespace App\Services;
 
 use App\Enums\PostStrEnum;
 use App\Enums\StatusActivityEnum;
+use App\Http\Resources\PostUserDataResource;
 use App\Models\Post;
 use App\Traits\FilterTrait;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
@@ -43,6 +45,10 @@ class PostService
 
     /**
      * Get posts with filter or not.
+     *
+     * @param array $data Data for filter
+     * @throws Exception
+     * @return LengthAwarePaginator
      */
     public function getPosts(array $data): LengthAwarePaginator
     {
@@ -101,6 +107,9 @@ class PostService
 
     /**
      * Prepare data for filter.
+     *
+     * @param array $data Data for filter
+     * @return array
      */
     private function prepareDataForFilter(array $data): array
     {
@@ -115,9 +124,24 @@ class PostService
 
     /**
      * Search posts by query. It can be by title or Ticker/ISIN.
+     *
+     * @param string $query Search query
+     * @return Collection
      */
     public function searchPost(string $query): Collection
     {
         return Post::search($query)->get();
+    }
+
+    /**
+     * Get all user actions data for post.
+     *
+     * @return array
+     */
+    public function getPostUserData(): array
+    {
+        $user = auth()->user();
+
+        return PostUserDataResource::make($user)->jsonSerialize();
     }
 }

@@ -92,6 +92,12 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
                     ->name('likePost');
             });
 
+            Route::get('/commonUserData', [PostController::class, 'getPostsUserData'])
+                ->name('getPostUserData');
+
+            Route::get('/commonFilterData', [FilterDataListController::class, 'getCommonFilterData'])
+                ->name('getCommonFilterData');
+
             Route::group(['prefix' => 'horizonData'], static function () {
                 Route::get('/countries', [FilterDataListController::class, 'getCountries'])
                     ->name('getCountries');
@@ -111,6 +117,9 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
                 Route::get('/{post}', [HorizonDatasetController::class, 'list'])
                     ->name('getHorizonData');
             });
+
+            Route::get('/tags', [FilterDataListController::class, 'getTags'])
+                ->name('getTags');
 
             Route::group(['prefix' => 'files'], static function () {
                 Route::get('/{post}', [FilesController::class, 'getPostFiles'])

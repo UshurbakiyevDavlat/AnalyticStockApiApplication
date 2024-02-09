@@ -12,6 +12,7 @@ use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Services\PostService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 use OpenApi\Annotations as OA;
@@ -55,7 +56,8 @@ class PostController extends Controller
      *        @OA\Response(response=400, description="Bad request"),
      *   )
      *
-     * @param  GetPostsRequest  $request  Request object
+     * @param GetPostsRequest $request Request object
+     * @throws Exception
      */
     public function getPosts(GetPostsRequest $request): JsonResponse
     {
@@ -187,5 +189,34 @@ class PostController extends Controller
             __('response.success'),
             PostCollection::make($posts)->jsonSerialize(),
         );
+    }
+
+    /**
+     * Get posts user data.
+     *
+     * @OA\Get(
+     *     path="/api/v1/posts/commonUserData",
+     *     summary="Get posts commonUserData",
+     *     description="Retrieve a list of all posts with user data.",
+     *     operationId="getPostsUserData",
+     *     tags={"Posts"},
+     *     security={{ "jwt": {} }},
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(
+     *     type="object",
+     *     @OA\Property(property="message", type="string", example="Success message"),
+     *     @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PostUserDataResource")),
+     *     ),
+     *     ),
+     *     @OA\Response(response=400, description="Bad request"),
+     *     )
+     *
+     * @return JsonResponse
+     */
+    public function getPostsUserData(): JsonResponse
+    {
+        return self::sendSuccess(__('response.success'), $this->postService->getPostUserData());
     }
 }
