@@ -130,14 +130,14 @@ class CategoryController extends Controller
     {
         $cacheKey = 'category_' . $category->id;
 
-        $category = Cache::remember(
-            $cacheKey,
-            now()->addMinutes(CacheIntEnum::EXPIRED->value),
-            static function () use ($category) {
-                return CategoryResource::make($category)->jsonSerialize();
-            },
-        );
+        // $category = Cache::remember(
+        //     $cacheKey,
+        //     now()->addMinutes(CacheIntEnum::EXPIRED->value),
+        //     static function () use ($category) {
+        //         return CategoryResource::make($category)->jsonSerialize();
+        //     },
+        // );
 
-        return self::sendSuccess('Category info', $category);
+        return self::sendSuccess('Category info', CategoryResource::make($category)->jsonSerialize());
     }
 }

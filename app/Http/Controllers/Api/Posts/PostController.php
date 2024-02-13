@@ -216,15 +216,15 @@ class PostController extends Controller
     {
         $cacheKey = 'post_' . $post->id;
 
-        $cachedPost = Cache::remember(
-            $cacheKey,
-            now()->addMinutes(CacheIntEnum::EXPIRED->value),
-            static function () use ($post) {
-                return PostResource::make($post)->jsonSerialize();
-            },
-        );
+        // $cachedPost = Cache::remember(
+        //     $cacheKey,
+        //     now()->addMinutes(CacheIntEnum::EXPIRED->value),
+        //     static function () use ($post) {
+        //         return PostResource::make($post)->jsonSerialize();
+        //     },
+        // );
 
-        return self::sendSuccess(__('response.success'), $cachedPost);
+        return self::sendSuccess(__('response.success'), PostResource::make($post)->jsonSerialize());
     }
 
     /**
