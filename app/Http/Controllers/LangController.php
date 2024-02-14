@@ -12,6 +12,9 @@ class LangController extends Controller
 {
     /**
      * Set language group
+     *
+     * @param Request $request request
+     * @return JsonResponse
      */
     public function setGroup(Request $request): JsonResponse
     {
