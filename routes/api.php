@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Posts\ViewController;
 use App\Http\Controllers\FastLineController;
 use App\Http\Controllers\JwtAuthController;
 use App\Http\Controllers\SSOAuthController;
+use App\Http\Controllers\TNController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,9 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
 
     Route::get('profile', [JwtAuthController::class, 'userProfile'])
         ->name('user.profile');
+
+    Route::get('TNDictionary', [TNController::class, 'getSharesAndObligationsData'])
+        ->name('TN.dictionary');
 
     Route::group(['prefix' => 'v1'], static function () {
         Route::group([

@@ -19,6 +19,7 @@ use OpenApi\Annotations as OA;
  * )
  *
  * @property string $code
+ * @method static updateOrCreate(array $array, true[] $array1)
  */
 class Isin extends Model
 {
@@ -28,5 +29,9 @@ class Isin extends Model
     protected $table = 'isins';
 
     /** {@inheritdoc} */
-    protected $fillable = ['code'];
+    protected $fillable = [
+        'code',
+        'is_active',
+        'is_favorite',
+    ];
 }

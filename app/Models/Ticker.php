@@ -23,6 +23,8 @@ use OpenApi\Annotations as OA;
  *
  * @property string $short_name
  * @property string $full_name
+ * @method static where(string $string, true $true)
+ * @method static updateOrCreate(array $array, array $array1)
  */
 class Ticker extends Model
 {
@@ -34,6 +36,8 @@ class Ticker extends Model
     protected $fillable = [
         'full_name',
         'short_name',
+        'is_active',
+        'is_favorite',
     ];
 
     /**

@@ -39,4 +39,7 @@ return [
         'proxy' => env('PROXY'),  // optionally
     ],
 
+    'tn' => [
+        'url' => env('TN_URL', 'https://tradernet.com/securities/ajax-get-all-securities/'),
+    ],
 ];
