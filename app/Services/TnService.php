@@ -24,6 +24,9 @@ class TnService
     /** @const string instrument code type value obligations **/
     public const INSTRUMENT_CODE_TYPE_VALUE_OBLIGATIONS = 2;
 
+    /** @const int take amount **/
+    public const TAKE = 1000;
+
     /**
      * Get tickers from the TN API
      *
@@ -32,6 +35,7 @@ class TnService
     public function getTickers(): Response
     {
         return Http::get(config('services.tn.url'), [
+            TnFiltersEnum::TAKE->value => self::TAKE,
             TnFiltersEnum::FIELD->value => self::INSTRUMENT_CODE_TYPE_TITLE,
             TnFiltersEnum::OPERATOR->value => self::INSTRUMENT_CODE_TYPE_OPERATOR,
             TnFiltersEnum::VALUE->value => self::INSTRUMENT_CODE_TYPE_VALUE_SHARES,
@@ -46,6 +50,7 @@ class TnService
     public function getIsins(): Response
     {
         return Http::get(config('services.tn.url'), [
+            TnFiltersEnum::TAKE->value => self::TAKE,
             TnFiltersEnum::FIELD->value => self::INSTRUMENT_CODE_TYPE_TITLE,
             TnFiltersEnum::OPERATOR->value => self::INSTRUMENT_CODE_TYPE_OPERATOR,
             TnFiltersEnum::VALUE->value => self::INSTRUMENT_CODE_TYPE_VALUE_OBLIGATIONS,
@@ -109,7 +114,7 @@ class TnService
                         'short_name' => $item['ticker_short_name'],
                     ],
                     [
-                        'full_name' => $item['ticker_full_name'],
+                        'full_name' => $item['ticker_full_name'] ?? $item['ticker_short_name'] ,
                         'is_active' => true,
                     ],
                 );
