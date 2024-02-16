@@ -87,12 +87,12 @@ class FilterDataListController extends Controller implements FilterDataListInter
         return self::sendSuccess(
             __('response.success'),
             [
-                'countries' => Country::all()->jsonSerialize(),
-                'sectors' => Sector::all()->jsonSerialize(),
-                'authors' => User::all()->jsonSerialize(),
-                'tickers' => Ticker::all()->jsonSerialize(),
-                'isins' => Isin::all()->jsonSerialize(),
-                'tags' => Tag::all()->jsonSerialize(),
+                'country' => Country::all()->jsonSerialize(),
+                'sector' => Sector::all()->jsonSerialize(),
+                'author' => User::all()->jsonSerialize(),
+                'ticker' => Ticker::all()->jsonSerialize(),
+                'isin' => Isin::all()->jsonSerialize(),
+                'tag' => Tag::all()->jsonSerialize(),
             ],
         );
     }
