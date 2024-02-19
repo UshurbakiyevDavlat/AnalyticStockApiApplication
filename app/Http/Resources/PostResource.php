@@ -66,6 +66,7 @@ use OpenApi\Annotations as OA;
  * @property string $title
  * @property string $desc
  * @property string $content
+ * @property mixed $tags
  */
 class PostResource extends JsonResource
 {
@@ -137,6 +138,7 @@ class PostResource extends JsonResource
                     : null,
                 'job_title' => $this->author?->job_title,
             ],
+            'tags' => $this->tags->pluck('id'),
         ];
     }
 }

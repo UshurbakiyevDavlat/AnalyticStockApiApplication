@@ -15,7 +15,7 @@ enum PostStrEnum: string
     case isin = 'isin';
     case start_date = 'start_date';
     case end_date = 'end_date';
-    case tags = 'tags';
+    case tag = 'tag';
 
     /**
      * Get all values.
@@ -46,7 +46,7 @@ enum PostStrEnum: string
             self::sector->value,
             self::ticker->value,
             self::isin->value,
-            self::tags->value,
+            self::tag->value,
         ];
     }
 
@@ -65,7 +65,7 @@ enum PostStrEnum: string
                 self::isin->value => 'isin_id',
             ],
             'tags' => [
-                self::tags->value => 'tag_id',
+                self::tag->value => 'tag_id',
             ],
         ];
     }

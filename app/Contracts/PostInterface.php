@@ -115,7 +115,7 @@ interface PostInterface
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         name="tags",
+     *         name="tag",
      *         in="query",
      *         description="Tags to filter posts, should be and encoded. Like this 1%2C2%2C3%2C4%2C5",
      *         required=false,

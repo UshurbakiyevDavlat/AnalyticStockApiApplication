@@ -34,7 +34,7 @@ class GetPostsRequest extends FormRequest
             'isin' => 'nullable|string',
             'start_date' => 'nullable|string',
             'end_date' => 'nullable|string',
-            'tags' => 'nullable|string',
+            'tag' => 'nullable|string',
         ];
     }
 }
