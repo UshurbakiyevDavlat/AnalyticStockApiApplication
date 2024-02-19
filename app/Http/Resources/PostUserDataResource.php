@@ -53,7 +53,7 @@ class PostUserDataResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'bookmarks' => $this->bookmarks->pluck('post_id')->toArray(),
+            'bookmarks' => $this->bookmarks->pluck('id')->toArray(),
             'likes' => $this->likes->pluck('id')->toArray(),
             'subscription' => $this->subscriptions->pluck('id')->toArray(),
             'views' => $this->views->pluck('id')->toArray(),
