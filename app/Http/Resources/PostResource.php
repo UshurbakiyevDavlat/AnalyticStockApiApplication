@@ -123,11 +123,17 @@ class PostResource extends JsonResource
             'views' => $this->views->count(),
             'sector' => $this->horizonDataset?->sector?->title,
             'postType' => $this->postType?->title,
-            'ticker' => [
-                'fullName' => $this->horizonDataset?->ticker?->full_name,
-                'shortName' => $this->horizonDataset?->ticker?->short_name,
-            ],
-            'isin' => $this->horizonDataset?->isin?->code,
+            'ticker' => $this->horizonDataset->securitiesTicker->map(
+                fn($ticker) => [
+                    'fullName' => $ticker->full_name,
+                    'shortName' => $ticker->short_name,
+                ],
+            ),
+            'isin' => $this->horizonDataset->securitiesIsin->map(
+                fn($isin) => [
+                    'code' => $isin->code,
+                ],
+            ),
             'potential' => $this->horizonDataset?->potential,
             'country' => $this->horizonDataset?->country?->title,
             'author' => [

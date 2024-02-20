@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use OpenApi\Annotations as OA;
 
@@ -30,6 +31,9 @@ class Ticker extends Model
 {
     use HasFactory;
 
+    /** {@inheritDoc} */
+    protected $guarded = ['id'];
+
     /**
      * {@inheritDoc}
      */
@@ -46,5 +50,20 @@ class Ticker extends Model
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Security's relation.
+     *
+     * @return BelongsToMany
+     */
+    public function securities(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            HorizonDataset::class,
+            'horizon_dataset_has_securities',
+            'security_id',
+            'horizon_dataset_id'
+        );
     }
 }

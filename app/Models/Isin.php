@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use OpenApi\Annotations as OA;
 
 /**
@@ -25,6 +26,9 @@ class Isin extends Model
 {
     use HasFactory;
 
+    /** @inheritdoc */
+    protected $guarded = ['id'];
+
     /** {@inheritdoc} */
     protected $table = 'isins';
 
@@ -34,4 +38,20 @@ class Isin extends Model
         'is_active',
         'is_favorite',
     ];
+
+    /**
+     * Security's relation.
+     *
+     * @return MorphToMany
+     */
+    public function securities(): MorphToMany
+    {
+        return $this->morphToMany(
+            HorizonDataset::class,
+            'security',
+            'horizon_dataset_has_securities',
+            'security_id',
+            'horizon_dataset_id'
+        );
+    }
 }

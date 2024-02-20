@@ -21,6 +21,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="post", type="object", ref="#/components/schemas/Post"),
  *     @OA\Property(property="user", type="object", ref="#/components/schemas/User"),
  * )
+ * @method count()
  */
 class PostView extends Model
 {

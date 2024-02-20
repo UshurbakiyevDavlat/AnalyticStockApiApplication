@@ -33,6 +33,7 @@ use OpenApi\Annotations as OA;
  *         type="object",
  *     ),
  * )
+ * @method count()
  */
 class Like extends Model
 {

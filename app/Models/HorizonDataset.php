@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use OpenApi\Annotations as OA;
 
 /**
@@ -22,10 +23,15 @@ use OpenApi\Annotations as OA;
  * )
  *
  * @property string $potential
+ * @property mixed $securitiesIsin
+ * @property mixed $securitiesTicker
  */
 class HorizonDataset extends Model
 {
     use HasFactory;
+
+    /** {@inheritDoc} */
+    protected $guarded = ['id'];
 
     /** {@inheritDoc} */
     protected $table = 'post_horizon_dataset';
@@ -53,6 +59,42 @@ class HorizonDataset extends Model
     public function ticker(): BelongsTo
     {
         return $this->belongsTo(Ticker::class);
+    }
+
+    /**
+     * Security's ticker relation.
+     *
+     * @return MorphToMany
+     */
+    public function securitiesTicker(): MorphToMany
+    {
+        return $this->morphedByMany(
+            Ticker::class,
+            'security',
+            'horizon_dataset_has_securities',
+            'horizon_dataset_id',
+            'security_id',
+            'id',
+        )
+            ->withTimestamps();
+    }
+
+    /**
+     * Security's isin relation.
+     *
+     * @return MorphToMany
+     */
+    public function securitiesIsin(): MorphToMany
+    {
+        return $this->morphedByMany(
+            Isin::class,
+            'security',
+            'horizon_dataset_has_securities',
+            'horizon_dataset_id',
+            'security_id',
+            'id',
+        )
+            ->withTimestamps();
     }
 
     /**

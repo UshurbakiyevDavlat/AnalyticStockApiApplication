@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Posts;
 
 use App\Contracts\HorizonDatasetInterface;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\HorizonDatasetResource;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 
@@ -18,7 +19,7 @@ class HorizonDatasetController extends Controller implements HorizonDatasetInter
 
         return self::sendSuccess(
             __('response.success'),
-            $postHorizonDataset,
+            HorizonDatasetResource::make($postHorizonDataset)->jsonSerialize(),
         );
     }
 }
