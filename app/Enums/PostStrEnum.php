@@ -61,8 +61,14 @@ enum PostStrEnum: string
             'horizonDataset' => [
                 self::region->value => 'country_id',
                 self::sector->value => 'sector_id',
-                self::ticker->value => 'ticker_id',
-                self::isin->value => 'isin_id',
+                self::ticker->value => [
+                    self::ticker->value,
+                    'security_id',
+                ],
+                self::isin->value => [
+                    self::isin->value,
+                    'security_id',
+                ],
             ],
             'tags' => [
                 self::tag->value => 'tag_id',

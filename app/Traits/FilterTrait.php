@@ -79,7 +79,13 @@ trait FilterTrait
             if ($itemkey === $key) {
                 $query = $query
                     ->whereHas($relation, function ($query) use ($itemVal, $value) {
-                        $query->whereIn($itemVal, $value);
+                        if (!is_array($itemVal)) {
+                            $query->whereIn($itemVal, $value);
+                        } else {
+                            $query->whereHas($itemVal[0], function ($query) use ($value, $itemVal) {
+                                $query->whereIn($itemVal[1], $value);
+                            });
+                        }
                     });
             }
         }

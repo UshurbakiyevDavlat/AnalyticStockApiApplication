@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Posts;
 
 use App\Contracts\PostInterface;
-use App\Enums\CacheIntEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\GetPostsRequest;
 use App\Http\Requests\Post\SearchRequest;
@@ -14,7 +13,6 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller implements PostInterface
 {
@@ -24,7 +22,7 @@ class PostController extends Controller implements PostInterface
     public function getPosts(GetPostsRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $cacheKey = 'posts_list';
+        // $cacheKey = 'posts_list';
         $posts = $this->postService->getPosts($data);
 
         // $cachedPosts = Cache::remember(
@@ -44,7 +42,7 @@ class PostController extends Controller implements PostInterface
     /** @inheritDoc */
     public function getPost(Post $post): JsonResponse
     {
-        $cacheKey = 'post_' . $post->id;
+        // $cacheKey = 'post_' . $post->id;
 
         // $cachedPost = Cache::remember(
         //     $cacheKey,

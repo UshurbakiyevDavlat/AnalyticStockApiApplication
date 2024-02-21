@@ -23,8 +23,9 @@ use OpenApi\Annotations as OA;
  * )
  *
  * @property string $potential
- * @property mixed $securitiesIsin
- * @property mixed $securitiesTicker
+ * @property mixed $ticker
+ * @property mixed $isin
+ * @property mixed|null $country
  */
 class HorizonDataset extends Model
 {
@@ -54,19 +55,11 @@ class HorizonDataset extends Model
     ];
 
     /**
-     * Ticker`s relation.
-     */
-    public function ticker(): BelongsTo
-    {
-        return $this->belongsTo(Ticker::class);
-    }
-
-    /**
      * Security's ticker relation.
      *
      * @return MorphToMany
      */
-    public function securitiesTicker(): MorphToMany
+    public function ticker(): MorphToMany
     {
         return $this->morphedByMany(
             Ticker::class,
@@ -84,7 +77,7 @@ class HorizonDataset extends Model
      *
      * @return MorphToMany
      */
-    public function securitiesIsin(): MorphToMany
+    public function isin(): MorphToMany
     {
         return $this->morphedByMany(
             Isin::class,
@@ -103,14 +96,6 @@ class HorizonDataset extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
-    }
-
-    /**
-     * Isin's relation.
-     */
-    public function isin(): BelongsTo
-    {
-        return $this->belongsTo(Isin::class);
     }
 
     /**
