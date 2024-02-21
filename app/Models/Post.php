@@ -256,11 +256,11 @@ class Post extends Model
     public function toSearchableArray(): array
     {
         $tickers = $this->horizonDataset->ticker->map(
-            fn (Ticker $ticker) => $ticker->only(['full_name', 'short_name']),
+            fn(Ticker $ticker) => $ticker->only(['full_name', 'short_name']),
         );
 
         $isins = $this->horizonDataset->isin->map(
-            fn (Isin $isin) => $isin->only(['code']),
+            fn(Isin $isin) => $isin->only(['code']),
         );
 
         return [
