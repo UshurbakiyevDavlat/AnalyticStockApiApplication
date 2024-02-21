@@ -20,8 +20,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $updated_at
  * @property mixed $risk
  * @property mixed $sector_id
- * @property mixed $securitiesIsin
- * @property mixed $securitiesTicker
+ * @property mixed $ticker
+ * @property mixed $isin
  */
 class HorizonDatasetResource extends JsonResource
 {
@@ -41,13 +41,13 @@ class HorizonDatasetResource extends JsonResource
             "recommend" => $this->recommend,
             "analyzePrice" => $this->analyzePrice,
             "horizon" => $this->horizon,
-            "tickers" => $this->securitiesTicker?->map(
+            "tickers" => $this->ticker?->map(
                 fn($ticker) => [
                     'fullName' => $ticker->full_name,
                     'shortName' => $ticker->short_name,
                 ],
             ),
-            "isins" => $this->securitiesIsin?->map(
+            "isins" => $this->isin?->map(
                 fn($isin) => [
                     'code' => $isin->code,
                 ],
