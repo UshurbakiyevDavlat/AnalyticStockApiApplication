@@ -41,13 +41,13 @@ class HorizonDatasetResource extends JsonResource
             "recommend" => $this->recommend,
             "analyzePrice" => $this->analyzePrice,
             "horizon" => $this->horizon,
-            "tickers" => $this->securitiesTicker->map(
+            "tickers" => $this->securitiesTicker?->map(
                 fn($ticker) => [
                     'fullName' => $ticker->full_name,
                     'shortName' => $ticker->short_name,
                 ],
             ),
-            "isins" => $this->securitiesIsin->map(
+            "isins" => $this->securitiesIsin?->map(
                 fn($isin) => [
                     'code' => $isin->code,
                 ],
