@@ -28,3 +28,4 @@ rabbitmq-isolated.conf
 supervisord.log
 supervisord.pid
 phpstan-baseline.neon
+.DS_Store

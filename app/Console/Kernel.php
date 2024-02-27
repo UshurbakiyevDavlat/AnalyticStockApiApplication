@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('meilisearch:index')->everyTenMinutes();
         $schedule->command('app:cache-clearing')->everyTenMinutes();
-        $schedule->command('tn-get:tickers-isins')->everySixHours();
+        $schedule->command('tn-get:tickers-isins')->at('00:00')->timezone('Asia/Almaty');
     }
 
     /**

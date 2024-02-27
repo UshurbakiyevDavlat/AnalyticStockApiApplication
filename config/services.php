@@ -40,6 +40,6 @@ return [
     ],
 
     'tn' => [
-        'url' => env('TN_URL', 'https://tradernet.com/securities/ajax-get-all-securities/'),
+        'url' => env('TN_URL', 'https://tradernet.com'),
     ],
 ];
