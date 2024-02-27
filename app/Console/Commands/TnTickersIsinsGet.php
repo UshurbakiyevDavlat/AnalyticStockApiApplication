@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\TnService;
 use Illuminate\Console\Command;
+use JetBrains\PhpStorm\NoReturn;
 
 class TnTickersIsinsGet extends Command
 {
@@ -24,17 +25,13 @@ class TnTickersIsinsGet extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    #[NoReturn] public function handle(): void
     {
         /** @var TnService $tnService */
         $tnService = app(TnService::class);
 
         $this->info('Get and prepare tickers and isins from the TN API...');
-        $data = $tnService->getDictionaryData();
+        $tnService->handleDictionaryData();
         $this->info('Completed to get tickers and isins from the TN API.');
-
-        $this->info('Synchronizing data.');
-        $tnService->setDataToDb($data);
-        $this->info('Completed to synchronized.');
     }
 }

@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug pgsql
 
+# Copy custom php.ini file into the container
+COPY /docker/php/conf.d/custom-php.ini /usr/local/etc/php/conf.d/custom-php.ini
+
 # Set the working directory in the container
 WORKDIR /var/www/html
 
