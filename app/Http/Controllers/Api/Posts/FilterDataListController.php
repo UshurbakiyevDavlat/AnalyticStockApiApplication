@@ -90,9 +90,9 @@ class FilterDataListController extends Controller implements FilterDataListInter
                 'country' => Country::all()->jsonSerialize(),
                 'sector' => Sector::all()->jsonSerialize(),
                 'author' => User::all()->jsonSerialize(),
-                'ticker' => Ticker::all()->jsonSerialize(),
+                'ticker' => Ticker::where('is_active', true)->jsonSerialize(),
                 'isin' => Isin::where('is_active', true)->jsonSerialize(),
-                'tag' => Tag::where('is_active', true)->jsonSerialize(),
+                'tag' => Tag::all()->jsonSerialize(),
             ],
         );
     }
