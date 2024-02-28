@@ -9,6 +9,7 @@ use App\Models\Isin;
 use App\Models\Ticker;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use JsonMachine\Exception\InvalidArgumentException;
@@ -113,13 +114,49 @@ class TnService
     }
 
     /**
+     * Get last actual date for json files screening
+     *
+     * @return string
+     */
+    public function getActualDate(): string
+    {
+        $url = config('services.tn.url') . self::FULL_DATA_ENDPOINT;
+
+        try {
+            $response = Http::get($url);
+            $html = $response->body();
+
+            $crawler = new Crawler($html);
+
+            $links = $crawler->filter(self::HTML_LINK_TAG);
+        } catch (\Exception $exception) {
+            echo 'There is an exception occured' . $exception->getMessage();
+            Log::channel('tn')->error($exception->getTraceAsString());
+        }
+
+        foreach ($links as $link) {
+            $date = $link->getAttribute(self::ATTRIBUTE_HREF);
+        }
+
+        try {
+            Cache::set('last_tn_securities_date', $date);
+        } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
+            echo 'There is an error occurred' . $e->getMessage();
+            Log::channel('tn')->error($e->getTraceAsString());
+        }
+
+        return $date;
+    }
+
+    /**
      * Store full data from the TN API and extract JSON files
      *
+     * @param string $lastDate
      * @return void
      */
-    public function storeFullData(): void
+    public function storeFullData(string $lastDate): void
     {
-        $url = config('services.tn.url') . self::FULL_DATA_ENDPOINT . self::LAST_ACTUAL_DATE;
+        $url = config('services.tn.url') . self::FULL_DATA_ENDPOINT . $lastDate;
 
         try {
             // Get the HTML content from the URL
@@ -197,11 +234,13 @@ class TnService
     /**
      * Get the dictionary data from TN API
      *
+     * @param string $lastDate
      * @return array
      */
-    public function handleDictionaryData(): array
+    public function handleDictionaryData(string $lastDate): array
     {
-        $this->storeFullData();
+        $this->storeFullData($lastDate);
+
         return $this->prepareData();
     }
 

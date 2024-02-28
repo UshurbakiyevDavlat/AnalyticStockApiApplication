@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\TnService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use JetBrains\PhpStorm\NoReturn;
 
 class TnTickersIsinsGet extends Command
@@ -30,8 +31,16 @@ class TnTickersIsinsGet extends Command
         /** @var TnService $tnService */
         $tnService = app(TnService::class);
 
-        $this->info('Get and prepare tickers and isins from the TN API...');
-        $tnService->handleDictionaryData();
-        $this->info('Completed to get tickers and isins from the TN API.');
+        $this->info('Get last date for the screening');
+        $actual_date = $tnService->getActualDate();
+        $last_date = Cache::get('last_tn_securities_date');
+        $this->info('Last date is - ' . $last_date);
+        $this->info('Actual date is - ' . $actual_date);
+
+        if ($last_date !== $actual_date) {
+            $this->info('Get and prepare tickers and isins from the TN API...');
+            $tnService->handleDictionaryData($last_date);
+            $this->info('Completed to get tickers and isins from the TN API.');
+        }
     }
 }
