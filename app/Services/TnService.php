@@ -121,6 +121,7 @@ class TnService
     public function getActualDate(): string
     {
         $url = config('services.tn.url') . self::FULL_DATA_ENDPOINT;
+        $date = self::LAST_ACTUAL_DATE; //by default
 
         try {
             $response = Http::get($url);
@@ -138,11 +139,13 @@ class TnService
             $date = $link->getAttribute(self::ATTRIBUTE_HREF);
         }
 
-        try {
-            Cache::set('last_tn_securities_date', $date);
-        } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
-            echo 'There is an error occurred' . $e->getMessage();
-            Log::channel('tn')->error($e->getTraceAsString());
+        if ($date !== Cache::get('last_tn_securities_date')) {
+            try {
+                Cache::set('last_tn_securities_date', $date);
+            } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
+                echo 'There is an error occurred' . $e->getMessage();
+                Log::channel('tn')->error($e->getTraceAsString());
+            }
         }
 
         return $date;

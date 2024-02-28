@@ -31,15 +31,16 @@ class TnTickersIsinsGet extends Command
         /** @var TnService $tnService */
         $tnService = app(TnService::class);
 
-        $this->info('Get last date for the screening');
+        $this->info('Get actual date for the screening');
         $actual_date = $tnService->getActualDate();
+        $this->info('Actual date is - ' . $actual_date);
+
         $last_date = Cache::get('last_tn_securities_date');
         $this->info('Last date is - ' . $last_date);
-        $this->info('Actual date is - ' . $actual_date);
 
         if ($last_date !== $actual_date) {
             $this->info('Get and prepare tickers and isins from the TN API...');
-            $tnService->handleDictionaryData($last_date);
+            $tnService->handleDictionaryData($actual_date);
             $this->info('Completed to get tickers and isins from the TN API.');
         }
     }
