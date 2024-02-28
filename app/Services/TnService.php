@@ -131,7 +131,7 @@ class TnService
 
             $links = $crawler->filter(self::HTML_LINK_TAG);
         } catch (\Exception $exception) {
-            echo 'There is an exception occured' . $exception->getMessage();
+            echo 'There is an exception occurred' . $exception->getMessage();
             Log::channel('tn')->error($exception->getTraceAsString());
         }
 
@@ -230,7 +230,7 @@ class TnService
             }
         } catch (\Exception $e) {
             Log::channel('tn')->error('An error occurred: ' . $e->getMessage());
-            echo "An error occurred: " . $e->getMessage();
+            echo 'An error occurred: ' . $e->getMessage();
         }
     }
 
@@ -271,11 +271,11 @@ class TnService
                 }
             } catch (InvalidArgumentException $e) {
                 Log::channel('tn')->error('An error occurred: ' . $e->getMessage());
-                echo "An error occurred: " . $e->getMessage();
+                echo 'An error occurred: ' . $e->getMessage();
             }
 
             echo 'Memory usage: ' . memory_get_usage() . "\n";
-            echo 'Time taken: ' . (microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]) . ' seconds' . "\n";
+            echo 'Time taken: ' . (microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) . ' seconds' . "\n";
         }
 
         return $data;
@@ -347,7 +347,7 @@ class TnService
     /**
      * Screen request details
      *
-     * @param $fileName string file name
+     * @param string $fileName file name
      * @return void
      */
     private function screenRequestDetails(
@@ -357,7 +357,7 @@ class TnService
         echo 'Current memory usage: ' . memory_get_usage() . ' bytes' . "\n";
         echo 'Peak memory usage: ' . memory_get_peak_usage() . ' bytes' . "\n";
         echo 'Currently file: ' . $fileName . "\n";
-        echo 'Time taken: ' . (microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]) . ' seconds' . "\n";
+        echo 'Time taken: ' . (microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) . ' seconds' . "\n";
         echo '----------------------------------------' . "\n";
     }
 }
