@@ -59,7 +59,7 @@ class FilterDataListController extends Controller implements FilterDataListInter
     {
         return self::sendSuccess(
             __('response.success'),
-            Ticker::all()->jsonSerialize(),
+            Ticker::where('is_active', true)->jsonSerialize(),
         );
     }
 
@@ -68,7 +68,7 @@ class FilterDataListController extends Controller implements FilterDataListInter
     {
         return self::sendSuccess(
             __('response.success'),
-            Isin::all()->jsonSerialize(),
+            Isin::where('is_active', true)->jsonSerialize(),
         );
     }
 
@@ -91,8 +91,8 @@ class FilterDataListController extends Controller implements FilterDataListInter
                 'sector' => Sector::all()->jsonSerialize(),
                 'author' => User::all()->jsonSerialize(),
                 'ticker' => Ticker::all()->jsonSerialize(),
-                'isin' => Isin::all()->jsonSerialize(),
-                'tag' => Tag::all()->jsonSerialize(),
+                'isin' => Isin::where('is_active', true)->jsonSerialize(),
+                'tag' => Tag::where('is_active', true)->jsonSerialize(),
             ],
         );
     }
