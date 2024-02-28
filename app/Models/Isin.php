@@ -21,6 +21,7 @@ use OpenApi\Annotations as OA;
  *
  * @property string $code
  * @method static updateOrCreate(array $array, true[] $array1)
+ * @method static where(string $string, bool $true)
  */
 class Isin extends Model
 {
