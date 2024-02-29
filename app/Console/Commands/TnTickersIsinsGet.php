@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Services\TnService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use JetBrains\PhpStorm\NoReturn;
+use Illuminate\Support\Facades\Log;
 
 class TnTickersIsinsGet extends Command
 {
@@ -26,7 +26,7 @@ class TnTickersIsinsGet extends Command
     /**
      * Execute the console command.
      */
-    #[NoReturn] public function handle(): void
+    public function handle(): void
     {
         /** @var TnService $tnService */
         $tnService = app(TnService::class);
@@ -42,6 +42,8 @@ class TnTickersIsinsGet extends Command
             $this->info('Get and prepare tickers and isins from the TN API...');
             $tnService->handleDictionaryData($actual_date);
             $this->info('Completed to get tickers and isins from the TN API.');
+        } else {
+            Log::channel('tn')->info('The last date is - ' . $last_date);
         }
     }
 }
