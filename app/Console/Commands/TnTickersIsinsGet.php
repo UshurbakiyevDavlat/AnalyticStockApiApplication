@@ -43,6 +43,7 @@ class TnTickersIsinsGet extends Command
             $tnService->handleDictionaryData($actual_date);
             $this->info('Completed to get tickers and isins from the TN API.');
         } else {
+            $this->info('The last date is actual. No need to update.');
             Log::channel('tn')->info('The last date is - ' . $last_date);
         }
     }
