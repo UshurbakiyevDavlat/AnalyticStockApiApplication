@@ -139,7 +139,9 @@ class TnService
             $date = $link->getAttribute(self::ATTRIBUTE_HREF);
         }
 
-        if ($date !== Cache::get('last_tn_securities_date')) {
+        $lastDate = Cache::get('last_tn_securities_date');
+
+        if (!$lastDate && $date !== $lastDate) {
             try {
                 Cache::set('last_tn_securities_date', $date);
             } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
