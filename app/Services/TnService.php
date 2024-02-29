@@ -141,7 +141,7 @@ class TnService
 
         $lastDate = Cache::get('last_tn_securities_date');
 
-        if (!$lastDate && $date !== $lastDate) {
+        if ($lastDate && $date !== $lastDate) {
             try {
                 Cache::set('last_tn_securities_date', $date);
             } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
