@@ -8,7 +8,6 @@ use App\Enums\TnFiltersEnum;
 use App\Models\Isin;
 use App\Models\Ticker;
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -20,11 +19,11 @@ use ZipArchive;
 
 class TnService
 {
-    /** @const string instrument code type title * */
-    public const INSTRUMENT_CODE_TYPE_TITLE = 'instr_type_c';
-
-    /** @const string instrument code type operator * */
-    public const INSTRUMENT_CODE_TYPE_OPERATOR = 'in';
+    // /** @const string instrument code type title * */
+    // public const INSTRUMENT_CODE_TYPE_TITLE = 'instr_type_c';
+    //
+    // /** @const string instrument code type operator * */
+    // public const INSTRUMENT_CODE_TYPE_OPERATOR = 'in';
 
     /** @const string instrument code type value shares * */
     public const INSTRUMENT_CODE_TYPE_VALUE_SHARES = 1;
@@ -32,11 +31,11 @@ class TnService
     /** @const string instrument code type value obligations * */
     public const INSTRUMENT_CODE_TYPE_VALUE_OBLIGATIONS = 2;
 
-    /** @const int take amount * */
-    public const TAKE = 1000;
-
-    /** @const string path of ajax security endpoint * */
-    public const SECURITIES_ENDPOINT = '/securities/ajax-get-all-securities/';
+    // /** @const int take amount * */
+    // public const TAKE = 1000;
+    //
+    // /** @const string path of ajax security endpoint * */
+    // public const SECURITIES_ENDPOINT = '/securities/ajax-get-all-securities/';
 
     /** @const string endpoint of full securities json archives data  * */
     public const FULL_DATA_ENDPOINT = '/refbooks/';
@@ -83,35 +82,36 @@ class TnService
     /** @const string file opening mode */
     public const OPENING_MODE = 'wb';
 
-    /**
-     * Get tickers from the TN API
-     *
-     * @return Response
-     */
-    public function getTickers(): Response
-    {
-        return Http::get(config('services.tn.url' . self::SECURITIES_ENDPOINT), [
-            TnFiltersEnum::TAKE->value => self::TAKE,
-            TnFiltersEnum::FIELD->value => self::INSTRUMENT_CODE_TYPE_TITLE,
-            TnFiltersEnum::OPERATOR->value => self::INSTRUMENT_CODE_TYPE_OPERATOR,
-            TnFiltersEnum::VALUE->value => self::INSTRUMENT_CODE_TYPE_VALUE_SHARES,
-        ]);
-    }
-
-    /**
-     * Get ISINs from the TN API
-     *
-     * @return Response
-     */
-    public function getIsins(): Response
-    {
-        return Http::get(config('services.tn.url' . self::SECURITIES_ENDPOINT), [
-            TnFiltersEnum::TAKE->value => self::TAKE,
-            TnFiltersEnum::FIELD->value => self::INSTRUMENT_CODE_TYPE_TITLE,
-            TnFiltersEnum::OPERATOR->value => self::INSTRUMENT_CODE_TYPE_OPERATOR,
-            TnFiltersEnum::VALUE->value => self::INSTRUMENT_CODE_TYPE_VALUE_OBLIGATIONS,
-        ]);
-    }
+    // Use in the case when need response from TN rest api not from the html page
+    // /**
+    //  * Get tickers from the TN API
+    //  *
+    //  * @return Response
+    //  */
+    // public function getTickers(): Response
+    // {
+    //     return Http::get(config('services.tn.url' . self::SECURITIES_ENDPOINT), [
+    //         TnFiltersEnum::TAKE->value => self::TAKE,
+    //         TnFiltersEnum::FIELD->value => self::INSTRUMENT_CODE_TYPE_TITLE,
+    //         TnFiltersEnum::OPERATOR->value => self::INSTRUMENT_CODE_TYPE_OPERATOR,
+    //         TnFiltersEnum::VALUE->value => self::INSTRUMENT_CODE_TYPE_VALUE_SHARES,
+    //     ]);
+    // }
+    //
+    // /**
+    //  * Get ISINs from the TN API
+    //  *
+    //  * @return Response
+    //  */
+    // public function getIsins(): Response
+    // {
+    //     return Http::get(config('services.tn.url' . self::SECURITIES_ENDPOINT), [
+    //         TnFiltersEnum::TAKE->value => self::TAKE,
+    //         TnFiltersEnum::FIELD->value => self::INSTRUMENT_CODE_TYPE_TITLE,
+    //         TnFiltersEnum::OPERATOR->value => self::INSTRUMENT_CODE_TYPE_OPERATOR,
+    //         TnFiltersEnum::VALUE->value => self::INSTRUMENT_CODE_TYPE_VALUE_OBLIGATIONS,
+    //     ]);
+    // }
 
     /**
      * Get last actual date for json files screening
