@@ -22,6 +22,7 @@ RUN pecl install xdebug \
 
 # Copy custom php.ini file into the container
 COPY /docker/php/conf.d/custom-php.ini /usr/local/etc/php/conf.d/custom-php.ini
+COPY /docker/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Set the working directory in the container
 WORKDIR /var/www/html
