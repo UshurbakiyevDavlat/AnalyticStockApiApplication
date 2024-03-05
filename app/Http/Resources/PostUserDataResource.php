@@ -40,7 +40,6 @@ use OpenApi\Annotations as OA;
  *     @OA\Items(type="integer")
  *  ),
  * )
- * )
  */
 class PostUserDataResource extends JsonResource
 {
