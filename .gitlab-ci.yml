@@ -1,6 +1,6 @@
 stages:
-  - prepare
   - compile
+  - prepare
   - deploy
 
 variables:
@@ -35,22 +35,6 @@ phpstan:
   needs:
     - job: codestyle
 
-test:
-  stage: prepare
-  script:
-    - composer install --no-interaction
-    - echo "$DOT_ENV" > .env
-    - php artisan ciphersweet:encrypt App\\Models\\User d13164961cbcd1d75b102e54d8b751881bba4e57d32c13225f5ccd02d91068af
-    - docker exec vpa-api-container php artisan test --coverage
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}-php-unit
-    paths:
-      - vendor/
-  needs:
-    - job: phpstan
-  environment:
-    name: 'testing'
-
 build:
   stage: compile
   script:
@@ -65,11 +49,24 @@ build:
     # Change permissions for storage and bootstrap directories
     - chmod -R 777 storage bootstrap
   needs:
+    - job: codestyle
+    - job: phpstan
+
+test:
+  stage: prepare
+  script:
+    - composer install --no-interaction
+    - echo "$DOT_ENV" > .env
+    - php artisan ciphersweet:encrypt App\\Models\\User d13164961cbcd1d75b102e54d8b751881bba4e57d32c13225f5ccd02d91068af
+    - docker exec vpa-api-container php artisan test --coverage
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-php-unit
+    paths:
+      - vendor/
+  needs:
     - job: test
-  only:
-    - dev
-    - stage
-    - main
+  environment:
+    name: 'testing'
 
 push:
   stage: compile
