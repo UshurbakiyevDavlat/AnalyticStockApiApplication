@@ -60,8 +60,6 @@ test:
     key: ${CI_COMMIT_REF_SLUG}-php-unit
     paths:
       - vendor/
-  needs:
-    - job: test
   environment:
     name: 'testing'
 
