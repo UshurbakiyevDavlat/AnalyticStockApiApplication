@@ -41,7 +41,7 @@ test:
     - composer install --no-interaction
     - echo "$DOT_ENV" > .env
     - php artisan ciphersweet:encrypt App\\Models\\User d13164961cbcd1d75b102e54d8b751881bba4e57d32c13225f5ccd02d91068af
-    - docker exec -d vpa-api-container php artisan test --coverage
+    - docker exec vpa-api-container php artisan test --coverage
   cache:
     key: ${CI_COMMIT_REF_SLUG}-php-unit
     paths:
