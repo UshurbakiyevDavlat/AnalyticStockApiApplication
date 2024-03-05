@@ -94,6 +94,7 @@ class Post extends Model
         'published_at',
         'expired_at',
         'attachment',
+        'is_published',
         'uuid',
     ];
 
