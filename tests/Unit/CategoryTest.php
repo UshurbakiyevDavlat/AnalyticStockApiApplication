@@ -1,7 +1,10 @@
 <?php
 
 use App\Enums\FeautureTestIntEnum;
+use App\Enums\StatusActivityEnum;
 use App\Enums\StatusCodeEnum;
+use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\User;
 
@@ -13,16 +16,19 @@ it('can get categories', function () {
     $response = $this->withHeaders([
         'Authorization' => $token,
     ])
-        ->get('/api/v1/posts/categories');
+        ->get(route('getCategories'));
 
     // Assertions
     expect($response)
         ->assertStatus(StatusCodeEnum::OK->value)
-        ->assertJsonStructure([
-            'success',
-            'message',
-            'data' => [],
-        ]);
+        ->and($response->getOriginalContent()['data'])
+        ->toEqual(
+            CategoryCollection::make(
+                Category::whereNull('parent_id')
+                    ->where('status_id', StatusActivityEnum::ACTIVE->value)
+                    ->get(),
+            )->jsonSerialize(),
+        );
 });
 
 it('can get category by ID', function () {
@@ -38,16 +44,15 @@ it('can get category by ID', function () {
         ->withHeaders([
             'Authorization' => $token,
         ])
-        ->get('/api/v1/posts/categories/' . $categoryId);
+        ->get(route('getCategory', $categoryId));
 
     // Assertions
     expect($response)
         ->assertStatus(StatusCodeEnum::OK->value)
-        ->assertJsonStructure([
-            'success',
-            'message',
-            'data' => [],
-        ]);
+        ->and($response->getOriginalContent()['data'])
+        ->toEqual(
+            CategoryResource::make(Category::find($categoryId))->jsonSerialize(),
+        );
 });
 
 it('/get post categories subscription of authenticated user', function () {
@@ -59,12 +64,10 @@ it('/get post categories subscription of authenticated user', function () {
 
     // Make a GET request to the /api/v1/posts/ endpoint with the generated token
     $response = $this->withHeaders(['Authorization' => $token])
-        ->get('/api/v1/posts/categories/subscriptions');
+        ->get(route('getSubscriptions'));
 
-    $response->assertStatus(StatusCodeEnum::OK->value)
-        ->assertJson([
-            'success' => true,
-            'message' => 'Successfully executed',
-            'data' => [],
-        ]);
+    expect($response)
+        ->assertStatus(StatusCodeEnum::OK->value)
+        ->and($response->getOriginalContent()['data'])
+        ->toEqual($user->subscriptions->pluck('id')->toArray());
 });

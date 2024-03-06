@@ -58,6 +58,11 @@ class Category extends Model
     /**
      * {@inheritDoc}
      */
+    protected $with = ['children'];
+
+    /**
+     * {@inheritDoc}
+     */
     protected $fillable = [
         'title',
         'order',

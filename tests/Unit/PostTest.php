@@ -1,7 +1,9 @@
 <?php
 
 use App\Enums\StatusCodeEnum;
+use App\Http\Resources\HorizonDatasetResource;
 use App\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
 use App\Http\Resources\PostUserDataResource;
 use App\Models\Post;
 use App\Models\User;
@@ -25,7 +27,7 @@ test('/get searched posts', function () {
         ->get(route('searchPosts', ['query' => $title]));
 
     expect($response->getStatusCode())
-        ->toBe(200);
+        ->toBe(StatusCodeEnum::OK->value);
 
 });
 
@@ -45,7 +47,7 @@ test('/get post user data', function () {
         ->get(route('getPostUserData'));
 
     expect($response->getStatusCode())
-        ->toBe(200)
+        ->toBe(StatusCodeEnum::OK->value)
         ->and($response->getOriginalContent())
         ->toBe([
             'success' => true,
@@ -92,7 +94,7 @@ test('/get posts', function () {
         );
 
     expect($response->getStatusCode())
-        ->toBe(200)
+        ->toBe(StatusCodeEnum::OK->value)
         ->and($response->getOriginalContent()['data']['data'])
         ->toEqual(PostCollection::make($postData)->jsonSerialize()['data']);
 });
@@ -104,17 +106,20 @@ test('/get post by id', function () {
     // Generate a JWT token for the user
     $token = JWTAuth::fromUser($user);
 
+    $postServiceMock = $this->mock(PostService::class)->makePartial();
+    $postServiceMock->shouldReceive('getPost')
+        ->with(1)
+        ->andReturnSelf();
+
     // Make a GET request to the /api/v1/posts/ endpoint with the generated token
     $response = $this->withHeaders([
         'Authorization' => $token,
-    ])->get('/api/v1/posts/1');
+    ])->get(route('getPost', 1));
 
-    $response->assertStatus(StatusCodeEnum::OK->value)
-        ->assertJson([
-            'success' => true,
-            'message' => 'Successfully executed',
-            'data' => [],
-        ]);
+    expect($response->getStatusCode())
+        ->toBe(StatusCodeEnum::OK->value)
+        ->and($response->getOriginalContent()['data'])
+        ->toEqual(PostResource::make(Post::find(1))->jsonSerialize());
 });
 
 test('/get post bookmarks of authenticated user', function () {
@@ -127,14 +132,12 @@ test('/get post bookmarks of authenticated user', function () {
     // Make a GET request to the /api/v1/posts/ endpoint with the generated token
     $response = $this->withHeaders([
         'Authorization' => $token,
-    ])->get('/api/v1/posts/bookmarks');
+    ])->get(route('getBookmarks'));
 
-    $response->assertStatus(StatusCodeEnum::OK->value)
-        ->assertJson([
-            'success' => true,
-            'message' => 'Successfully executed',
-            'data' => [],
-        ]);
+    expect($response->getStatusCode())
+        ->toBe(StatusCodeEnum::OK->value)
+        ->and($response->getOriginalContent()['data'])
+        ->toEqual($user->bookmarks->pluck('id')->toArray());
 });
 
 test('/get post horizon data of authenticated user', function () {
@@ -147,14 +150,14 @@ test('/get post horizon data of authenticated user', function () {
     // Make a GET request to the /api/v1/posts/ endpoint with the generated token
     $response = $this->withHeaders([
         'Authorization' => $token,
-    ])->get('/api/v1/posts/horizonData/1');
+    ])->get(route('getHorizonData', 1));
 
-    $response->assertStatus(StatusCodeEnum::OK->value)
-        ->assertJson([
-            'success' => true,
-            'message' => 'Successfully executed',
-            'data' => [],
-        ]);
+    expect($response->getStatusCode())
+        ->toBe(StatusCodeEnum::OK->value)
+        ->and($response->getOriginalContent()['data'])
+        ->toEqual(
+            HorizonDatasetResource::make(Post::find(1)->horizonDataset()->first())->jsonSerialize(),
+        );
 });
 
 test('/get post likes of authenticated user', function () {
@@ -167,14 +170,12 @@ test('/get post likes of authenticated user', function () {
     // Make a GET request to the /api/v1/posts/ endpoint with the generated token
     $response = $this->withHeaders([
         'Authorization' => $token,
-    ])->get('/api/v1/posts/likes');
+    ])->get(route('getLikes'));
 
-    $response->assertStatus(StatusCodeEnum::OK->value)
-        ->assertJson([
-            'success' => true,
-            'message' => 'Successfully executed',
-            'data' => [],
-        ]);
+    expect($response->getStatusCode())
+        ->toBe(StatusCodeEnum::OK->value)
+        ->and($response->getOriginalContent()['data'])
+        ->toEqual($user->likes->pluck('id')->toArray());
 });
 
 test('/get post views of authenticated user', function () {
@@ -187,12 +188,14 @@ test('/get post views of authenticated user', function () {
     // Make a GET request to the /api/v1/posts/ endpoint with the generated token
     $response = $this->withHeaders([
         'Authorization' => $token,
-    ])->get('/api/v1/posts/views');
+    ])->get(route('getViews'));
 
-    $response->assertStatus(StatusCodeEnum::OK->value)
-        ->assertJson([
-            'success' => true,
-            'message' => 'Successfully executed',
-            'data' => [],
-        ]);
+    expect($response->getStatusCode())
+        ->toBe(StatusCodeEnum::OK->value)
+        ->and($response->getOriginalContent()['data'])
+        ->toEqual(
+            PostCollection::make(
+                $user->views()->get(),
+            )->jsonSerialize(),
+        );
 });
