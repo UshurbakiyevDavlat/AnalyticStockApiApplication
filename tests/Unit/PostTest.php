@@ -38,6 +38,7 @@ test('/get searched posts', function () {
 
     $response = $this->withHeaders([
         'Authorization' => $token,
+        'Lang' => 'en',
     ])
         ->get(route('searchPosts', ['query' => $title]));
 
@@ -58,6 +59,7 @@ test('/get post user data', function () {
 
     $response = $this->withHeaders([
         'Authorization' => $token,
+        'Lang' => 'en',
     ])
         ->get(route('getPostUserData'));
 
@@ -103,6 +105,7 @@ test('/get posts', function () {
     // Make a GET request to the /api/v1/posts/ endpoint with the generated token
     $response = $this->withHeaders([
         'Authorization' => $token,
+        'Lang' => 'en',
     ])
         ->get(
             route('getPosts', $data),
@@ -129,6 +132,7 @@ test('/get post by id', function () {
     // Make a GET request to the /api/v1/posts/ endpoint with the generated token
     $response = $this->withHeaders([
         'Authorization' => $token,
+        'Lang' => 'en',
     ])->get(route('getPost', 1));
 
     expect($response->getStatusCode())

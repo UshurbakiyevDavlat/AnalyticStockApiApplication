@@ -63,15 +63,4 @@ enum LangStrEnum: string
      * @const string NO_TRANSLATION
      */
     case NO_TRANSLATION = 'No translation';
-
-    /**
-     * Get supported languages for translation. TODO need to move to the database
-     */
-    public static function getSupportedLangs(): array
-    {
-        return [
-            self::ENG->value,
-            self::KZ->value,
-        ];
-    }
 }
