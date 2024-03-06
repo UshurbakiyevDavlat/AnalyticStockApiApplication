@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\StatusCodeEnum;
+use App\Http\Requests\Post\SearchRequest;
 use App\Http\Resources\HorizonDatasetResource;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
@@ -15,6 +16,20 @@ test('/get searched posts', function () {
 
     $post = Post::find(1);
     $title = explode(' ', $post->title)[0];
+
+    $request = new SearchRequest();
+    $request->merge([
+        'query' => $title,
+    ]);
+
+    $validated = $request->validate([
+        'query' => 'required|string',
+    ]);
+
+    expect($validated)
+        ->toBe([
+            'query' => $title,
+        ]);
 
     $postServiceMock = $this->mock(PostService::class);
     $postServiceMock->shouldReceive('searchPost')

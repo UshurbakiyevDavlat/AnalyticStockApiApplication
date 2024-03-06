@@ -74,46 +74,4 @@ enum LangStrEnum: string
             self::KZ->value,
         ];
     }
-
-    /**
-     * Get groups for translation.
-     */
-    public static function getGroupsForTranslation(): array
-    {
-        return [
-            self::CATEGORIES->value,
-            self::POSTS->value,
-        ];
-    }
-
-    /**
-     * Get params for translation of the given group.
-     */
-    public static function getParamsForTranslation(string $group): array
-    {
-        $params = self::getParamsForGroup();
-
-        return $params[$group];
-    }
-
-    /**
-     * Get params for translations enum groups.
-     *
-     * @return array[]
-     */
-    private static function getParamsForGroup(): array
-    {
-        return [
-            strtolower(self::CATEGORIES->value) => [
-                self::TITLE->value,
-                self::DESC->value,
-            ],
-
-            strtolower(self::POSTS->value) => [
-                self::TITLE->value,
-                self::POST_DESC->value,
-                self::CONTENT->value,
-            ],
-        ];
-    }
 }
