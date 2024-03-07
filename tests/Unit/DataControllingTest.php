@@ -24,7 +24,7 @@ test('file controller test', function () {
     $response = $this->withHeaders([
         'Authorization' => $token,
     ])
-        ->get(route('getPostFiles',1));
+        ->get(route('getPostFiles', 1));
 
     expect($response->getStatusCode())
         ->toBe(200)
