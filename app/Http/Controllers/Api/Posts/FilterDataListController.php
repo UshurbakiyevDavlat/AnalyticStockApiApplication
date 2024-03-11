@@ -84,10 +84,17 @@ class FilterDataListController extends Controller implements FilterDataListInter
     /** @inheritDoc */
     public function getCommonFilterData(): JsonResponse
     {
+        $countries = Country::all()->jsonSerialize();
+        $countries = array_map(static function ($country) {
+            $country['img'] = Storage::disk('admin')->url($country['img']);
+
+            return $country;
+        }, $countries);
+
         return self::sendSuccess(
             __('response.success'),
             [
-                'country' => Country::all()->jsonSerialize(),
+                'country' => $countries,
                 'sector' => Sector::all()->jsonSerialize(),
                 'author' => User::all()->jsonSerialize(),
                 'ticker' => Ticker::where('is_active', true)->get(),
