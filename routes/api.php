@@ -80,7 +80,8 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
             Route::group(['prefix' => 'bookmarks'], static function () {
                 Route::get('/', [BookmarkController::class, 'getBookmarks'])
                     ->name('getBookmarks');
-                Route::post('/', [BookmarkController::class, 'bookmarkPost']);
+                Route::post('/', [BookmarkController::class, 'bookmarkPost'])
+                    ->name('bookmarkPost');
             });
 
             Route::group(['prefix' => 'views'], static function () {

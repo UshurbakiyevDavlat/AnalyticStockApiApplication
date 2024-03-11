@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\StatusCodeEnum;
+use App\Http\Requests\Post\BookmarkRequest;
 use App\Http\Requests\Post\SearchRequest;
 use App\Http\Resources\HorizonDatasetResource;
 use App\Http\Resources\PostCollection;
@@ -217,4 +218,98 @@ test('/get post views of authenticated user', function () {
                 $user->views()->get(),
             )->jsonSerialize(),
         );
+});
+
+test('bookmark or unbookmark post', function () {
+    $user = User::find(1);
+    $token = JWTAuth::fromUser($user);
+
+    $request = new BookmarkRequest();
+    $request->merge([
+        'favouriteable_id' => 1,
+    ]);
+
+    $validated = $request->validate([
+        'favouriteable_id' => 'required|exists:posts,id',
+    ]);
+
+    expect($validated)
+        ->toBe([
+            'favouriteable_id' => 1,
+        ]);
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->post(route('bookmarkPost'), [
+            'favouriteable_id' => 1,
+        ]);
+
+    expect($response->getStatusCode())
+        ->toBe(200)
+        ->and($response->getOriginalContent())
+        ->toBe([
+            'success' => true,
+            'message' => __('response.post.bookmarked'),
+            'data' => [],
+        ]);
+
+    $responseToUnbookmark = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->post(route('bookmarkPost'), [
+            'favouriteable_id' => 1,
+        ]);
+
+    expect($responseToUnbookmark->getStatusCode())
+        ->toBe(200)
+        ->and($responseToUnbookmark->getOriginalContent())
+        ->toBe([
+            'success' => true,
+            'message' => __('response.post.unbookmarked'),
+            'data' => [],
+        ]);
+});
+
+test('like or unlike post', function () {
+    $user = User::find(1);
+    $token = JWTAuth::fromUser($user);
+
+    $request = new BookmarkRequest();
+    $request->merge([
+        'likeable_id' => 1,
+    ]);
+
+    $validated = $request->validate([
+        'likeable_id' => 'required|exists:posts,id',
+    ]);
+
+    expect($validated)
+        ->toBe([
+            'likeable_id' => 1,
+        ]);
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->post(route('likePost'), [
+            'likeable_id' => 1,
+        ]);
+
+    expect($response->getStatusCode())
+        ->toBe(200)
+        ->and($response->getOriginalContent())
+        ->toHaveKey('message');
+
+    $responseToUnlike = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->post(route('likePost'), [
+            'likeable_id' => 1,
+        ]);
+
+    expect($responseToUnlike->getStatusCode())
+        ->toBe(200)
+        ->and($responseToUnlike->getOriginalContent())
+        ->toHaveKey('message');
 });
