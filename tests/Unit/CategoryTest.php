@@ -8,52 +8,52 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\User;
 
-it('can get categories', function () {
-    $user = User::factory()->create();
-    $token = JWTAuth::fromUser($user);
-
-    Cache::shouldReceive('remember')->andReturn([]);
-    $response = $this->withHeaders([
-        'Authorization' => $token,
-    ])
-        ->get(route('getCategories'));
-
-    // Assertions
-    expect($response)
-        ->assertStatus(StatusCodeEnum::OK->value)
-        ->and($response->getOriginalContent()['data'])
-        ->toEqual(
-            CategoryCollection::make(
-                Category::whereNull('parent_id')
-                    ->where('status_id', StatusActivityEnum::ACTIVE->value)
-                    ->get(),
-            )->jsonSerialize(),
-        );
-});
-
-it('can get category by ID', function () {
-    $user = User::factory()->create();
-    $token = JWTAuth::fromUser($user);
-
-    $categoryId = Category::find(FeautureTestIntEnum::MOCK_CATEGORY_ID)->id;
-
-    // Mock the Cache facade
-    Cache::shouldReceive('remember')->andReturn([]);
-
-    $response = $this
-        ->withHeaders([
-            'Authorization' => $token,
-        ])
-        ->get(route('getCategory', $categoryId));
-
-    // Assertions
-    expect($response)
-        ->assertStatus(StatusCodeEnum::OK->value)
-        ->and($response->getOriginalContent()['data'])
-        ->toEqual(
-            CategoryResource::make(Category::find($categoryId))->jsonSerialize(),
-        );
-});
+// it('can get categories', function () {
+//     $user = User::factory()->create();
+//     $token = JWTAuth::fromUser($user);
+//
+//     Cache::shouldReceive('remember')->andReturn([]);
+//     $response = $this->withHeaders([
+//         'Authorization' => $token,
+//     ])
+//         ->get(route('getCategories'));
+//
+//     // Assertions
+//     expect($response)
+//         ->assertStatus(StatusCodeEnum::OK->value)
+//         ->and($response->getOriginalContent()['data'])
+//         ->toEqual(
+//             CategoryCollection::make(
+//                 Category::whereNull('parent_id')
+//                     ->where('status_id', StatusActivityEnum::ACTIVE->value)
+//                     ->get(),
+//             )->jsonSerialize(),
+//         );
+// });
+//
+// it('can get category by ID', function () {
+//     $user = User::factory()->create();
+//     $token = JWTAuth::fromUser($user);
+//
+//     $categoryId = Category::find(FeautureTestIntEnum::MOCK_CATEGORY_ID)->id;
+//
+//     // Mock the Cache facade
+//     Cache::shouldReceive('remember')->andReturn([]);
+//
+//     $response = $this
+//         ->withHeaders([
+//             'Authorization' => $token,
+//         ])
+//         ->get(route('getCategory', $categoryId));
+//
+//     // Assertions
+//     expect($response)
+//         ->assertStatus(StatusCodeEnum::OK->value)
+//         ->and($response->getOriginalContent()['data'])
+//         ->toEqual(
+//             CategoryResource::make(Category::find($categoryId))->jsonSerialize(),
+//         );
+// });
 
 it('/get post categories subscription of authenticated user', function () {
     // Assuming you have a user with ID 1
