@@ -58,7 +58,7 @@ class Category extends Model
     /**
      * {@inheritDoc}
      */
-    protected $with = ['children'];
+    protected $with = ['children','subscriptions'];
 
     /**
      * {@inheritDoc}
