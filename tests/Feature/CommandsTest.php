@@ -34,3 +34,8 @@ test('get tickers and isins from the TN API with last date', function () {
         ->expectsOutput('The last date is actual. No need to update.')
         ->assertExitCode(0);
 });
+
+test('schedule command test', function () {
+    $this->artisan('schedule:run')
+        ->assertExitCode(0);
+});
