@@ -87,7 +87,8 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
             Route::group(['prefix' => 'views'], static function () {
                 Route::get('/', [ViewController::class, 'getViews'])
                     ->name('getViews');
-                Route::post('/', [ViewController::class, 'viewPost']);
+                Route::post('/', [ViewController::class, 'viewPost'])
+                ->name('viewPost');
             });
 
             Route::group(['prefix' => 'likes'], static function () {
