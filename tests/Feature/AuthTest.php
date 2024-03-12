@@ -1,7 +1,6 @@
 <?php
 
 use App\Contracts\AuthInterface;
-use App\Enums\AuthStrEnum;
 use App\Enums\StatusCodeEnum;
 use App\Http\Controllers\SSOAuthController;
 use App\Models\SocialiteUser;
