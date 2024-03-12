@@ -116,7 +116,7 @@ class PostResource extends JsonResource
             'typePaperTitle' => $this->typePaper?->title,
             'categoryId' => $this->category_id,
             'subcategoriesId' => $this->subcategory_id,
-            'createdAt' => $this->created_at,
+            'createdAt' => date_format($this->created_at, 'Y-m-d H:i:s'),
             'publishedAt' => $this->published_at,
             'expiredAt' => $this->expired_at,
             'likes' => $this->likes->count(),
