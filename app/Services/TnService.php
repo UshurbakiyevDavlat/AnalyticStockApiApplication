@@ -81,7 +81,7 @@ class TnService
         $url = config('services.tn.url') . self::FULL_DATA_ENDPOINT;
         $date = self::LAST_ACTUAL_DATE; //by default
         $links = [];
-        
+
         try {
             $response = Http::get($url);
             $html = $response->body();
