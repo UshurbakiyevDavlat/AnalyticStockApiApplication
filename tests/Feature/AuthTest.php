@@ -74,16 +74,54 @@ it('returns JsonResponse from user method', function () {
     expect($response)->toBeInstanceOf(JsonResponse::class);
 });
 
-it('jwt auth controller returns JsonResponse from login method', function () {
-    $email = User::where('id', 1)->first()->email;
+it('jwt auth controller returns JsonResponse from login method with avatar', function () {
+    $user = User::find(1);
+    $user->avatar_url = 'test';
+    $user->save();
+
+    $email = $user->email;
 
     $response = $this->post(route('jwt.auth'), ['email' => $email]);
 
     expect($response->getStatusCode())->toBe(200);
 });
 
-it('get jwt profile', function () {
+it('jwt auth controller returns JsonResponse from login method without avatar', function () {
+    $user = User::find(2);
+
+    $email = $user->email;
+
+    $response = $this->post(route('jwt.auth'), ['email' => $email]);
+
+    expect($response->getStatusCode())->toBe(200);
+});
+
+it('jwt auth non existing user', function () {
+    $email = 'davatest@ffin.kz';
+
+    $response = $this->post(route('jwt.auth'), ['email' => $email]);
+
+    expect($response->getStatusCode())->toBe(404);
+});
+
+it('get jwt profile with avatar', function () {
     $user = User::find(1);
+    $user->avatar_url = 'test';
+    $user->save();
+
+    $token = JWTAuth::fromUser($user);
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->get(route('user.profile'));
+
+    expect($response->getStatusCode())->toBe(200);
+});
+
+it('get jwt profile without avatar', function () {
+    $user = User::find(2);
+
     $token = JWTAuth::fromUser($user);
 
     $response = $this->withHeaders([
@@ -124,6 +162,10 @@ it('login sso', function () {
     expect($response->getStatusCode())->toBe(302);
 });
 
+/**
+ * @runInSeparateProcess
+ * @preserveGlobalState disabled
+ */
 it('getting callback', function () {
     $user = Mockery::mock('Laravel\Socialite\Two\User');
     $user->shouldReceive('getId')->andReturn(1);
@@ -139,8 +181,7 @@ it('getting callback', function () {
     $provider->shouldReceive('user')
         ->andReturn($user);
 
-    $response = $this->get(route('sso.callback'))
-        ->withCookie(config('app.env') . '_' . AuthStrEnum::SOURCE_COOKIE->value);
+    $response = $this->get(route('sso.callback'));
 
     expect($response->getStatusCode())->toBe(302);
 });
