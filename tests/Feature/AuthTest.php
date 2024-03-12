@@ -1,6 +1,7 @@
 <?php
 
 use App\Contracts\AuthInterface;
+use App\Enums\AuthStrEnum;
 use App\Enums\StatusCodeEnum;
 use App\Http\Controllers\SSOAuthController;
 use App\Models\SocialiteUser;
@@ -71,4 +72,75 @@ it('returns JsonResponse from user method', function () {
     $response = $authController->user();
 
     expect($response)->toBeInstanceOf(JsonResponse::class);
+});
+
+it('jwt auth controller returns JsonResponse from login method', function () {
+    $email = User::where('id', 1)->first()->email;
+
+    $response = $this->post(route('jwt.auth'), ['email' => $email]);
+
+    expect($response->getStatusCode())->toBe(200);
+});
+
+it('get jwt profile', function () {
+    $user = User::find(1);
+    $token = JWTAuth::fromUser($user);
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->get(route('user.profile'));
+
+    expect($response->getStatusCode())->toBe(200);
+});
+
+it('get sso user', function () {
+    $user = User::find(1);
+    $token = JWTAuth::fromUser($user);
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->get(route('sso.auth'));
+
+    expect($response->getStatusCode())->toBe(200);
+});
+
+it('logout sso', function () {
+    $user = User::find(1);
+    $token = JWTAuth::fromUser($user);
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->get(route('sso.logout'));
+
+    expect($response->getStatusCode())->toBe(302);
+});
+
+it('login sso', function () {
+    $response = $this->get(route('sso.login'));
+
+    expect($response->getStatusCode())->toBe(302);
+});
+
+it('getting callback', function () {
+    $user = Mockery::mock('Laravel\Socialite\Two\User');
+    $user->shouldReceive('getId')->andReturn(1);
+    $user->shouldReceive('getEmail')->andReturn('test@example.com');
+    $user->shouldReceive('getName')->andReturn('John Doe');
+    // Add any other methods you want to mock and their return values
+
+    // Mock the Socialite driver for Azure and return the mocked user
+    Socialite::shouldReceive('driver')
+        ->with('azure')
+        ->andReturn($provider = Mockery::mock('Laravel\Socialite\Contracts\Provider'));
+
+    $provider->shouldReceive('user')
+        ->andReturn($user);
+
+    $response = $this->get(route('sso.callback'))
+        ->withCookie(config('app.env') . '_' . AuthStrEnum::SOURCE_COOKIE->value);
+
+    expect($response->getStatusCode())->toBe(302);
 });

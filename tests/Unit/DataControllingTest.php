@@ -223,3 +223,18 @@ test('view post', function () {
 
     $user->views()->detach(1);
 });
+
+test('list fast line', function () {
+    $user = User::find(1);
+    $token = JWTAuth::fromUser($user);
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->get(route('fastLine.list'));
+
+    expect($response->getStatusCode())
+        ->toBe(200)
+        ->and($response->getOriginalContent())
+        ->toHaveKey('data');
+});

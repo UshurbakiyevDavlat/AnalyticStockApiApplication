@@ -68,7 +68,8 @@ class SSOAuthController extends Controller implements AuthInterface
             'email',
             'email_index',
             $user->getEmail(),
-        )->first();
+        )
+            ->first();
 
         $existingUser = $this->authService->handleUser($user, $existingUser);
 
