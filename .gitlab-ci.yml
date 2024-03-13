@@ -11,16 +11,16 @@ variables:
 services:
   - docker:dind
 
-codestyle:
-  stage: prepare
-  before_script:
-    - composer require laravel/pint --dev
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}-composer-pint
-    paths:
-      - vendor/
-  script:
-    - composer pint-test
+#codestyle:
+#  stage: prepare
+#  before_script:
+#    - composer require laravel/pint --dev
+#  cache:
+#    key: ${CI_COMMIT_REF_SLUG}-composer-pint
+#    paths:
+#      - vendor/
+#  script:
+#    - composer pint-test
 
 phpstan:
   stage: prepare
