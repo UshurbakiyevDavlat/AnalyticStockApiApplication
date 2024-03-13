@@ -105,12 +105,4 @@ class HorizonDataset extends Model
     {
         return $this->belongsTo(Sector::class);
     }
-
-    /**
-     * Post's relation.
-     */
-    public function post(): BelongsTo
-    {
-        return $this->belongsTo(Post::class);
-    }
 }

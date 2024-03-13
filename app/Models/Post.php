@@ -119,14 +119,6 @@ class Post extends Model
     }
 
     /**
-     * Get the status that owns the Post.
-     */
-    public function status(): BelongsTo
-    {
-        return $this->belongsTo(Status::class, 'status_id');
-    }
-
-    /**
      * Get the category that owns the Post.
      */
     public function category(): BelongsTo

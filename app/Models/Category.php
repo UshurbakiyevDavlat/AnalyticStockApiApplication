@@ -74,22 +74,6 @@ class Category extends Model
     ];
 
     /**
-     * Get the status that owns the category.
-     */
-    public function status(): BelongsTo
-    {
-        return $this->belongsTo(Status::class);
-    }
-
-    /**
-     * Get the parent that owns the category.
-     */
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(__CLASS__);
-    }
-
-    /**
      * Get all the children for the Category
      */
     public function children(): HasMany
@@ -104,13 +88,5 @@ class Category extends Model
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);
-    }
-
-    /**
-     * Translation relationship.
-     */
-    public function translations(): HasMany
-    {
-        return $this->hasMany(CategoryTranslation::class);
     }
 }

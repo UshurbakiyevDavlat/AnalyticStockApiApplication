@@ -21,26 +21,6 @@ class SocialiteUser
     }
 
     /**
-     * Get the unique identifier for the user.
-     *
-     * @return void
-     */
-    public function getId()
-    {
-        // Implement as needed
-    }
-
-    /**
-     * Get the nickname / username for the user.
-     *
-     * @return void
-     */
-    public function getNickname()
-    {
-        // Implement as needed
-    }
-
-    /**
      * Get the name of the user.
      */
     public function getName(): string
@@ -54,16 +34,6 @@ class SocialiteUser
     public function getEmail(): string
     {
         return $this->email;
-    }
-
-    /**
-     * Get the avatar / image URL for the user.
-     *
-     * @return void
-     */
-    public function getAvatar()
-    {
-        // Implement as needed
     }
 
     /**

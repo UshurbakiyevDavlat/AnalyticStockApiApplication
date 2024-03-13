@@ -167,7 +167,6 @@ it('login sso', function () {
  */
 it('getting callback', function () {
     $user = Mockery::mock('Laravel\Socialite\Two\User');
-    $user->shouldReceive('getId')->andReturn(1);
     $user->shouldReceive('getEmail')->andReturn('test@example.com');
     $user->shouldReceive('getName')->andReturn('John Doe');
     // Add any other methods you want to mock and their return values
