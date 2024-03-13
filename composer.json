@@ -2,6 +2,7 @@
     "name": "ffin/vpa-api",
     "type": "project",
     "description": "VPA API project skeleton with Laravel 10",
+    "version": "1.0.0",
     "keywords": [
         "laravel",
         "framework"
@@ -14,7 +15,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "ext-zip": "*",
         "algolia/algoliasearch-client-php": "^3.4",
         "darkaonline/l5-swagger": "^8.5",
@@ -23,7 +24,6 @@
         "guzzlehttp/guzzle": "^7.2",
         "halaxa/json-machine": "^1.1",
         "http-interop/http-factory-guzzle": "^1.2",
-        "joedixon/laravel-translation": "^2.2",
         "laravel/framework": "^10.10",
         "laravel/pail": "^1.0",
         "laravel/pulse": "^1.0@beta",
@@ -53,7 +53,6 @@
         "pestphp/pest": "^2.24",
         "pestphp/pest-plugin-stressless": "^2.0",
         "phpunit/phpunit": "^10.1",
-        "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
