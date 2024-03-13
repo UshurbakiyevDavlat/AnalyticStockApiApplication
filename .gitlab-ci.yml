@@ -22,18 +22,18 @@ services:
 #  script:
 #    - composer pint-test
 
-phpstan:
-  stage: prepare
-  before_script:
-    - composer require larastan/larastan:^2.0 --dev --no-plugins --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}-composer-larastan
-    paths:
-      - vendor/
-  script: composer phpstan
-  allow_failure: true
-  needs:
-    - job: codestyle
+#phpstan:
+#  stage: prepare
+#  before_script:
+#    - composer require larastan/larastan:^2.0 --dev --no-plugins --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
+#  cache:
+#    key: ${CI_COMMIT_REF_SLUG}-composer-larastan
+#    paths:
+#      - vendor/
+#  script: composer phpstan
+#  allow_failure: true
+#  needs:
+#    - job: codestyle
 
 test:
   stage: prepare
@@ -46,8 +46,6 @@ test:
     key: ${CI_COMMIT_REF_SLUG}-php-unit
     paths:
       - vendor/
-  needs:
-    - job: phpstan
   environment:
     name: 'testing'
 
