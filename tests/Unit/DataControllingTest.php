@@ -2,16 +2,18 @@
 
 use App\Http\Requests\Post\SubscriptionRequest;
 use App\Http\Requests\Post\ViewRequest;
+use App\Models\Ecosystem;
+use App\Models\Post;
 use App\Models\User;
 
-test('ecosystem controller test', function () {
+test('ecosystems getting', function () {
     $user = User::find(1);
     $token = JWTAuth::fromUser($user);
 
     $response = $this->withHeaders([
         'Authorization' => $token,
     ])
-        ->get(route('getEcosystem'));
+        ->get(route('getEcosystems'));
 
     expect($response->getStatusCode())
         ->toBe(200)
@@ -19,14 +21,67 @@ test('ecosystem controller test', function () {
         ->toHaveKey('data');
 });
 
-test('file controller test', function () {
+test('ecosystem getting with img', function () {
+    $user = User::find(1);
+    $token = JWTAuth::fromUser($user);
+
+    $ecosystem = Ecosystem::find(1);
+    $ecosystem->img = 'test.jpg';
+    $ecosystem->save();
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->get(route('getEcosystem',1));
+
+    expect($response->getStatusCode())
+        ->toBe(200)
+        ->and($response->getOriginalContent())
+        ->toHaveKey('data');
+});
+
+test('ecosystem getting without img', function () {
     $user = User::find(1);
     $token = JWTAuth::fromUser($user);
 
     $response = $this->withHeaders([
         'Authorization' => $token,
     ])
+        ->get(route('getEcosystem',2));
+
+    expect($response->getStatusCode())
+        ->toBe(200)
+        ->and($response->getOriginalContent())
+        ->toHaveKey('data');
+});
+
+test('file controller test with attachment', function () {
+    $user = User::find(1);
+    $token = JWTAuth::fromUser($user);
+
+    $post = Post::find(1);
+    $post->attachment = 'test.pdf';
+    $post->save();
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
         ->get(route('getPostFiles', 1));
+
+    expect($response->getStatusCode())
+        ->toBe(200)
+        ->and($response->getOriginalContent())
+        ->toHaveKey('data');
+});
+
+test('file controller test without attachment', function () {
+    $user = User::find(1);
+    $token = JWTAuth::fromUser($user);
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+    ])
+        ->get(route('getPostFiles', 2));
 
     expect($response->getStatusCode())
         ->toBe(200)

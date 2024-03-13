@@ -54,6 +54,7 @@ use OpenApi\Annotations as OA;
  * @property bool $is_published
  * @property mixed $id
  * @property mixed $horizonDataset
+ * @property string attachment
  */
 class Post extends Model
 {

@@ -2,6 +2,7 @@
 
 namespace App\Contracts;
 
+use App\Models\Ecosystem;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
 
@@ -42,5 +43,13 @@ interface EcosystemInterface
      *
      * @return JsonResponse
      */
-    public function getEcosystem(): JsonResponse;
+    public function getEcosystems(): JsonResponse;
+
+    /**
+     * Get the concrete ecosystem.
+     *
+     * @param Ecosystem $ecosystem
+     * @return JsonResponse
+     */
+    public function getEcosystem(Ecosystem $ecosystem): JsonResponse;
 }

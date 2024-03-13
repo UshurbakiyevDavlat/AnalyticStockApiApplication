@@ -118,12 +118,17 @@ test('/get posts', function () {
         ->toEqual(PostCollection::make($postData)->jsonSerialize()['data']);
 });
 
-test('/get post by id', function () {
+test('/get post by id with user avatar', function () {
     // Assuming you have a user with ID 1
     $user = User::find(1);
 
     // Generate a JWT token for the user
     $token = JWTAuth::fromUser($user);
+
+    $post = Post::find(1);
+    $author = $post->author;
+    $author->avatar_url = 'avatar.jpg';
+    $author->save();
 
     $postServiceMock = $this->mock(PostService::class)->makePartial();
     $postServiceMock->shouldReceive('getPost')
@@ -140,6 +145,29 @@ test('/get post by id', function () {
         ->toBe(StatusCodeEnum::OK->value)
         ->and($response->getOriginalContent()['data'])
         ->toEqual(PostResource::make(Post::find(1))->jsonSerialize());
+});
+
+test('/get post by id without user avatar', function () {
+    // Assuming you have a user with ID 1
+    $user = User::find(1);
+
+    // Generate a JWT token for the user
+    $token = JWTAuth::fromUser($user);
+
+    $postServiceMock = $this->mock(PostService::class)->makePartial();
+    $postServiceMock->shouldReceive('getPost')
+        ->with(2)
+        ->andReturnSelf();
+
+    $response = $this->withHeaders([
+        'Authorization' => $token,
+        'Lang' => 'en',
+    ])->get(route('getPost', 2));
+
+    expect($response->getStatusCode())
+        ->toBe(StatusCodeEnum::OK->value)
+        ->and($response->getOriginalContent()['data'])
+        ->toEqual(PostResource::make(Post::find(2))->jsonSerialize());
 });
 
 test('/get post bookmarks of authenticated user', function () {

@@ -48,7 +48,10 @@ Route::middleware(['auth.jwt.cookie'])->group(function () {
         }, );
 
         Route::group(['prefix' => 'ecosystem'], static function () {
-            Route::get('/', [EcosystemController::class, 'getEcosystem'])
+            Route::get('/', [EcosystemController::class, 'getEcosystems'])
+                ->name('getEcosystems');
+
+            Route::get('/{ecosystem}', [EcosystemController::class, 'getEcosystem'])
                 ->name('getEcosystem');
         });
 
