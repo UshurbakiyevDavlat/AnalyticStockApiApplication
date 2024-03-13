@@ -32,7 +32,7 @@ test('ecosystem getting with img', function () {
     $response = $this->withHeaders([
         'Authorization' => $token,
     ])
-        ->get(route('getEcosystem',1));
+        ->get(route('getEcosystem', 1));
 
     expect($response->getStatusCode())
         ->toBe(200)
@@ -47,7 +47,7 @@ test('ecosystem getting without img', function () {
     $response = $this->withHeaders([
         'Authorization' => $token,
     ])
-        ->get(route('getEcosystem',2));
+        ->get(route('getEcosystem', 2));
 
     expect($response->getStatusCode())
         ->toBe(200)
