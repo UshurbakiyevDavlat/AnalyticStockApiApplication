@@ -1,7 +1,7 @@
 {
     "name": "ffin/vpa-api",
     "type": "project",
-    "description": "VPA API project skeleton with Laravel 10",
+    "description": "VPA API project",
     "version": "1.0.0",
     "keywords": [
         "laravel",
