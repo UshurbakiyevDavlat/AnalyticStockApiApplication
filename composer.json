@@ -1,5 +1,5 @@
 {
-    "name": "ffin/vpa-api",
+    "name": "dava/vpa-api",
     "type": "project",
     "description": "VPA API project",
     "version": "1.0.0",
@@ -10,7 +10,7 @@
     "authors": [
         {
             "name": "Davlatbek Ushurbakiyev",
-            "email": "davlatbek.ushurbakiyev@ffin.kz"
+            "email": "dushurbakiev@gmail.com"
         }
     ],
     "license": "MIT",

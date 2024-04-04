@@ -24,7 +24,7 @@ This project is a part of IAnalytics project.
 ### Installation
 
 ~~~
-1. Clone this repository: `git clone git@10.50.223.215:developers/ffin/ianalytics-api.git
+1. Clone this repository
 2. docker-compose build 
 3. docker-compose up -d
 4. docker-compose exec app composer install
